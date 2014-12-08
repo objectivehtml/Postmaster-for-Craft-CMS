@@ -15,9 +15,13 @@ class DefaultParcelType extends BaseParcelType {
 	{
 		foreach($this->settings->events as $event)
         {
+            $parcelType = $this;
+            $settings = $this->settings;
+            $parcel = $this->parcel;
+
         	// remove the $parcel dependency by moving all the validation and sendFromEvent methods
         	// from the ParcelModel to this class
-            $this->craft()->on($event, function(\Craft\Event $event)
+            $this->craft()->on($event, function(\Craft\Event $event) use ($settings, $parcel, $parcelType)
             {
             	if(isset($event->params['entry']))
 		        {
@@ -29,19 +33,19 @@ class DefaultParcelType extends BaseParcelType {
 		            $entry = $event->params['draft'];
 		        }
 
-		        if($this->validateEntry($entry, $event->params['isNewEntry']))
+		        if($parcelType->validateEntry($entry, $event->params['isNewEntry']))
 		        {
                     $data = array(
                         'entry' => $entry
                     );
 
                     $obj = new Postmaster_TransportModel(array(
-                        'service' => $this->parcel->service,
-                        'settings' => $this->settings->parse($data),
+                        'service' => $parcel->service,
+                        'settings' => $settings->parse($data),
                         'data' => $data
                     ));
 
-		           	$this->parcel->send($obj);
+		           	$parcel->send($obj);
 		        }
             });
         }

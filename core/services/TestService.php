@@ -7,7 +7,7 @@ use Craft\Plugins\Postmaster\Responses\TransportResponse;
 
 class TestService extends BaseService {
 
-	public $name = 'Test Email Service';
+	public $name = 'Test Email';
 
 	public $id = 'testing';
 
