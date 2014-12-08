@@ -1,7 +1,9 @@
 <?php
 namespace Craft;
 
-class Postmaster_PingServiceSettingsModel extends BaseModel
+use Craft\Plugins\Postmaster\Interfaces\ParseInterface;
+
+class Postmaster_PingServiceSettingsModel extends BaseModel implements ParseInterface
 {
 	public function parse(Array $data = array())
 	{

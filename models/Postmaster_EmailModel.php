@@ -1,7 +1,9 @@
 <?php
 namespace Craft;
 
-class Postmaster_EmailModel extends EmailModel {
+use Craft\Plugins\Postmaster\Interfaces\ParseInterface;
+
+class Postmaster_EmailModel extends EmailModel implements ParseInterface {
 
 	public function parse(Array $data = array())
 	{
