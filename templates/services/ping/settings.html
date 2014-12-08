@@ -1,0 +1,28 @@
+{% import "_includes/forms" as forms %}
+
+<p>{{ "The Ping Service allows you to send HTTP requests to a specified url along with customizable POST data."|t }}</p>
+
+{{ forms.textField({
+	label: "Ping Url"|t,
+	instructions: "The url to ping with each request"|t,
+	id: 'ping_url',
+	name: 'settings[serviceSettings][ping][url]',
+	value: settings.url,
+	rows: 10
+}) }}
+
+{{ forms.editableTableField({
+	label: "Post Variables",
+	instructions: "Enter the names and values of POST variabes to be sent to the Ping Url."|t,
+	name: 'settings[serviceSettings][ping][postVars]',
+	id: 'ping_post_vars',
+	cols: {
+		name: {
+			heading: 'Name'|t
+		}, 
+		value: {
+			heading: 'Value'|t
+		}
+	},
+	rows: settings.postVars
+}) }}

@@ -1,0 +1,40 @@
+{% extends "_layouts/cp" %}
+
+{% set title = "Postmaster"|t %}
+
+{% includeJsResource 'postmaster/js/postmaster.js' %}
+
+{% set content %}
+
+    <a href="{{ url('postmaster/parcel/new') }}" class="btn right">New Parcel</a>
+
+    <h2>{{ "Parcels"|t }}</h2>
+
+    {% set parcels = craft.postmaster.parcels().find() %}
+
+    {% if parcels|length > 0 %}
+    <table class="data fullwidth">
+    	<thead>
+	    	<tr>
+		    	<th>Title</th>
+		    	<th>Parcel Type</th>
+		    	<th>Service</th>
+		    	<th></th>
+	    	</tr>
+    	</thead>
+    	<tbody>
+    	{% for parcel in parcels %}
+    		<tr>
+    			<td width="225"><a href="{{ url('postmaster/parcel/' ~ parcel.id) }}">{{ parcel.title }}</a></td>
+    			<td width="185">{{ parcel.getParcelType().name }}</td>
+    			<td width="195">{{ parcel.getService().name }}</td>
+    			<td><a href="#" class="btn small delete-parcel" data-id="{{ parcel.id }}">Delete</a></td>
+	    	</tr>
+	    {% endfor %}
+    	</tbody>
+    </table>
+    {% else %}
+    	<p><em>You have not created any parcels yet. <a href="{{ url('postmaster/parcel/new') }}">Create Parcel</a></em></p>
+    {% endif %}
+    
+{% endset %}

@@ -1,0 +1,111 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{{ forms.textField({
+	label: "HTML Template"|t,
+    instructions: "The HTML template path."|t,
+	id: 'htmlBodyTemplate',
+	name: 'settings[parcelTypeSettings][default][htmlBodyTemplate]',
+	value: settings.htmlBodyTemplate,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ forms.textField({
+	label: "Plain Text Template"|t,
+    instructions: "The plain text template path."|t,
+	id: 'bodyTemplate',
+	name: 'settings[parcelTypeSettings][default][bodyTemplate]',
+	value: settings.bodyTemplate,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ postmaster.checkboxSelectField({
+	label: "Triggers"|t,
+	instructions: "Set whether the parcel should be sent for new and/or edited entries."|t,
+	id: 'triggers',
+	name: 'settings[parcelTypeSettings][default][triggers]',
+	enabled: true,
+	options: [{
+		label: "New"|t,
+		value: "new"
+	},{
+		label: "Edit"|t,
+		value: "edit"
+	}],
+	values: settings.triggers is empty ? [''] : settings.triggers
+}) }}
+
+{{ postmaster.checkboxSelectField({
+	label: "Events"|t,
+	instructions: "What events should be used in this parcel?"|t,
+	id: 'events',
+	name: 'settings[parcelTypeSettings][default][events]',
+	allValue: '',
+	options: [{
+		label: "entries.onSaveEntry",
+		value: "entries.saveEntry"
+	},{
+		label: "entries.onDeleteEntry",
+		value: "entries.deleteEntry"
+	},{
+		label: "entryRevisions.onSaveDraft",
+		value: "entryRevisions.saveDraft"
+	},{
+		label: "entryRevisions.onPublishDraft",
+		value: "entryRevisions.publishDraft"
+	},{
+		label: "entryRevisions.onDeleteDraft",
+		value: "entryRevisions.deleteDraft"
+	}],
+	values: settings.events is empty ? [''] : settings.events
+}) }}
+
+{% set sectionOptions = [] %}
+
+{% for section in craft.sections.getAllSections() %}
+	{% set sectionOptions = sectionOptions|merge([{
+		value: section.id,
+		label: section.name
+	}]) %}
+{% endfor %}
+
+{{ postmaster.checkboxSelectField({
+	label: "Sections"|t,
+	instructions: "What sections should be used in this parcel?"|t,
+	id: 'sections',
+	name: 'settings[parcelTypeSettings][default][sections]',
+	options: sectionOptions,
+	values: settings.sections is empty ? [''] : settings.sections
+}) }}
+
+{{ postmaster.checkboxSelectField({
+	label: "Statuses"|t,
+	instructions: "What statuses should be used in this parcel? If no statuses are defined, this field will be ignored."|t,
+	id: 'statuses',
+	name: 'settings[parcelTypeSettings][default][statuses]',
+	options: [{
+		value: 'enabled',
+		label: 'Enabled'
+	},{
+		value: 'live',
+		label: 'Live'
+	},{
+		value: 'expired',
+		label: 'Expired'
+	},{
+		value: 'disabled',
+		label: 'Disabled'
+	}],
+	values: settings.statuses is empty ? [''] : settings.statuses
+}) }}
+
+{{ forms.textareaField({
+	label: "Extra Conditionals"|t,
+	instructions: "What extra conditionals should be used to validate this parcel?"|t,
+	id: 'extraConditionals',
+	name: 'settings[parcelTypeSettings][default][extraConditionals]',
+	value: settings.extraConditionals,
+	rows: 10
+}) }}

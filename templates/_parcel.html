@@ -1,0 +1,28 @@
+{% extends "_layouts/cp" %}
+
+{% set title = header ? header : "New Parcel" %}
+
+{% set action = parcel.getModel().id ? "postmaster/parcel/updateParcel" : "postmaster/parcel/saveParcel" %}
+
+{% set tabs = parcel.getTabs() %}
+
+{% set crumbs = [
+    { label: "Parcels"|t, url: url('postmaster') },
+    { label: parcel.model.id ? 'Edit Parcel' : 'New Parcel', url: parcel.model.id ? url('postmaster/parcel/'~parcel.model.id) : url('postmaster/parcel/new') }
+] %}
+
+{% set content %}
+
+    <form method="post" action="" accept-charset="UTF-8">
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="redirect" value="postmaster">
+
+        {{ parcel.getInputHtml()|raw }}
+
+        <hr>
+
+        <input class="btn submit" type="submit" value="{{ 'Submit'|t }}">
+
+    </form>
+
+{% endset %}
