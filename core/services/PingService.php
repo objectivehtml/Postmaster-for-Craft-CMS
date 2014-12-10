@@ -14,16 +14,10 @@ class PingService extends BaseService {
 
 	public function send(Postmaster_TransportModel $model)
 	{
+		$response = new TransportResponse($model);
+
 		if(!empty($this->settings->url))
 		{
-			$data = array_merge(array(
-				'settings' => $model->settings
-			), $model->data);
-
-			$this->settings->parse($data);
-
-			$response = new TransportResponse($model);
-
 			try
 			{
 				$client = new Client();
@@ -38,9 +32,14 @@ class PingService extends BaseService {
 				$response->addError($e->getMessage());
 				$response->setSuccess(false);
 			}
-
-			return $response;
 		}
+		else
+		{
+			$response->setSuccess(false);
+			$response->addError(Craft::t('The ping url is empty.'));
+		}
+
+		return $response;
 	}
 
 	public function getInputHtml(Array $data = array())

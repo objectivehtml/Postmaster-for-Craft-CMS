@@ -20,6 +20,9 @@ class MandrillService extends BaseService {
 
 	public function send(Postmaster_TransportModel $model)
 	{
+		$response = new TransportResponse($model);
+		
+		$client = new Client();
 		$to = array();
 		$headers = array();
 		$toNames = explode(',', $model->settings->toName);
@@ -85,25 +88,20 @@ class MandrillService extends BaseService {
 			),
 		);
 
-		$success = true;
-		$errors = array();
-
 		try
 		{
-			$client = new Client();
-			
 			$request = $client->post($this->url, array(), json_encode($postData));
-
-			$response = $request->send();
+			$request->send();
 		}
 		catch(\Exception $e)
 		{
-			$errors[] = $e->getMessage();
+			$errorResponse = json_decode($e->getResponse()->getBody());
 
-			$success = false;
+			$response->addError($errorResponse->message);
+			$response->setSuccess(false);
 		}
 
-		return new TransportResponse($model, $success, $errors);
+		return $response;
 	}
 
 	public function getInputHtml(Array $data = array())

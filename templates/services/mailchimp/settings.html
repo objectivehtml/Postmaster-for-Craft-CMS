@@ -37,7 +37,7 @@
 
 	{{ forms.textField({
 		label: 'Campaign Title'|t,
-	    instructions: 'Enter a static or dynamic value that will be used for campaign title. If this field is left blank, the subject field will be used by default.'|t,
+	    instructions: 'Enter a value that will be used for campaign title. If this field is left blank, the subject field will be used by default.'|t,
 		id: 'mailchimp_title',
 		name: 'settings[serviceSettings][mailchimp][title]',
 		value: settings.title,
@@ -47,7 +47,7 @@
 
 	{{ forms.textField({
 		label: 'Google Analytics'|t,
-	    instructions: 'If you enter your coode Google Anayltics key it will be linked to Mailchimp.'|t,
+	    instructions: 'If you enter your Google Analytics key it will be linked to Mailchimp.'|t,
 		id: 'mailchimp_title',
 		name: 'settings[serviceSettings][mailchimp][googleAnalytics]',
 		value: settings.title,
@@ -103,7 +103,7 @@
 
 	{{ forms.textField({
 		label: 'Subscriber Email'|t,
-	    instructions: 'Enter a static or dynamic value that will be used for the subscriber\'s email.'|t,
+	    instructions: 'Enter a value that will be used for the subscriber\'s email.'|t,
 		id: 'mailchimp_subscriber_email',
 		name: 'settings[serviceSettings][mailchimp][subscriberEmail]',
 		value: settings.subscriberEmail,
@@ -179,7 +179,7 @@
 
 	{{ forms.editableTableField({
 		label: "Profile Variables",
-		instructions: "Enter the values of the profile variables you want to assign to the subscriber. The values can be static or dynamic."|t,
+		instructions: "Enter the values of the profile variables you want to assign to the subscriber."|t,
 		name: 'settings[serviceSettings][mailchimp][profileVars]',
 		id: 'mailchimp_profile_variables',
 		cols: {
