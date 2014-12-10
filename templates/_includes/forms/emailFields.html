@@ -1,0 +1,85 @@
+{%- spaceless %}
+
+	{% import "_includes/forms" as forms %}
+
+	{{ forms.textField({
+		label: "To Name"|t,
+	    instructions: "The name of the recipient."|t,
+		id: 'toName',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][toName]',
+		value: settings.toName,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: "To Email"|t,
+	    instructions: "The email address of the recipient."|t,
+		id: 'toEmail',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][toEmail]',
+		value: settings.toEmail,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: "From Name"|t,
+	    instructions: "The name of the sender."|t,
+		id: 'fromName',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][fromName]',
+		value: settings.fromName,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: "From Email"|t,
+	    instructions: "The email of the sender."|t,
+		id: 'fromEmail',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][fromEmail]',
+		value: settings.fromEmail,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: "Reply To"|t,
+	    instructions: "The reply to email address. (Optional)"|t,
+		id: 'replyTo',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][replyTo]',
+		value: settings.replyTo,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: "Cc"|t,
+	    instructions: "The Cc email address or addresses. (Optional)"|t,
+		id: 'cc',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][cc]',
+		value: settings.cc,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: "Bcc"|t,
+	    instructions: "The Bcc email address or addresses. (Optional)"|t,
+		id: 'bcc',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][bcc]',
+		value: settings.bcc,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: "Subject"|t,
+	    instructions: "The email subject."|t,
+		id: 'bcc',
+		name: 'settings[' ~ section ~ '][' ~ name ~ '][subject]',
+		value: settings.subject,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+{% endspaceless -%}

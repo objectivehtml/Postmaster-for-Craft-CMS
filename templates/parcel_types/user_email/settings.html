@@ -1,0 +1,70 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{{ postmaster.checkboxSelectField({
+	label: "Events"|t,
+	instructions: "What events should be used in this parcel?"|t,
+	id: 'events',
+	name: 'settings[parcelTypeSettings][userEmail][events]',
+	allValue: '',
+	options: [{
+		label: "users.onSaveUser",
+		value: "users.saveUser"
+	},{
+		label: "users.onLogin",
+		value: "users.login"
+	},{
+		label: "users.onLogout",
+		value: "users.logout"
+	},{
+		label: "users.onActivateUser",
+		value: "users.activateUsers"
+	},{
+		label: "users.onDeleteUser",
+		value: "users.deleteUser"
+	},{
+		label: "users.onBeforeSetPassword",
+		value: "users.beforeSetPassword",
+	},{
+		label: "users.onSetPassword",
+		value: "users.setPassword",
+	},{
+		label: "users.onSuspendUser",
+		value: "users.suspendUser"
+	},{
+		label: "users.onUnlockUser",
+		value: "users.unlockUser"
+	},{
+		label: "users.onUnsuspendUser",
+		value: "users.suspendUser"
+	},{
+		label: "users.onVerifyUser",
+		value: "users.unlockUser"
+	}],
+	values: settings.events is empty ? [''] : settings.events
+}) }}
+
+{{ postmaster.checkboxSelectField({
+	label: "Triggers"|t,
+	instructions: "Should the parcel be sent for new and/or existing users?"|t,
+	id: 'triggers',
+	name: 'settings[parcelTypeSettings][userEmail][triggers]',
+	enabled: true,
+	options: [{
+		label: "New Uers"|t,
+		value: "new"
+	},{
+		label: "Existing Users"|t,
+		value: "existing"
+	}],
+	values: settings.triggers is empty ? [''] : settings.triggers
+}) }}
+
+{{ forms.textareaField({
+	label: "Extra Conditionals"|t,
+	instructions: "What extra conditionals should be used to validate this parcel?"|t,
+	id: 'extraConditionals',
+	name: 'settings[parcelTypeSettings][userEmail][extraConditionals]',
+	value: settings.extraConditionals,
+	rows: 10
+}) }}

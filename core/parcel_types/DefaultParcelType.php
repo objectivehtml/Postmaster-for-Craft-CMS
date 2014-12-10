@@ -7,7 +7,7 @@ use Craft\Plugins\Postmaster\Components\BaseParcelType;
 
 class DefaultParcelType extends BaseParcelType {
 	
-	public $name = 'Email Parcel (Default)';
+	public $name = 'Entry Email (Default)';
 
 	public $id = 'default';
 
@@ -16,13 +16,13 @@ class DefaultParcelType extends BaseParcelType {
 		foreach($this->settings->events as $event)
         {
             $parcelType = $this;
-            $settings = $this->settings;
-            $parcel = $this->parcel;
 
         	// remove the $parcel dependency by moving all the validation and sendFromEvent methods
         	// from the ParcelModel to this class
-            $this->craft()->on($event, function(\Craft\Event $event) use ($settings, $parcel, $parcelType)
+            $this->craft()->on($event, function(\Craft\Event $event) use ($parcelType)
             {
+                $isNewEntry = isset($event->params['isNewEntry']) ? $event->params['isNewEntry'] : false;
+
             	if(isset($event->params['entry']))
 		        {
 		            $entry = $event->params['entry'];
@@ -32,27 +32,30 @@ class DefaultParcelType extends BaseParcelType {
 		        {
 		            $entry = $event->params['draft'];
 		        }
+                
+                $parcelType->settings->parse(array(
+                    'entry' => $entry,
+                    'isNewEntry' => $isNewEntry
+                ));
+
+                $parcelType->parcel->service->settings->parse(array(
+                    'entry' => $entry,
+                    'isNewEntry' => $isNewEntry,
+                    'settings' => $parcelType->settings
+                ));
 
 		        if($parcelType->validateEntry($entry, $event->params['isNewEntry']))
 		        {
-                    $settings->parse(array(
-                        'entry' => $entry
-                    ));
-
-                    $parcel->service->settings->parse(array(
-                        'entry' => $entry,
-                        'settings' => $settings
-                    ));
-
                     $obj = new Postmaster_TransportModel(array(
-                        'service' => $parcel->service,
-                        'settings' => $settings,
+                        'service' => $parcelType->parcel->service,
+                        'settings' => $parcelType->settings,
                         'data' => array(
-                            'entry' => $entry
+                            'entry' => $entry,
+                            'isNewEntry' => $isNewEntry
                         )
                     ));
 
-		           	$parcel->send($obj);
+		           	$parcelType->parcel->send($obj);
 		        }
             });
         }
@@ -90,7 +93,7 @@ class DefaultParcelType extends BaseParcelType {
         	return false;
         }
 
-        if(!$this->areExtraConditionalsValid($entry))
+        if(!$this->areExtraConditionalsValid())
         {
         	return false;
         }
@@ -135,9 +138,9 @@ class DefaultParcelType extends BaseParcelType {
     {
     	if($this->hasTriggers())
     	{
-    		$entryTrigger = $isNewEntry ? 'new' : 'edit';
+    		$trigger = $isNewEntry ? 'new' : 'edit';
 
-    		if(in_array($entryTrigger, $this->settings->triggers))
+    		if(in_array($trigger, $this->settings->triggers))
     		{
     			return true;
     		}
@@ -158,9 +161,9 @@ class DefaultParcelType extends BaseParcelType {
         return false;
     }
 
-    public function areExtraConditionalsValid(EntryModel $entry)
+    public function areExtraConditionalsValid()
     {
-       return strtolower($this->parseExtraConditionals($entry)) !== 'false' ? true : false;
+       return strtolower($this->settings->extraConditionals) !== 'false' ? true : false;
     }
 
     public function areStatusesValid(EntryModel $entry)
@@ -189,6 +192,7 @@ class DefaultParcelType extends BaseParcelType {
         return false;
     }
 
+    /*
     public function parseExtraConditionals(EntryModel $entry)
     {
         if($this->hasExtraConditionals())
@@ -202,6 +206,7 @@ class DefaultParcelType extends BaseParcelType {
 
         return;
     }
+    */
 
     public function getEvents()
     {

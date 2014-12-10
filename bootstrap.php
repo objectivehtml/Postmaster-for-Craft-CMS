@@ -11,5 +11,6 @@ craft()->postmaster->registerServices(array(
 
 craft()->postmaster->registerParcelTypes(array(
     'Craft\Plugins\Postmaster\ParcelTypes\DefaultParcelType',
+    'Craft\Plugins\Postmaster\ParcelTypes\UserEmailParcelType',
     // 'Craft\Plugins\Postmaster\ParcelTypes\TestParcelType',
 ));
