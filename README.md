@@ -6,12 +6,15 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 
 ### Features
 
-1. Complete control over when users receive emails
+1. Send emails when entries are created, edited, delete, drafted, revised, and/or published
 2. Complete control over HTML and plain text templates
-3. Compatible with many email services
-4. Go beyond email and send HTTP requests to servers
-5. Ideal for clients, designers, and developers
-5. Robust developer API's for custom solutions
+3. Compatible Mandrill, Mailchimp, and many other email services
+4. Subscribe users to lists with Mailchimp
+5. Create and send email campaigns with Mailchimp
+6. Go beyond email and send HTTP requests with the Ping Service
+7. Ideal for clients, designers, and developers
+8. Robust developer API's for custom solutions
+9. Quick and easy setup with reliable functionality
 
 ### Wiki
 
