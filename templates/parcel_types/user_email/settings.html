@@ -62,7 +62,7 @@
 
 {{ forms.textareaField({
 	label: "Extra Conditionals"|t,
-	instructions: "What extra conditionals should be used to validate this parcel?"|t,
+	instructions: "What extra conditionals should be used to validate this parcel? Return `false` is you want to prevent the email from sending."|t,
 	id: 'extraConditionals',
 	name: 'settings[parcelTypeSettings][userEmail][extraConditionals]',
 	value: settings.extraConditionals,
