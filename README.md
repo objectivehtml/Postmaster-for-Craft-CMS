@@ -9,7 +9,7 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 1. Parcels API to send information just exactly how you need it
 2. Services API to send information with any service or provider
 3. Entry Email Parcels to send email when your entries are saved, drafted, deleted, or published
-4. User Email Parels to send email when users are saved, activated, deleted, and more
+4. User Email Parcels to send email when users are saved, activated, deleted, and more
 5. Complete control over HTML and plain text templates
 6. Compatible Mandrill, Mailchimp, and many other email services
 7. Subscribe users to lists with Mailchimp
