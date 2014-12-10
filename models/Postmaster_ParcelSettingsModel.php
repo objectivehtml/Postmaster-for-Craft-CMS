@@ -7,41 +7,104 @@ class Postmaster_ParcelSettingsModel extends BaseModel
     {
         parent::__construct($attributes);
 
-        if(!count($this->serviceSettings))
+        $parcelTypeSettings = $this->parcelTypeSettings;
+
+        foreach(craft()->postmaster->getRegisteredParcelTypes() as $parcelType)
         {
-            $serviceSettings = array();
-
-            foreach(craft()->postmaster->getRegisteredServices() as $service)
+            if(!isset($parcelTypeSettings[$parcelType->id]))
             {
-                $serviceSettings[$service->id] = $service->createSettingsModel();
+                $parcelTypeSettings[$parcelType->id] = array();
             }
-
-            $this->serviceSettings = $serviceSettings;
         }
 
-        if(!count($this->parcelTypeSettings))
+        $this->parcelTypeSettings = $parcelTypeSettings;
+
+        foreach($this->parcelTypeSettings as $id => $parcelTypeSettings)
         {
-            $parcelTypeSettings = array();
+            $class = craft()->postmaster->getRegisteredParcelType($id);
 
-            foreach(craft()->postmaster->getRegisteredParcelTypes() as $parcelType)
+            $settings = $class->createSettingsModel($parcelTypeSettings);
+
+            $this->setParcelTypeSettings($id, $settings->getAttributes());
+        }
+
+
+        $serviceSettings = $this->serviceSettings;
+
+        foreach(craft()->postmaster->getRegisteredServices() as $service)
+        {
+            if(!isset($serviceSettings[$service->id]))
             {
-                $parcelTypeSettings[$parcelType->id] = $parcelType->createSettingsModel();
+                $serviceSettings[$service->id] = array();
             }
+        }
 
-            $this->parcelTypeSettings = $parcelTypeSettings;
+        $this->serviceSettings = $serviceSettings;
+
+        foreach($this->serviceSettings as $id => $serviceSettings)
+        {
+            $class = craft()->postmaster->getRegisteredService($id);
+
+            $settings = $class->createSettingsModel($serviceSettings);
+
+            $this->setServiceSettings($id, $settings->getAttributes());
+        }
+
+    }
+
+    public function getServiceSettings($id)
+    {
+        $settings = array();
+
+        if(isset($this->serviceSettings[$id]))
+        {
+            $settings = $this->serviceSettings[$id];
+        }
+
+        return $settings;
+    }
+    
+    public function setServiceSettings($id, Array $settings = array())
+    {        
+        if(isset($this->serviceSettings[$id]))
+        {
+            $newSettings = $this->serviceSettings;
+            $newSettings[$id] = $settings;
+
+            $this->serviceSettings = $newSettings;
+        }
+    }
+
+    public function getParcelTypeSettings($id)
+    {
+        $settings = array();
+
+        if(isset($this->parcelTypeSettings[$id]))
+        {
+            $settings = $this->parcelTypeSettings[$id];
+        }
+
+        return $settings;
+    }
+
+    public function setParcelTypeSettings($id, Array $settings = array())
+    {        
+        if(isset($this->parcelTypeSettings[$id]))
+        {
+            $newSettings = $this->parcelTypeSettings;
+            $newSettings[$id] = $settings;
+
+            $this->parcelTypeSettings = $newSettings;
         }
     }
 
 	protected function defineAttributes()
     {
         return array(
-            'htmlTemplate' => AttributeType::String,
-            'plainTemplate' => AttributeType::String,
             'parcelType' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\ParcelTypes\DefaultParcelType'),
             'parcelTypeSettings' => array(AttributeType::Mixed, 'default' => array()),
             'service' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\Services\CraftService'),
-            'serviceSettings' => array(AttributeType::Mixed, 'default' => array()),
-            'enabled' => AttributeType::Number
+            'serviceSettings' => array(AttributeType::Mixed, 'default' => array())
         );
     }
 }

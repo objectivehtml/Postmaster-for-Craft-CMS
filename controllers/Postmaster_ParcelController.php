@@ -22,6 +22,7 @@ class Postmaster_ParcelController extends BaseController
 	public function actionEditParcel()
 	{
 		$id = craft()->request->getSegment(3);
+		
 		$model = craft()->postmaster_parcels->findById($id);
 
 		$parcel = new Plugins\Postmaster\Components\Parcel(array(

@@ -5,12 +5,13 @@ class Postmaster_DefaultParcelTypeSettingsModel extends Postmaster_EmailModel
 {
 	protected function defineAttributes()
     {
-    	return array_merge(parent::defineAttributes(), array(
-            'events' => array(AttributeType::Mixed, 'default' => array()),
-            'sections' => array(AttributeType::Mixed, 'default' => array()),
-            'statuses' => array(AttributeType::Mixed, 'default' => array()),
-            'triggers' => array(AttributeType::Mixed, 'default' => array()),
-            'extraConditionals' => array(AttributeType::String),
-    	));
+    	$attributes = parent::defineAttributes();
+    	$attributes['events'] = array(AttributeType::Mixed, 'default' => array());
+    	$attributes['sections'] = array(AttributeType::Mixed, 'default' => array());
+    	$attributes['statuses'] = array(AttributeType::Mixed, 'default' => array());
+        $attributes['triggers'] = array(AttributeType::Mixed, 'default' => array());
+        $attributes['extraConditionals'] = array(AttributeType::String);
+
+        return $attributes;
     }
 }

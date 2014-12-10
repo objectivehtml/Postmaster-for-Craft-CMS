@@ -100,9 +100,19 @@ class PostmasterService extends BaseApplicationComponent
 		return $this->_services;
 	}
 
+	public function getRegisteredService($id)
+	{
+		return isset($this->_servicesIds[$id]) ? $this->_servicesIds[$id] : null;
+	}
+
 	public function getRegisteredParcelTypes()
 	{
 		return $this->_parcelTypes;
+	}
+
+	public function getRegisteredParcelType($id)
+	{
+		return isset($this->_parcelTypesIds[$id]) ? $this->_parcelTypesIds[$id] : null;
 	}
 
 	private function _registerObjects($prop, $objects, $instance)
@@ -126,12 +136,12 @@ class PostmasterService extends BaseApplicationComponent
 
 		if(!isset($objects[$obj->name]))
 		{
-			if(!in_array($obj->id, $this->{$prop.'Ids'}))
+			if(!array_key_exists($obj->id, $this->{$prop.'Ids'}))
 			{
 				$objects[$obj->name] = $obj;
 
 				$this->$prop = $objects;
-				$this->{$prop.'Ids'}[] = $obj->id;
+				$this->{$prop.'Ids'}[$obj->id] = $obj;
 
 				return $obj;
 			}

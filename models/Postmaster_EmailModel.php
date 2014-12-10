@@ -5,6 +5,11 @@ use Craft\Plugins\Postmaster\Interfaces\ParseInterface;
 
 class Postmaster_EmailModel extends EmailModel implements ParseInterface {
 
+	public function __construct($attributes = null)
+	{
+		parent::__construct($attributes);
+	}
+
 	public function parse(Array $data = array())
 	{
 		foreach($this->getAttributes() as $attr => $value)
@@ -38,8 +43,8 @@ class Postmaster_EmailModel extends EmailModel implements ParseInterface {
 	{
 		$attributes = parent::defineAttributes();
 
-		$attributes['fromEmail'] = array(AttributeType::String, 'default' => '');
-		$attributes['fromName'] = array(AttributeType::String, 'default' => '');
+		$attributes['fromEmail'] = array(AttributeType::String);
+		$attributes['fromName'] = array(AttributeType::String);
 		$attributes['toName'] = array(AttributeType::String);
 		$attributes['bodyTemplate'] = array(AttributeType::String);
 		$attributes['htmlBodyTemplate'] = array(AttributeType::String);

@@ -45,7 +45,6 @@ class PostmasterPlugin extends BasePlugin
         {
             $routes = array_merge($routes, $service->registerCpRoutes());
         }
-
         return $routes;
     }
     
@@ -74,6 +73,8 @@ class PostmasterPlugin extends BasePlugin
             {
                 $parcel->init();
             }
+            
         });
+
     }
 }

@@ -63,10 +63,12 @@ class Postmaster_ParcelsService extends BaseApplicationComponent
 
     public function create(Array $parcel = array())
     {
+    	$parcel = new Postmaster_ParcelModel($parcel);
+
 		$record = new Postmaster_ParcelRecord();		
-		$record->title = $parcel['title'];
-		$record->settings = $parcel['settings'];
-		$record->enabled = $parcel['enabled']; 
+		$record->title = $parcel->title;
+		$record->settings = $parcel->settings;
+		$record->enabled = $parcel->enabled; 
 
 		$record->save();
 
@@ -77,9 +79,11 @@ class Postmaster_ParcelsService extends BaseApplicationComponent
     {   
 		if($record = Postmaster_ParcelRecord::model()->findById($id))
 		{
-			$record->title = $parcel['title'];
-			$record->settings = $parcel['settings'];
-			$record->enabled = $parcel['enabled'];
+	    	$parcel = new Postmaster_ParcelModel($parcel);
+
+			$record->title = $parcel->title;
+			$record->settings = $parcel->settings;
+			$record->enabled = $parcel->enabled; 
 
 			$record->save();
 		}

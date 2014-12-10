@@ -16,7 +16,10 @@ class Postmaster_ParcelModel extends BaseModel
             $this->settings = json_decode($this->settings);
         }
 
-        $this->settings = new Postmaster_ParcelSettingsModel((array) $this->settings);
+        if(!$this->settings instanceof Postmaster_ParcelSettingsModel)
+        {
+            $this->settings = new Postmaster_ParcelSettingsModel((array) $this->settings);
+        }
     }
 
     public function init()
@@ -28,30 +31,6 @@ class Postmaster_ParcelModel extends BaseModel
 	public function getTableName()
     {
         return 'postmaster_parcels';
-    }
-
-    public function getParcelTypeSettings($id)
-    {
-        $settings = array();
-
-        if(isset($this->settings->parcelTypeSettings[$id]))
-        {
-            $settings = $this->settings->parcelTypeSettings[$id];
-        }
-
-        return $settings;
-    }
-
-    public function getServiceSettings($id)
-    {
-        $settings = array();
-
-        if(isset($this->settings->serviceSettings[$id]))
-        {
-            $settings = $this->settings->serviceSettings[$id];
-        }
-
-        return $settings;
     }
 
     public function getSettings()
@@ -69,6 +48,26 @@ class Postmaster_ParcelModel extends BaseModel
         return;
     }
 
+    public function getParcelTypeSettings($id)
+    {
+        $this->settings->getParcelTypeSettings($id);
+    }
+
+    public function setParcelTypeSettings($id, Array $settings = array())
+    {     
+        $this->settings->setParcelTypeSettings($id, $settings);
+    }
+
+    public function getServiceSettings($id)
+    {
+        $this->settings->setServiceSettings($id);
+    }
+
+    public function setServiceSettings($id, Array $settings = array())
+    {        
+        $this->settings->setServiceSettings($id, $settings);
+    }
+
     public function getService()
     {
         if(is_null($this->_service))
@@ -83,11 +82,15 @@ class Postmaster_ParcelModel extends BaseModel
         return $this->_service;
     }
 
-    public function getParcelType()
+    public function getParcelType($class = false)
     {
         if(is_null($this->_parcelType))
         {
-            $class = $this->settings->parcelType;
+            if(!$class)
+            {
+                $class = $this->settings->parcelType;
+            }
+
             $class = new $class();
             $class->setSettings($class->createSettingsModel($this->getParcelTypeSettings($class->id)));
             // $class->setService($this->getService());
@@ -98,6 +101,7 @@ class Postmaster_ParcelModel extends BaseModel
 
         return $this->_parcelType;
     }
+
 
     public function send(Postmaster_TransportModel $model)
     {

@@ -6,6 +6,8 @@ use Craft\Plugins\Postmaster\Interfaces\SettingsInterface;
 
 abstract class BasePlugin extends Settings implements PluginInterface, SettingsInterface {
 
+	protected $settings;
+
 	public function registerCpRoutes()
 	{
 		return array();
