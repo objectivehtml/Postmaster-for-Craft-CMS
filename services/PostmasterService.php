@@ -11,6 +11,11 @@ class PostmasterService extends BaseApplicationComponent
 
 	protected $_parcelTypesIds = array();
 
+	public function onInit(Event $event)
+	{
+		$this->raiseEvent('onInit', $event);
+	}
+
 	public function parcels($criteria = false)
     {
         return new Postmaster_ParcelCriteriaModel($criteria ?: array());
@@ -135,7 +140,7 @@ class PostmasterService extends BaseApplicationComponent
 		}
 		else
 		{
-			throw new Exception(Craft::t('An object has already been registered with the name "'.$name.'" belonging to class "'.$class.'"."'));
+			throw new Exception(Craft::t('An object has already been registered with the name "'.$obj->name.'" belonging to class "'.$class.'"."'));
 		}
 	}
 }

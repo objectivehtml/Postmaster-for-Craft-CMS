@@ -55,9 +55,25 @@ class PostmasterPlugin extends BasePlugin
 
         require_once 'bootstrap.php';
 
-        foreach(craft()->postmaster_parcels->findEnabled() as $parcel)
+        /*
+        $plugin = $this;
+
+        craft()->on('postmaster.test', function(Event $event)
         {
-            $parcel->init();
-        }
+            exit('asd');
+        });
+
+        $this->raiseEvent('onTest', new Event());
+        */
+
+        craft()->on('plugins.loadPlugins', function(Event $event)
+        {
+            craft()->postmaster->onInit(new Event());
+
+            foreach(craft()->postmaster_parcels->findEnabled() as $parcel)
+            {
+                $parcel->init();
+            }
+        });
     }
 }
