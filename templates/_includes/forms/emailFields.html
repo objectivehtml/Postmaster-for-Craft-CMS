@@ -2,6 +2,8 @@
 
 	{% import "_includes/forms" as forms %}
 
+	{% set settings = settings ? settings : {} %}
+
 	{{ forms.textField({
 		label: "To Name"|t,
 	    instructions: "The name of the recipient."|t,
