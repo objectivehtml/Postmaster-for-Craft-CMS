@@ -3,9 +3,8 @@ namespace Craft\Plugins\Postmaster\Components;
 
 use Craft\Postmaster_ParcelModel;
 use Craft\Plugins\Postmaster\Interfaces\ParcelTypeInterface;
-use Craft\Plugins\Postmaster\Interfaces\SettingsInterface;
 
-abstract class BaseParcelType extends Settings implements ParcelTypeInterface, SettingsInterface {
+abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface {
 
 	public $name;
 

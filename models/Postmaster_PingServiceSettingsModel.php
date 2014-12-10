@@ -1,9 +1,7 @@
 <?php
 namespace Craft;
 
-use Craft\Plugins\Postmaster\Interfaces\ParseInterface;
-
-class Postmaster_PingServiceSettingsModel extends BaseModel implements ParseInterface
+class Postmaster_PingServiceSettingsModel extends Postmaster_ServiceSettingsModel
 {
 	public function parse(Array $data = array())
 	{
@@ -17,6 +15,8 @@ class Postmaster_PingServiceSettingsModel extends BaseModel implements ParseInte
 		}
 
 		$this->postVars = $parsedVars;
+		
+        return $this;
 	}
 
 	protected function defineAttributes()

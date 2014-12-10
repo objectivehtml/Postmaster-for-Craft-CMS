@@ -22,22 +22,6 @@
 }) }}
 
 {{ postmaster.checkboxSelectField({
-	label: "Triggers"|t,
-	instructions: "Set whether the parcel should be sent for new and/or edited entries."|t,
-	id: 'triggers',
-	name: 'settings[parcelTypeSettings][default][triggers]',
-	enabled: true,
-	options: [{
-		label: "New"|t,
-		value: "new"
-	},{
-		label: "Edit"|t,
-		value: "edit"
-	}],
-	values: settings.triggers is empty ? [''] : settings.triggers
-}) }}
-
-{{ postmaster.checkboxSelectField({
 	label: "Events"|t,
 	instructions: "What events should be used in this parcel?"|t,
 	id: 'events',
@@ -60,6 +44,22 @@
 		value: "entryRevisions.deleteDraft"
 	}],
 	values: settings.events is empty ? [''] : settings.events
+}) }}
+
+{{ postmaster.checkboxSelectField({
+	label: "Triggers"|t,
+	instructions: "Set whether the parcel should be sent for new and/or edited entries."|t,
+	id: 'triggers',
+	name: 'settings[parcelTypeSettings][default][triggers]',
+	enabled: true,
+	options: [{
+		label: "New"|t,
+		value: "new"
+	},{
+		label: "Edit"|t,
+		value: "edit"
+	}],
+	values: settings.triggers is empty ? [''] : settings.triggers
 }) }}
 
 {% set sectionOptions = [] %}

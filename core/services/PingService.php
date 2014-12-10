@@ -22,19 +22,21 @@ class PingService extends BaseService {
 
 			$this->settings->parse($data);
 
-			$guzzle = new Client();
-			$response = new TransportResponse($model, false);
+			$response = new TransportResponse($model);
 
 			try
 			{
-				$guzzle->post($this->settings->url, array(), $this->settings->postVars);
-				$response->setSuccess(true);
+				$client = new Client();
+				
+				$request = $client->post($this->settings->url, array(), $this->settings->postVars);
+
+				$request->send();
+
 			}
-			catch(Exception $e)
+			catch(\Exception $e)
 			{
-				$response->setErrors(array(
-					Craft::t('Guzzle client failed to connect to ' . $this->settings->url)
-				));
+				$response->addError($e->getMessage());
+				$response->setSuccess(false);
 			}
 
 			return $response;

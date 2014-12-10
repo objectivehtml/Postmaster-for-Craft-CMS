@@ -4,8 +4,12 @@ namespace Craft;
 class PostmasterService extends BaseApplicationComponent
 {
 	protected $_services = array();
+
+	protected $_servicesIds = array();
 	
 	protected $_parcelTypes = array();
+
+	protected $_parcelTypesIds = array();
 
 	public function parcels($criteria = false)
     {
@@ -57,7 +61,7 @@ class PostmasterService extends BaseApplicationComponent
 
             // Save the response to the db
             $response->save();
-            
+
             // Return the actual response
             return $response;
         }
@@ -117,11 +121,17 @@ class PostmasterService extends BaseApplicationComponent
 
 		if(!isset($objects[$obj->name]))
 		{
-			$objects[$obj->name] = $obj;
+			if(!in_array($obj->id, $this->{$prop.'Ids'}))
+			{
+				$objects[$obj->name] = $obj;
 
-			$this->$prop = $objects;
+				$this->$prop = $objects;
+				$this->{$prop.'Ids'}[] = $obj->id;
 
-			return $obj;
+				return $obj;
+			}
+
+			throw new Exception(Craft::t('An object has already been registered that has the id "'.$obj->id.'".'));
 		}
 		else
 		{

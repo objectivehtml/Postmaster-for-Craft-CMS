@@ -1,0 +1,254 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{% includeJsResource "postmaster/js/mailchimp.js" %}
+
+{{ forms.textField({
+	label: 'API Key'|t,
+    instructions: 'Your Mailchimp API Key'|t,
+	id: 'mailchimp_api_key',
+	name: 'settings[serviceSettings][mailchimp][apiKey]',
+	value: settings.apiKey,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+<input type="hidden" name="settings[serviceSettings][mailchimp][listIds][]" value="" />
+
+<div id="list-results"></div>
+
+{{ postmaster.selectField({
+	label: 'Action'|t,
+	name: 'settings[serviceSettings][mailchimp][action]',
+	value: settings.action,
+	class: 'show-onchange',
+	options: [{
+		label: 'Create and Send Campaign'|t,
+		value: 'createAndSend',
+		target: '#mailchimp-createAndSend'
+	},{
+		label: 'Subscribe to Lists'|t,
+		value: 'subscribe',
+		target: '#mailchimp-subscribe'
+	}]
+}) }}
+
+<div id="mailchimp-createAndSend">
+
+	{{ forms.textField({
+		label: 'Campaign Title'|t,
+	    instructions: 'Enter a static or dynamic value that will be used for campaign title. If this field is left blank, the subject field will be used by default.'|t,
+		id: 'mailchimp_title',
+		name: 'settings[serviceSettings][mailchimp][title]',
+		value: settings.title,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: 'Google Analytics'|t,
+	    instructions: 'If you enter your coode Google Anayltics key it will be linked to Mailchimp.'|t,
+		id: 'mailchimp_title',
+		name: 'settings[serviceSettings][mailchimp][googleAnalytics]',
+		value: settings.title,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Track Opens'|t,
+		instructions: 'Do you want to track the opens for this campaign?'|t,
+		name: 'settings[serviceSettings][mailchimp][trackOpens]',
+		value: settings.trackOpens,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Track HTML Clicks'|t,
+		instructions: 'Do you want to track the clicks for the HTML template?'|t,
+		name: 'settings[serviceSettings][mailchimp][trackHtmlClicks]',
+		value: settings.trackHtmlClicks,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Track Plain Text Clicks'|t,
+		instructions: 'Do you want to track the clicks for the plain text template?'|t,
+		name: 'settings[serviceSettings][mailchimp][trackTextClicks]',
+		value: settings.trackTextClicks,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+</div>
+
+<div id="mailchimp-subscribe">
+
+	{{ forms.textField({
+		label: 'Subscriber Email'|t,
+	    instructions: 'Enter a static or dynamic value that will be used for the subscriber\'s email.'|t,
+		id: 'mailchimp_subscriber_email',
+		name: 'settings[serviceSettings][mailchimp][subscriberEmail]',
+		value: settings.subscriberEmail,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.textField({
+		label: 'Subscriber New Email'|t,
+	    instructions: 'If updating an existing subscriber, this is the new email. Leave the field blank to ignore this setting.'|t,
+		id: 'mailchimp_subscriber_newemail',
+		name: 'settings[serviceSettings][mailchimp][subscriberNewEmail]',
+		value: settings.subscriberNewEmail,
+		translatable: true,
+		autocomplete: true
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Double Opt-in'|t,
+		instructions: 'Do you want to send a confirmation message before users are subscribed?'|t,
+		name: 'settings[serviceSettings][mailchimp][doubleOptin]',
+		value: settings.doubleOptin,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Update Existing'|t,
+		instructions: 'Do you want to update the profile if the email is already subscribed?'|t,
+		name: 'settings[serviceSettings][mailchimp][updateExisting]',
+		value: settings.doubleOptin,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Replace Interests'|t,
+		instructions: 'Do you want to replace the interest groups or add to them?'|t,
+		name: 'settings[serviceSettings][mailchimp][replaceInterests]',
+		value: settings.replaceInterests,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Send Welcome'|t,
+		instructions: 'Do you want to send a welcome message once the user has subscribed?'|t,
+		name: 'settings[serviceSettings][mailchimp][sendWelcome]',
+		value: settings.replaceInterests,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.editableTableField({
+		label: "Profile Variables",
+		instructions: "Enter the values of the profile variables you want to assign to the subscriber. The values can be static or dynamic."|t,
+		name: 'settings[serviceSettings][mailchimp][profileVars]',
+		id: 'mailchimp_profile_variables',
+		cols: {
+			name: {
+				heading: 'Name'|t
+			}, 
+			value: {
+				heading: 'Value'|t
+			}
+		},
+		rows: [
+			{
+				name: 'First Name',
+				value: settings.profileVars[0].value
+			},
+			{
+				name: 'Last Name',
+				value: settings.profileVars[1].value
+			},
+			{
+				name: 'Address 1',
+				value: settings.profileVars[2].value
+			},
+			{
+				name: 'Address 2',
+				value: settings.profileVars[3].value
+			},
+			{
+				name: 'City',
+				value: settings.profileVars[4].value
+			},
+			{
+				name: 'State',
+				value: settings.profileVars[5].value
+			},
+			{
+				name: 'Zip',
+				value: settings.profileVars[6].value
+			},
+			{
+				name: 'Country',
+				value: settings.profileVars[7].value
+			},
+			{
+				name: 'Date',
+				value: settings.profileVars[8].value
+			},
+			{
+				name: 'Birthday',
+				value: settings.profileVars[9].value
+			},
+			{
+				name: 'Phone',
+				value: settings.profileVars[10].value
+			},
+			{
+				name: 'Website',
+				value: settings.profileVars[11].value
+			}
+		]
+	}) }}
+
+</div>
+
+{% set js %}
+	$('#mailchimp_api_key').mailchimpLists({
+		listIds: {{ settings.listIds|json_encode|raw }},
+		target: $('#list-results')
+	}); 
+{% endset %}
+
+{% includeJs js %}

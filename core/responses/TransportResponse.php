@@ -8,7 +8,7 @@ class TransportResponse extends BaseResponse {
 
 	protected $model;
 
-	public function __construct(Postmaster_TransportModel $model, $success, $errors = array())
+	public function __construct(Postmaster_TransportModel $model, $success = true, $errors = array(), $code = 200)
 	{
 		parent::__construct($success, $errors);
 

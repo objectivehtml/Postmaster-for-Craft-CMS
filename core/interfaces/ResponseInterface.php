@@ -13,6 +13,14 @@ interface ResponseInterface {
 
 	public function getErrors();
 
+	public function getCode();
+
+	public function setCode($code);
+
+	public function addError($error);
+
+	public function addErrors(Array $errors = array());
+
 	public function save();
 
 }

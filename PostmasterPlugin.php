@@ -30,11 +30,23 @@ class PostmasterPlugin extends BasePlugin
     
     public function registerCpRoutes()
     {
-        return array(
+        $routes = array(
             'postmaster/parcel/new' => array('action' => 'postmaster/parcel/createParcel'),
             'postmaster/parcel/(?P<parcelId>\d+)' => array('action' => 'postmaster/parcel/editParcel'),
             'postmaster/parcel/delete/(?P<parcelId>\d+)' => array('action' => 'postmaster/parcel/deleteParcel'),
-       );
+        );
+
+        foreach(craft()->postmaster->getRegisteredServices() as $service)
+        {
+            $routes = array_merge($routes, $service->registerCpRoutes());
+        }
+
+        foreach(craft()->postmaster->getRegisteredParcelTypes() as $service)
+        {
+            $routes = array_merge($routes, $service->registerCpRoutes());
+        }
+
+        return $routes;
     }
     
     public function init()

@@ -30,7 +30,7 @@ class CraftService extends BaseService {
 
 	public function getSettingsModelClassName()
 	{
-		return '\Craft\Postmaster_DefaultParcelTypeSettingsModel';
+		return '\Craft\Postmaster_ServiceSettingsModel';
 	}
 
 }

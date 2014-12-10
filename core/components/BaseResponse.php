@@ -10,19 +10,19 @@ abstract class BaseResponse extends Base implements ResponseInterface {
 
 	protected $errors = array();
 
-	public function __construct($success, $errors = array())
+	protected $code = 200;
+
+	public function __construct($success, $errors = array(), $code = 200)
 	{
 		if(is_array($success))
 		{
-			foreach($success as $index => $value)
-			{
-				$this->$index = $value;
-			}
+			parent::__construct($success);
 		}
 		else
 		{
 			$this->success = $success;
 			$this->errors = $errors;
+			$this->code = $code;
 		}
 	}
 
@@ -41,6 +41,16 @@ abstract class BaseResponse extends Base implements ResponseInterface {
 		$this->success = $value;
 	}
 
+	public function getCode()
+	{
+		return $this->code;
+	}
+
+	public function setCode($code)
+	{
+		$this->code = $code;
+	}
+
 	public function setErrors(Array $errors = array())
 	{
 		$this->errors = $errors;
@@ -49,6 +59,19 @@ abstract class BaseResponse extends Base implements ResponseInterface {
 	public function getErrors()
 	{
 		return $this->errors;
+	}
+
+	public function addErrors(Array $errors = array())
+	{
+		foreach($errors as $error)
+		{
+			$this->addError($error);
+		}
+	}
+
+	public function addError($error)
+	{
+		$this->errors[] = $error;
 	}
 
 	public function save()

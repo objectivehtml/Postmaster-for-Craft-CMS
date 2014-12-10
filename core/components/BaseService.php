@@ -3,9 +3,8 @@ namespace Craft\Plugins\Postmaster\Components;
 
 use Craft\BaseModel;
 use Craft\Plugins\Postmaster\Interfaces\ServiceInterface;
-use Craft\Plugins\Postmaster\Interfaces\SettingsInterface;
 
-abstract class BaseService extends Settings implements ServiceInterface, SettingsInterface {
+abstract class BaseService extends BasePlugin implements ServiceInterface {
 
 	public $name;
 

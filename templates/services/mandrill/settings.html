@@ -1,0 +1,91 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+	label: "API Key"|t,
+    instructions: "Your Mandrill API Key"|t,
+	id: 'mandrill_api_key',
+	name: 'settings[serviceSettings][mandrill][apiKey]',
+	value: settings.apiKey,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ forms.selectField({
+	label: "Open Tracking"|t,
+    instructions: "Do you want to track the opens for emails?"|t,
+	id: 'trackOpens',
+	name: 'settings[serviceSettings][mandrill][trackOpens]',
+	value: settings.trackOpens,
+	translatable: true,
+	options: [{
+		value: true,
+		label: 'True'
+	},{
+		value: false,
+		label: 'False'
+	}]
+}) }}
+
+{{ forms.selectField({
+	label: "Click Tracking"|t,
+    instructions: "Do you want to track the clicks for emails?"|t,
+	id: 'trackClicks',
+	name: 'settings[serviceSettings][mandrill][trackClicks]',
+	value: settings.trackClicks,
+	translatable: true,
+	options: [{
+		value: true,
+		label: 'True'
+	},{
+		value: false,
+		label: 'False'
+	}]
+}) }}
+
+{{ forms.selectField({
+	label: "Auto Plain Text"|t,
+    instructions: "Do you want to automatically generate a plain text part for messages that are not given plain text?"|t,
+	id: 'autoText',
+	name: 'settings[serviceSettings][mandrill][autoText]',
+	value: settings.autoText,
+	translatable: true,
+	options: [{
+		value: true,
+		label: 'True'
+	},{
+		value: false,
+		label: 'False'
+	}]
+}) }}
+
+{{ forms.selectField({
+	label: "Strip Query String"|t,
+    instructions: "Do you want to strip the query string from URLs when aggregating tracked URL data?"|t,
+	id: 'stripQuery',
+	name: 'settings[serviceSettings][mandrill][stripQuery]',
+	value: settings.stripQuery,
+	translatable: true,
+	options: [{
+		value: true,
+		label: 'True'
+	},{
+		value: false,
+		label: 'False'
+	}]
+}) }}
+
+{{ forms.selectField({
+	label: "Preserve Recipients"|t,
+    instructions: "Do you want to expose all recipients in to \"To\" header for each email?"|t,
+	id: 'preserveRecipients',
+	name: 'settings[serviceSettings][mandrill][preserveRecipients]',
+	value: settings.preserveRecipients,
+	translatable: true,
+	options: [{
+		value: true,
+		label: 'True'
+	},{
+		value: false,
+		label: 'False'
+	}]
+}) }}

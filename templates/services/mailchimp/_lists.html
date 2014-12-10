@@ -1,0 +1,30 @@
+{% import "_includes/forms" as forms %}
+
+<table class="data fullwidth">
+	<thead>
+		<tr>
+			<th></th>
+			<th>{{ "Name"|t }}</th>
+			<th>{{ "Subscribers"|t }}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for list in lists %}
+		<tr>
+			<td width="30">
+				{{ forms.checkbox({
+					name: 'settings[serviceSettings][mailchimp][listIds][]',
+					value: list.id,
+					checked: list.id in settings.listIds ? true : false
+				}) }}
+			</td>
+			<td>
+				{{ list.name }}
+			</td>
+			<td>
+				{{ list.stats.member_count }}
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
