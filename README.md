@@ -1,6 +1,6 @@
 ### Postmaster
 
-#### *The complete communications toolkit for Craft CMS*
+#### *The communications toolkit for Craft CMS*
 
 Postmaster for Craft CMS is a plugin that makes communicating with users and other applications incredibly simple. Whether you need to notify your users when new content is posted, or whether you need to ping a server when an entry is deleted, Postmaster can get you started without writting any code. Postmaster for Craft CMS is a complete rewrite of the version for ExpressionEngine, so you can expect the same level of reliability and robust feature set.
 
