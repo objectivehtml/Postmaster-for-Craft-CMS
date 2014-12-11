@@ -2,7 +2,7 @@
 
 {{ forms.textField({
 	label: "AccountSID"|t,
-	instructions: "Your Twilio AccountSID"|t,
+	instructions: "Your Twilio AccountSID."|t,
 	id: 'twilio_account_sid',
 	name: 'settings[serviceSettings][twilio][accountSid]',
 	value: settings.accountSid
@@ -10,7 +10,7 @@
 
 {{ forms.textField({
 	label: "AuthToken"|t,
-	instructions: "Your Twilio AuthToken"|t,
+	instructions: "Your Twilio AuthToken."|t,
 	id: 'twilio_authtoken',
 	name: 'settings[serviceSettings][twilio][authToken]',
 	value: settings.authToken
@@ -18,7 +18,7 @@
 
 {{ forms.textField({
 	label: "From Number"|t,
-	instructions: "The number sending the SMS message"|t,
+	instructions: "The number sending the SMS message. This is a verified number in your Twilio account or a short code number."|t,
 	id: 'twilio_from_number',
 	name: 'settings[serviceSettings][twilio][from]',
 	value: settings.from
@@ -26,7 +26,7 @@
 
 {{ forms.textField({
 	label: "To Number"|t,
-	instructions: "The number receiving the SMS message"|t,
+	instructions: "The number receiving the SMS message. For more informatiom on formatting, vist the <a href=\"https://www.twilio.com/docs/api/rest/sending-sms\">Twilio API reference</a>."|t,
 	id: 'twilio_to_number',
 	name: 'settings[serviceSettings][twilio][to]',
 	value: settings.to
