@@ -36,7 +36,7 @@ class PingService extends BaseService {
 		else
 		{
 			$response->setSuccess(false);
-			$response->addError(Craft::t('The ping url is empty.'));
+			$response->addError(\Craft::t('The ping url is empty.'));
 		}
 
 		return $response;

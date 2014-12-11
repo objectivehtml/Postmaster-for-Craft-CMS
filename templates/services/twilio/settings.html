@@ -1,0 +1,50 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+	label: "AccountSID"|t,
+	instructions: "Your Twilio AccountSID"|t,
+	id: 'twilio_account_sid',
+	name: 'settings[serviceSettings][twilio][accountSid]',
+	value: settings.accountSid
+}) }}
+
+{{ forms.textField({
+	label: "AuthToken"|t,
+	instructions: "Your Twilio AuthToken"|t,
+	id: 'twilio_authtoken',
+	name: 'settings[serviceSettings][twilio][authToken]',
+	value: settings.authToken
+}) }}
+
+{{ forms.textField({
+	label: "From Number"|t,
+	instructions: "The number sending the SMS message"|t,
+	id: 'twilio_from_number',
+	name: 'settings[serviceSettings][twilio][from]',
+	value: settings.from
+}) }}
+
+{{ forms.textField({
+	label: "To Number"|t,
+	instructions: "The number receiving the SMS message"|t,
+	id: 'twilio_to_number',
+	name: 'settings[serviceSettings][twilio][to]',
+	value: settings.to
+}) }}
+
+{{ forms.textField({
+	label: "Media URL"|t,
+	instructions: "The URL of the media you wish to send out with the message. gif , png and jpeg content is currently supported and will be formatted correctly on the recipient's device."|t,
+	id: 'twilio_media_url',
+	name: 'settings[serviceSettings][twilio][mediaUrl]',
+	value: settings.mediaUrl
+}) }}
+
+{{ forms.textareaField({
+	label: "Message"|t,
+	instructions: "The message contents."|t,
+	id: 'twilio_message',
+	name: 'settings[serviceSettings][twilio][message]',
+	value: settings.message,
+	rows: 5
+}) }}

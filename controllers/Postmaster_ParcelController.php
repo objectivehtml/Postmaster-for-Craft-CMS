@@ -11,8 +11,6 @@ class Postmaster_ParcelController extends BaseController
 			'model' => $model
 		));
 
-		craft()->templates->includeJsResource('postmaster/js/postmaster.js');
-
         $this->renderTemplate('postmaster/_parcel', array(
         	'header' => Craft::t('New Parcel'),
         	'parcel' => $parcel
@@ -28,8 +26,6 @@ class Postmaster_ParcelController extends BaseController
 		$parcel = new Plugins\Postmaster\Components\Parcel(array(
 			'model' => $model
 		));
-
-		craft()->templates->includeJsResource('postmaster/js/postmaster.js');
 
         $this->renderTemplate('postmaster/_parcel', array(
         	'header' => Craft::t('Edit Parcel'),

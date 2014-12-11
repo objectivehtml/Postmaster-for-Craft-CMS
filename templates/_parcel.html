@@ -11,6 +11,8 @@
     { label: parcel.model.id ? 'Edit Parcel' : 'New Parcel', url: parcel.model.id ? url('postmaster/parcel/'~parcel.model.id) : url('postmaster/parcel/new') }
 ] %}
 
+{% includeJsResource "postmaster/js/postmaster.js" %}
+
 {% set content %}
 
     <form method="post" action="" accept-charset="UTF-8">

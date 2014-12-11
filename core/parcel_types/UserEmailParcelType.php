@@ -21,6 +21,7 @@ class UserEmailParcelType extends DefaultParcelType {
             $this->craft()->on($event, function(\Craft\Event $event) use ($parcelType)
             {
             	$user = $event->params['user'];
+
             	$isNewUser = isset($event->params['isNewUser']) ? $event->params['isNewUser'] : false;
 
                 $parcelType->settings->parse(array_merge($event->params, array(
