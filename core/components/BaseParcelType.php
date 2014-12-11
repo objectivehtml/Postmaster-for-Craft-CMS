@@ -14,11 +14,6 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 
 	protected $parcel;
 
-	public function init()
-	{
-
-	}
-
 	public function getInputHtml(Array $data = array())
 	{
 		return '';
@@ -28,23 +23,6 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 	{
 		return '';
 	}
-
-	/*
-	public function send()
-	{
-
-	}
-
-	public function setService(BaseService $service)
-	{
-		$this->service = $service;
-	}
-
-	public function getService()
-	{
-		return $this->service;
-	}
-	*/
 
 	public function setParcelModel(Postmaster_ParcelModel $parcel)
 	{

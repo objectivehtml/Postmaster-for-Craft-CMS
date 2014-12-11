@@ -13,8 +13,6 @@ class DefaultParcelType extends BaseParcelType {
 
 	public function init()
 	{
-        return;
-        
 		foreach($this->settings->events as $event)
         {
             $parcelType = $this;

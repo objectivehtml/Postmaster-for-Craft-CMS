@@ -54,17 +54,6 @@ class PostmasterPlugin extends BasePlugin
 
         require_once 'bootstrap.php';
 
-        /*
-        $plugin = $this;
-
-        craft()->on('postmaster.test', function(Event $event)
-        {
-            exit('asd');
-        });
-
-        $this->raiseEvent('onTest', new Event());
-        */
-
         craft()->on('plugins.loadPlugins', function(Event $event)
         {
             craft()->postmaster->onInit(new Event());
@@ -73,7 +62,7 @@ class PostmasterPlugin extends BasePlugin
             {
                 $parcel->init();
             }
-            
+
         });
 
     }

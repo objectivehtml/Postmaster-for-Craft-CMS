@@ -8,6 +8,11 @@ abstract class BasePlugin extends Settings implements PluginInterface, SettingsI
 
 	protected $settings;
 
+	public function init()
+	{
+		
+	}
+
 	public function registerCpRoutes()
 	{
 		return array();

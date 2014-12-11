@@ -11,21 +11,19 @@ class Postmaster_ParcelModel extends BaseModel
     {
         parent::__construct($attributes);
 
-        if(is_string($this->settings))
+        if(is_array($this->settings))
         {
-            $this->settings = json_decode($this->settings);
-        }
-
-        if(!$this->settings instanceof Postmaster_ParcelSettingsModel)
-        {
-            $this->settings = new Postmaster_ParcelSettingsModel((array) $this->settings);
+            $this->setAttribute('settings', new Postmaster_ParcelSettingsModel($this->settings));
         }
     }
 
     public function init()
     {
         $parcelType = $this->getParcelType();
+        $service = $this->getService();
+
         $parcelType->init();
+        $service->init();
     }
 
 	public function getTableName()
@@ -48,33 +46,45 @@ class Postmaster_ParcelModel extends BaseModel
         return;
     }
 
-    public function getParcelTypeSettings($id)
+    public function getParcelTypeSettingsById($id)
     {
-        $this->settings->getParcelTypeSettings($id);
+        return $this->settings->getParcelTypeSettingsById($id);
     }
 
     public function setParcelTypeSettings($id, Array $settings = array())
     {     
-        $this->settings->setParcelTypeSettings($id, $settings);
+        return $this->settings->setParcelTypeSettings($id, $settings);
     }
 
-    public function getServiceSettings($id)
+    public function getServiceSettingsByid($id)
     {
-        $this->settings->setServiceSettings($id);
+        return $this->settings->getServiceSettingsById($id);
     }
 
     public function setServiceSettings($id, Array $settings = array())
     {        
-        $this->settings->setServiceSettings($id, $settings);
+        return $this->settings->setServiceSettings($id, $settings);
     }
 
-    public function getService()
+    public function getService($class = false)
     {
         if(is_null($this->_service))
         {
-            $class = $this->settings->service;
+            if(!$class)
+            {
+                $class = $this->settings->service;
+            }
+
             $class = new $class();
-            $class->setSettings($class->createSettingsModel($this->getServiceSettings($class->id)));
+
+            $settings = $this->getServiceSettingsById($class->id);
+
+            if(is_array($settings))
+            {
+                $settings = $class->createSettingsModel($settings);
+            }
+
+            $class->setSettings($settings);
 
             $this->_service = $class;
         }
@@ -92,8 +102,15 @@ class Postmaster_ParcelModel extends BaseModel
             }
 
             $class = new $class();
-            $class->setSettings($class->createSettingsModel($this->getParcelTypeSettings($class->id)));
-            // $class->setService($this->getService());
+
+            $settings = $this->getParcelTypeSettingsById($class->id);
+
+            if(is_array($settings))
+            {
+                $settings = $class->createSettingsModel($settings);
+            }
+
+            $class->setSettings($settings);
             $class->setParcelModel($this);
 
             $this->_parcelType = $class;
@@ -112,6 +129,7 @@ class Postmaster_ParcelModel extends BaseModel
     {
         return array(
             'title'     => array(AttributeType::String, 'column' => ColumnType::Text),
+            'parcelType'     => array(AttributeType::String, 'column' => ColumnType::Text, 'default' => 'default'),
             'settings'  => array(AttributeType::Mixed, 'column' => ColumnType::LongText, 'default' => array()),
             'enabled'  => array(AttributeType::Bool, 'column' => ColumnType::Int, 'default' => 1),
             'id'     => array(AttributeType::String, 'column' => ColumnType::Text),
