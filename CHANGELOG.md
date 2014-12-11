@@ -2,6 +2,11 @@
 
 ### Changelog
 
+#### 0.1.2
+##### 10/11/2014
+
+- (Feature) Added Twilio SMS service
+
 #### 0.1.1 
 ##### 10/10/2014
 
