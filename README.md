@@ -12,12 +12,13 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 4. User Email Parcels to send email when users are saved, activated, deleted, and more
 5. Complete control over HTML and plain text templates
 6. Compatible Mandrill, Mailchimp, and many other email services
-7. Subscribe users to lists with Mailchimp
-8. Create and send email campaigns with Mailchimp
-9. Go beyond email and send HTTP requests with the Ping Service
-10. Ideal for clients, designers, and developers
-11. Robust developer API's for custom solutions
-12. Quick and easy setup with reliable functionality
+7. Send SMS messages with Twilio in place of emails
+8. Subscribe users to lists with Mailchimp
+9. Create and send email campaigns with Mailchimp
+10. Go beyond email and send HTTP requests with the Ping Service
+11. Ideal for clients, designers, and developers
+12. Robust developer API's for custom solutions
+13. Quick and easy setup with reliable functionality
 
 ### Wiki
 
