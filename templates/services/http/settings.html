@@ -1,0 +1,67 @@
+{% import "_includes/forms" as forms %}
+
+<p>{{ "The Http Request Service allows you to send HTTP requests to a specified url. You can choose which HTTP method to use along with the data that is sent with each request."|t }}</p>
+
+{{ forms.textField({
+	label: "Request Url"|t,
+	instructions: "The url to send the request."|t,
+	id: 'http_url',
+	name: 'settings[serviceSettings][http][url]',
+	value: settings.url
+}) }}
+
+{{ forms.selectField({
+	label: 'Action'|t,
+	name: 'settings[serviceSettings][http][action]',
+	value: settings.action,
+	id: 'http_action',
+	options: [{
+		label: 'GET',
+		value: 'get'
+	},{
+		label: 'POST',
+		value: 'post'
+	},{
+		label: 'PUT',
+		value: 'put'
+	},{
+		label: 'DELETE',
+		value: 'delete'
+	}]
+}) }}
+
+{{ forms.editableTableField({
+	label: "HTTP Headers",
+	instructions: "Enter the names and values of HTTP headers to be included in the request."|t,
+	name: 'settings[serviceSettings][http][headers]',
+	id: 'http_headers',
+	cols: {
+		name: {
+			heading: 'Name'|t,
+			type: 'singleline'
+		}, 
+		value: {
+			heading: 'Value'|t,
+			type: 'singleline'
+		}
+	},
+	rows: settings.headers
+}) }}
+
+{{ forms.editableTableField({
+	label: "Request Variables",
+	instructions: "Enter the names and values of variables to be included in the request payload."|t,
+	name: 'settings[serviceSettings][http][postVars]',
+	id: 'http_post_vars',
+	cols: {
+		name: {
+			heading: 'Name'|t,
+			type: 'singleline'
+		}, 
+		value: {
+			heading: 'Value'|t,
+			type: 'singleline'
+		}
+	},
+	rows: settings.postVars
+}) }}
