@@ -24,6 +24,11 @@ class UserEmailParcelType extends DefaultParcelType {
 
             	$isNewUser = isset($event->params['isNewUser']) ? $event->params['isNewUser'] : false;
 
+                $parcelType->parcel->settings->parse(array_merge($event->params, array(
+                    'user' => $user,
+                    'isNewUser' => $isNewUser
+                )));
+
                 $parcelType->settings->parse(array_merge($event->params, array(
                     'user' => $user,
                     'isNewUser' => $isNewUser
