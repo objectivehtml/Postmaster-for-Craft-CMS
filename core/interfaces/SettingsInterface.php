@@ -9,5 +9,7 @@ interface SettingsInterface {
 
 	public function setSettings($settings);
 
+	public function getSettingsModelClassName();
+
 	public function createSettingsModel($settings = false);
 }
