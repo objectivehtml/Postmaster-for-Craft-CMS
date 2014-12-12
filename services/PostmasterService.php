@@ -44,6 +44,22 @@ class PostmasterService extends BaseApplicationComponent
     }
 
     /*
+     * Send a Postmaster_TransportModel object to the queue
+     *
+     * @param  Postmaster_TransportModel
+     * @return object
+    */
+    public function sendToQueue(Postmaster_TransportModel $model)
+    {
+    	$record = new Postmaster_QueueRecord();
+    	$record->model = $model;
+		$record->sendDate = $model->getSendDate();
+		$record->save();
+
+		return $record; 
+    }
+
+    /*
      * Send a Postmaster_TransportModel object
      *
      * @param  Postmaster_TransportModel
@@ -59,28 +75,43 @@ class PostmasterService extends BaseApplicationComponent
     		throw new Exception(Craft::t($message));
     	}
 
-    	// Triger onBeforeSend method, and if return false then fail
-        if($model->service->onBeforeSend() !== false)
-        {
-        	// Send the Postmaster_TransportModel model to the service in
-        	// exchange for a Craft\Plugins\Postmaster\Responses\TransportResponse object
-            $response = $model->service->send($model);
-           	
-           	// Test the service response for correct class and throw an error if it fails
-           	if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
-           	{
-           		throw new Exception('The '.$model->service->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
-           	}
+    	// If the model has a queueId remove the record from the queue
+		if($model->queueId)
+		{
+			craft()->postmaster_queue->remove($model->queueId);
+		}
+		
+    	//Validate the model to see if the send past has not past
+    	if($model->shouldSend())
+    	{
+	    	// Triger onBeforeSend method, and if return false then fail
+	        if($model->service->onBeforeSend() !== false)
+	        {
+	        	// Send the Postmaster_TransportModel model to the service in
+	        	// exchange for a Postmaster_TransportResponseModel object
+	            $response = $model->service->send($model);
+	           	
+	           	// Test the service response for correct class and throw an error if it fails
+	           	if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
+	           	{
+	           		throw new Exception('The '.$model->service->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+	           	}
 
-           	// Trigger the onAfterSend method
-            $model->service->onAfterSend();
+	           	// Trigger the onAfterSend method
+	            $model->service->onAfterSend();
 
-            // Save the response to the db
-            $response->save();
+	            // Save the response to the db
+	            $response->save();
 
-            // Return the actual response
-            return $response;
-        }
+	            // Return the actual response
+	            return $response;
+	        }
+	    }
+	    else
+	    {
+	    	// Send the model to the queue to be sent later
+	    	return $this->sendToQueue($model);
+	    }
 
         // Return false if anything fails
         return false;
