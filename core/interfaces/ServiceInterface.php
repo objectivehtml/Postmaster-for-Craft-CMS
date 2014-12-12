@@ -3,6 +3,7 @@ namespace Craft\Plugins\Postmaster\Interfaces;
 
 use Craft\BaseModel;
 use Craft\Postmaster_TransportModel;
+use Craft\Postmaster_TransportResponseModel;
 
 interface ServiceInterface {
 	
@@ -19,4 +20,8 @@ interface ServiceInterface {
 	public function setRequiredModels(Array $models);
 
 	public function validateModel(BaseModel $model);
+
+	public function success(Postmaster_TransportModel $model, $code = 200);
+
+	public function failed(Postmaster_TransportModel $model, $code = 400, Array $errors = array());
 }
