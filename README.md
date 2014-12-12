@@ -15,10 +15,12 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 7. Send SMS messages with Twilio in place of emails
 8. Subscribe users to lists with Mailchimp
 9. Create and send email campaigns with Mailchimp
-10. Go beyond email and send HTTP requests with the Ping Service
-11. Ideal for clients, designers, and developers
-12. Robust developer API's for custom solutions
-13. Quick and easy setup with reliable functionality
+10. Send anything in the future at any time you need
+11. Powerful Queue API with CRON support to make sending queued emails incredibly simple
+12. Go beyond email and send HTTP requests with the Ping Service
+13. Ideal for clients, designers, and developers
+14. Robust developer API's for custom solutions
+15. Quick and easy setup with reliable functionality
 
 ### Wiki
 
