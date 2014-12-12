@@ -2,6 +2,17 @@
 
 ### Changelog
 
+#### 0.3.1
+##### 10/12/2014
+
+- (Feature) Added ability to send parcels in the future by adding items to the queue
+- (API) Added the new Queue Service to handle sending items to the queue
+- (API) Added ability to register site url's with Postmaster plugins
+- (API) Added new TransportInterface to the Postmaster_TransportModel with the getSendDate() and shouldSend() methods
+- (API) Refactored settings models so that even parcel settings are parsed dynamically
+- (API) Refactored Postmaster_ServiceSettingsModel to be a bare bones extendible model without any logic. (Logic moved to the Postmaster_BaseSettingsModel)
+- (API) Added sendToQueue() method to PostmasterService class
+
 #### 0.3.0
 ##### 10/11/2014
 
