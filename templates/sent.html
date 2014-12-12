@@ -1,0 +1,49 @@
+{% extends "_layouts/cp" %}
+
+{% set title = "Postmaster"|t %}
+
+{% set selectedTab = 'sent' %}
+
+{% set tabs = {
+    parcels: { label: "Parcels"|t, url: url('postmaster') },
+    sent: { label: "Sent Messages"|t, url: url('postmaster/sent') }
+} %}
+
+{% set content %}
+    
+    {% set responses = craft.postmaster.transportResponses().order('id desc').limit(100).find() %}
+
+    <h2>{{ "Responses"|t }}</h2>
+
+    {% if responses|length > 0 %}
+    <table class="data fullwidth">
+    	<thead>
+	    	<tr>
+                <th>Service</th>
+                <th>Success</th>
+                <th>Code</th>
+                <th>Errors</th>
+                <th>Date Created</th>
+	    	</tr>
+    	</thead>
+    	<tbody>
+    	{% for response in responses %}
+    		<tr>
+                <td width="150">{{ response.service }}</td>
+                <td width="100">{{ response.getSuccess() ? 'True' : 'False' }}</td>
+                <td width="100">{{ response.getCode() }}</td>
+    			<td>
+                    {% for error in response.getErrors() %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </td>
+                <td width="250">{{ response.dateCreated }}</td>
+	    	</tr>
+	    {% endfor %}
+    	</tbody>
+    </table>
+    {% else %}
+    	<p><em>You have sent any messages yet.</em></p>
+    {% endif %}
+    
+{% endset %}

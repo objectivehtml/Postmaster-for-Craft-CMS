@@ -21,6 +21,11 @@ class PostmasterService extends BaseApplicationComponent
         return new Postmaster_ParcelCriteriaModel($criteria ?: array());
     }
 
+	public function transportResponses($criteria = false)
+    {
+        return new Postmaster_TransportResponseCriteriaModel($criteria ?: array());
+    }
+
     public function service($class, $settings = null)
     {
     	if(!is_array($settings))
@@ -61,6 +66,12 @@ class PostmasterService extends BaseApplicationComponent
         	// exchange for a Craft\Plugins\Postmaster\Responses\TransportResponse object
             $response = $model->service->send($model);
            	
+           	// Test the service response for correct class and throw an error if it fails
+           	if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
+           	{
+           		throw new Exception('The '.$model->service->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+           	}
+
            	// Trigger the onAfterSend method
             $model->service->onAfterSend();
 

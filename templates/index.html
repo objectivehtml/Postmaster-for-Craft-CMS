@@ -4,6 +4,11 @@
 
 {% includeJsResource 'postmaster/js/postmaster.js' %}
 
+{% set tabs = [
+    { label: "Parcels"|t, url: url('postmaster') },
+    { label: "Sent Messages"|t, url: url('postmaster/sent') }
+] %}
+
 {% set content %}
 
     <a href="{{ url('postmaster/parcel/new') }}" class="btn right">New Parcel</a>
