@@ -17,6 +17,10 @@ abstract class EmailEvent extends BaseEvent {
 		    'service' => array(
 		    	'label' => \Craft\Craft::t('Service'), 
 		    	'url' => '#service'
+		    ),
+		    'sendDate' => array(
+		    	'label' => \Craft\Craft::t('Send Date'), 
+		    	'url' => '#sendDate'
 		    )
 		);
 	}

@@ -1,7 +1,7 @@
 <?php
 namespace Craft;
 
-class Postmaster_ParcelSettingsModel extends BaseModel
+class Postmaster_ParcelSettingsModel extends Postmaster_BaseSettingsModel
 {
     public function __construct($attributes = null)
     {
@@ -67,7 +67,9 @@ class Postmaster_ParcelSettingsModel extends BaseModel
             'parcelType' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\ParcelTypes\DefaultParcelType'),
             'parcelTypeSettings' => array(AttributeType::Mixed, 'default' => array()),
             'service' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\Services\CraftService'),
-            'serviceSettings' => array(AttributeType::Mixed, 'default' => array())
+            'serviceSettings' => array(AttributeType::Mixed, 'default' => array()),
+            'sendDateSpecific' => array(AttributeType::String, 'default' => null),
+            'sendDateRelative' => array(AttributeType::String, 'default' => null),
         );
     }
 
