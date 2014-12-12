@@ -1,1 +1,42 @@
+{% import "_includes/forms" as forms %}
+
 <p>The Test Email Service allows you to test your configurations without actually sending any emails.<br>Responses will be added to the database as usual, so your testing will reflect an actual email response.</p>
+
+{{ forms.selectField({
+	label: "Status"|t,
+    instructions: "The type of response status to return."|t,
+	id: 'testing_status',
+	name: 'settings[serviceSettings][testing][status]',
+	value: settings.status,
+	translatable: true,
+	options: [{
+		value: 'success',
+		label: 'Success'
+	},{
+		value: 'failed',
+		label: 'Failed'
+	}]
+}) }}
+
+{{ forms.textField({
+	label: "Code"|t,
+    instructions: "The code to return with the response."|t,
+	id: 'testing_code',
+	name: 'settings[serviceSettings][testing][code]',
+	value: settings.code,
+	translatable: true
+}) }}
+
+{{ forms.editableTableField({
+	label: "Errors",
+	instructions: "Enter any errors you want to return with the response."|t,
+	name: 'settings[serviceSettings][testing][errors]',
+	id: 'http_errors',
+	cols: {
+		error: {
+			heading: 'Error'|t,
+			type: 'singleline'
+		}
+	},
+	rows: settings.errors ? settings.errors : []
+}) }}

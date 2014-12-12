@@ -5,6 +5,10 @@ class Postmaster_TestServiceSettingsModel extends Postmaster_ServiceSettingsMode
 {
 	protected function defineAttributes()
     {
-        return array();
+        return array(
+        	'status' => array(AttributeType::String, 'default' => 'success'),
+        	'code' => array(AttributeType::Number, 'default' => 200),
+        	'errors' => array(AttributeType::Mixed, 'default' => array()),
+        );
     }
 }
