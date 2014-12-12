@@ -10,7 +10,7 @@ class PostmasterPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.3.0.3';
+        return '0.3.1';
     }
 
     public function getDeveloper()
