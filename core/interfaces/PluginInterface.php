@@ -7,4 +7,6 @@ interface PluginInterface {
 
 	public function registerCpRoutes();
 
+	public function registerSiteRoutes();
+
 }

@@ -10,7 +10,7 @@ class PostmasterPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.3.0';
+        return '0.3.0.3';
     }
 
     public function getDeveloper()
@@ -27,6 +27,25 @@ class PostmasterPlugin extends BasePlugin
     {
         return true;
     }
+
+    public function registerSiteRoutes()
+    {
+        $routes = array(
+            'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal')
+        );
+
+        foreach(craft()->postmaster->getRegisteredServices() as $service)
+        {
+            $routes = array_merge($routes, $service->registerSiteRoutes());
+        }
+
+        foreach(craft()->postmaster->getRegisteredParcelTypes() as $service)
+        {
+            $routes = array_merge($routes, $service->registerSiteRoutes());
+        }
+
+        return $routes;
+    }
     
     public function registerCpRoutes()
     {
@@ -34,6 +53,7 @@ class PostmasterPlugin extends BasePlugin
             'postmaster/parcel/new' => array('action' => 'postmaster/parcel/createParcel'),
             'postmaster/parcel/(?P<parcelId>\d+)' => array('action' => 'postmaster/parcel/editParcel'),
             'postmaster/parcel/delete/(?P<parcelId>\d+)' => array('action' => 'postmaster/parcel/deleteParcel'),
+            // 'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal'),
         );
 
         foreach(craft()->postmaster->getRegisteredServices() as $service)
@@ -45,6 +65,7 @@ class PostmasterPlugin extends BasePlugin
         {
             $routes = array_merge($routes, $service->registerCpRoutes());
         }
+
         return $routes;
     }
     
