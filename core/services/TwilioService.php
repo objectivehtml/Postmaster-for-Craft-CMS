@@ -3,7 +3,6 @@ namespace Craft\Plugins\Postmaster\Services;
 
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
-use Craft\Plugins\Postmaster\Responses\TransportResponse;
 use \Guzzle\Http\Client;
 
 class TwilioService extends BaseService {
@@ -14,8 +13,6 @@ class TwilioService extends BaseService {
 
 	public function send(Postmaster_TransportModel $model)
 	{
-		$response = new TransportResponse($model);
-
 		try
 		{
 			$client = new Client();
@@ -34,16 +31,22 @@ class TwilioService extends BaseService {
 			$request = $client->post($this->getApiUrl('Messages'), array(), $data);
 
 			$request->send();
+
+			return $this->success($model);
 		}
 		catch(\Exception $e)
 		{
-			$errorResponse = json_decode($e->getResponse()->getBody());
+			try
+			{
+				$errorResponse = json_decode($e->getResponse()->getBody());
 
-			$response->addError($errorResponse->message());
-			$response->setSuccess(false);
+				return $this->failed($model, $errorResponse->code, array($errorResponse->message));
+			}
+			catch(\Exception $e)
+			{
+				return $this->failed($model, 400, array($e->getMessage()));
+			}
 		}
-
-		return $response;
 	}
 
 	public function getApiUrl($endpoint)

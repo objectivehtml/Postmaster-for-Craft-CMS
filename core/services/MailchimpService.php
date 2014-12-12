@@ -2,10 +2,10 @@
 namespace Craft\Plugins\Postmaster\Services;
 
 use Craft\Postmaster_TransportModel;
+use Craft\Postmaster_TransportResponseModel;
 use Craft\Postmaster_MailchimpCampaignModel;
 use Craft\Postmaster_MailchimpSubscriberModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
-use Craft\Plugins\Postmaster\Responses\TransportResponse;
 use Guzzle\Http\Client;
 
 class MailchimpService extends BaseService {
@@ -95,7 +95,9 @@ class MailchimpService extends BaseService {
 
 	public function send(Postmaster_TransportModel $model)
 	{
-		$response = new TransportResponse($model, true);
+		$response = new Postmaster_TransportResponseModel(array(
+			'model' => $model
+		));
 
         foreach($this->settings->listIds as $listId)
         {
@@ -108,7 +110,7 @@ class MailchimpService extends BaseService {
 						$this->createAndSendCampaign(array(
 				    		'apiKey' => $this->settings->apiKey,
 							'type' => $this->settings->campaignType,
-							'listId' => $listId,
+							'listId' => $this->settings->listIds,
 							'subject' => $model->settings->subject,
 							'fromEmail' => $model->settings->fromEmail,
 							'fromName' => $model->settings->fromName,
@@ -124,11 +126,19 @@ class MailchimpService extends BaseService {
 					}
 					catch(\Exception $e)
 					{
-						$errorResponse = json_decode($e->getResponse()->getBody());
-
 						$response->setSuccess(false);
-						$response->setCode($errorResponse->code);
-						$response->addError($errorResponse->error);
+
+						try
+						{
+							$errorResponse = json_decode($e->getResponse()->getBody());
+
+							$response->setCode($errorResponse->code);
+							$response->addError($errorResponse->error);
+						}
+						catch(\Exception $e)
+						{
+							$response->addError($e->getMessage());
+						}
 					}
 				}
 				else if($this->settings->action == 'subscribe')
@@ -151,10 +161,19 @@ class MailchimpService extends BaseService {
 					}
 					catch(\Exception $e)
 					{
-			            $errorResponse = json_decode($e->getResponse()->getBody());
+						$response->setSuccess(false);
 
-			            $response->setCode($errorResponse->code);
-			            $response->addError($errorResponse->error);
+						try
+						{
+							$errorResponse = json_decode($e->getResponse()->getBody());
+
+							$response->setCode($errorResponse->code);
+							$response->addError($errorResponse->error);
+						}
+						catch(\Exception $e)
+						{
+							$response->addError($e->getMessage());
+						}
 					}
 				}
 			}

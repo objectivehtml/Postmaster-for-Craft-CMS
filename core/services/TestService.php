@@ -3,7 +3,6 @@ namespace Craft\Plugins\Postmaster\Services;
 
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
-use Craft\Plugins\Postmaster\Responses\TransportResponse;
 
 class TestService extends BaseService {
 
@@ -13,7 +12,19 @@ class TestService extends BaseService {
 
 	public function send(Postmaster_TransportModel $model)
 	{
-		return new TransportResponse($model, true);
+		if($this->settings->status == 'success')
+		{
+			return $this->success($model, $this->settings->code);
+		}
+		else
+		{
+			foreach($this->settings->errors as $error)
+			{
+				$errors[] = $error['error'];
+			}
+
+			return $this->failed($model, $this->settings->code, $errors);
+		}
 	}
 
 	public function getInputHtml(Array $data = array())

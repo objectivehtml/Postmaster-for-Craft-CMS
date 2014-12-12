@@ -3,7 +3,6 @@ namespace Craft\Plugins\Postmaster\Services;
 
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
-use Craft\Plugins\Postmaster\Responses\TransportResponse;
 use \Guzzle\Http\Client;
 
 class HttpRequestService extends BaseService {
@@ -14,11 +13,10 @@ class HttpRequestService extends BaseService {
 
 	public function send(Postmaster_TransportModel $model)
 	{
-		$response = new TransportResponse($model);
-		$headers = $this->settings->headers;
-
 		if(!empty($this->settings->url))
 		{
+			$headers = $this->settings->headers;
+
 			try
 			{
 				$client = new Client();
@@ -50,20 +48,16 @@ class HttpRequestService extends BaseService {
 				}
 
 				$request->send();
+
+				return $this->success($model);
 			}
 			catch(\Exception $e)
 			{
-				$response->addError($e->getMessage());
-				$response->setSuccess(false);
+				return $this->failed($model, 400, $e->getMessage());
 			}
 		}
-		else
-		{
-			$response->setSuccess(false);
-			$response->addError(\Craft::t('The ping url is empty.'));
-		}
 
-		return $response;
+		return $this->failed($model, 400, array(\Craft::t('The ping url is empty.')));
 	}
 
 	public function getInputHtml(Array $data = array())
