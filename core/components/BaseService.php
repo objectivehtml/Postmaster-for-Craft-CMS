@@ -2,6 +2,8 @@
 namespace Craft\Plugins\Postmaster\Components;
 
 use Craft\BaseModel;
+use Craft\Postmaster_TransportModel;
+use Craft\Postmaster_TransportResponseModel;
 use Craft\Plugins\Postmaster\Interfaces\ServiceInterface;
 
 abstract class BaseService extends BasePlugin implements ServiceInterface {
@@ -64,4 +66,23 @@ abstract class BaseService extends BasePlugin implements ServiceInterface {
 		return false;
 	}
 	
+	public function success(Postmaster_TransportModel $model, $code = 200)
+	{
+		return new Postmaster_TransportResponseModel(array(
+			'service' => $this,
+			'model' => $model,
+			'code' => $code
+		));
+	}
+
+	public function failed(Postmaster_TransportModel $model, $code = 400, Array $errors = array())
+	{
+		return new Postmaster_TransportResponseModel(array(
+			'service' => $this,
+			'model' => $model,
+			'success' => false,
+			'code' => $code,
+			'errors' => $errors
+		));
+	}
 }
