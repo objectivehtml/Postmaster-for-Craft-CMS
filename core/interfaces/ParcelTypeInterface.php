@@ -12,16 +12,6 @@ interface ParcelTypeInterface {
 
 	public function getSettingsInputHtml(Array $data = array());
 
-	public function getSettingsModelClassName();
-
-	/*
-	public function send();
-
-	public function setService(BaseService $service);
-
-	public function getService();
-	*/
-
 	public function setParcelModel(Postmaster_ParcelModel $parcel);
 
 	public function getParcelModel();
