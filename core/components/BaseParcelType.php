@@ -2,6 +2,8 @@
 namespace Craft\Plugins\Postmaster\Components;
 
 use Craft\Postmaster_ParcelModel;
+use Craft\Postmaster_TransportModel;
+use Craft\Postmaster_TransportResponseModel;
 use Craft\Plugins\Postmaster\Interfaces\ParcelTypeInterface;
 
 abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface {
@@ -14,6 +16,26 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 
 	protected $parcel;
 
+	public function parse(Array $data = array())
+	{
+        $this->parcel
+        	->settings
+        	->parse($data);
+        
+        $this->settings
+        	->parse($data);
+
+        $this->parcel
+        	->getParcelSchedule()
+        	->settings
+        	->parse(array_merge($data, array('settings' => $this->settings)));
+
+        $this->parcel
+        	->service
+        	->settings
+        	->parse(array_merge($data, array('settings' => $this->settings)));
+	}
+
 	public function getInputHtml(Array $data = array())
 	{
 		return '';
@@ -22,6 +44,16 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 	public function getSettingsInputHtml(Array $data = array())
 	{
 		return '';
+	}
+
+	public function onBeforeSend(Postmaster_TransportModel $model)
+	{
+		return true;
+	}
+	
+	public function onAfterSend(Postmaster_TransportResponseModel $model)
+	{
+		return $model;
 	}
 
 	public function setParcelModel(Postmaster_ParcelModel $parcel)

@@ -21,12 +21,12 @@ abstract class BaseService extends BasePlugin implements ServiceInterface {
 		return '';
 	}
 
-	public function onBeforeSend()
+	public function onBeforeSend(Postmaster_TransportModel $model)
 	{
 		// Do something before the email sends
 	}
 
-	public function onAfterSend()
+	public function onAfterSend(Postmaster_TransportResponseModel $model)
 	{
 		// Do something after the email sends
 	}
