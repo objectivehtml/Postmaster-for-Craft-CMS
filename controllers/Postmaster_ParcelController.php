@@ -7,13 +7,9 @@ class Postmaster_ParcelController extends BaseController
 	{
 		$model = new Postmaster_ParcelModel();
 
-		$parcel = new Plugins\Postmaster\Components\Parcel(array(
-			'model' => $model
-		));
-
         $this->renderTemplate('postmaster/_parcel', array(
         	'header' => Craft::t('New Parcel'),
-        	'parcel' => $parcel
+        	'model' => $model
         ));
 	}
 
@@ -23,13 +19,9 @@ class Postmaster_ParcelController extends BaseController
 		
 		$model = craft()->postmaster_parcels->findById($id);
 
-		$parcel = new Plugins\Postmaster\Components\Parcel(array(
-			'model' => $model
-		));
-
         $this->renderTemplate('postmaster/_parcel', array(
         	'header' => Craft::t('Edit Parcel'),
-        	'parcel' => $parcel
+        	'model' => $model
         ));
 	}
 

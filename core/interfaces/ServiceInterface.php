@@ -7,9 +7,9 @@ use Craft\Postmaster_TransportResponseModel;
 
 interface ServiceInterface {
 	
-	public function onBeforeSend();
+	public function onBeforeSend(Postmaster_TransportModel $model);
 
-	public function onAfterSend();
+	public function onAfterSend(Postmaster_TransportResponseModel $model);
 
 	public function send(Postmaster_TransportModel $model);
 
