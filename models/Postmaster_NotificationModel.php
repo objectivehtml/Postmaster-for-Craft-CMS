@@ -98,9 +98,18 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
             {
                 $response = $this->send($transport);
                     
+                // Test the service response for correct class and throw an error if it fails
+                if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
+                {
+                    throw new Exception('The '.$notificationSchedule->service->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+                }
+
                 $notificationSchedule->onAfterSend($response);
 
                 $notificationType->onAfterSend($response);
+
+                // Save the response to the db
+                $response->save();
 
                 if($response->getSuccess())
                 {

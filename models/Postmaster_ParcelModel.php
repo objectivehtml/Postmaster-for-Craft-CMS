@@ -39,6 +39,12 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
             {
                 $response = parent::send($transport);
                     
+                // Test the parcel response for correct class and throw an error if it fails
+                if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
+                {
+                    throw new Exception('The '.$transport->service->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+                }
+
                 $parcelSchedule->onAfterSend($response);
 
                 $parcelType->onAfterSend($response);
