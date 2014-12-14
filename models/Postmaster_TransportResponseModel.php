@@ -22,12 +22,12 @@ class Postmaster_TransportResponseModel extends BaseModel implements ResponseInt
 
 	public function getSuccess()
 	{
-		return $this->success;
+		return (bool) $this->success;
 	}
 
 	public function setSuccess($value)
 	{
-		$this->success = $value;
+		$this->success = (bool) $value;
 	}
 
 	public function getCode()
@@ -67,6 +67,11 @@ class Postmaster_TransportResponseModel extends BaseModel implements ResponseInt
 
 	public function save()
 	{
+		if(!empty($this->model->queueId))
+		{
+			return;
+		}
+
 		$record = new Postmaster_TransportResponseRecord();
         $record->success = $this->getSuccess();
         $record->errors = $this->getErrors();
