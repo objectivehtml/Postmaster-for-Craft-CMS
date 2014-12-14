@@ -29,3 +29,15 @@
 	{% include "postmaster/_includes/forms/emailFields" with config only %}
 
 {% endmacro %}
+
+{% macro editableTable(config) %}
+	
+	{% include "postmaster/_includes/forms/emailFields" with config only %}
+
+{% endmacro %}
+
+{% macro editableTableField(config) %}
+	{% import "_includes/forms" as forms %}
+	{% set input %}{% include "postmaster/_includes/forms/editableTable" with config only %}{% endset %}
+	{{ forms.field(config, input) }}
+{% endmacro %}
