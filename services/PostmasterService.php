@@ -10,6 +10,18 @@ class PostmasterService extends BaseApplicationComponent
 	protected $_parcelTypes = array();
 
 	protected $_parcelTypesIds = array();
+	
+	protected $_notificationTypes = array();
+
+	protected $_notificationTypesIds = array();
+
+	protected $_notificationSchedules = array();
+
+	protected $_notificationSchedulesIds = array();
+
+	protected $_parcelSchedules = array();
+
+	protected $_parcelSchedulesIds = array();
 
 	public function onInit(Event $event)
 	{
@@ -19,6 +31,11 @@ class PostmasterService extends BaseApplicationComponent
 	public function parcels($criteria = false)
     {
         return new Postmaster_ParcelCriteriaModel($criteria ?: array());
+    }
+
+	public function notifications($criteria = false)
+    {
+        return new Postmaster_NotificationCriteriaModel($criteria ?: array());
     }
 
 	public function transportResponses($criteria = false)
@@ -51,12 +68,21 @@ class PostmasterService extends BaseApplicationComponent
     */
     public function sendToQueue(Postmaster_TransportModel $model)
     {
+    	// Creat the queue record and save it to the db
     	$record = new Postmaster_QueueRecord();
     	$record->model = $model;
 		$record->sendDate = $model->getSendDate();
 		$record->save();
 
-		return $record; 
+		// set the queue record id to the Postmaster_TransportModel object
+		$model->queueId = $record->id;
+
+		// Return Postmaster_TransportResponseModel as normal even though no message was sent
+		// Since the Postmaster_TransportModel has a queueId, it won't be saved to the db
+		return new Postmaster_TransportResponseModel(array(
+			'service' => $model->service,
+			'model' => $model
+		)); 
     }
 
     /*
@@ -85,7 +111,7 @@ class PostmasterService extends BaseApplicationComponent
     	if($model->shouldSend())
     	{
 	    	// Triger onBeforeSend method, and if return false then fail
-	        if($model->service->onBeforeSend() !== false)
+	        if($model->service->onBeforeSend($model) !== false)
 	        {
 	        	// Send the Postmaster_TransportModel model to the service in
 	        	// exchange for a Postmaster_TransportResponseModel object
@@ -98,7 +124,7 @@ class PostmasterService extends BaseApplicationComponent
 	           	}
 
 	           	// Trigger the onAfterSend method
-	            $model->service->onAfterSend();
+	            $model->service->onAfterSend($response);
 
 	            // Save the response to the db
 	            $response->save();
@@ -137,6 +163,36 @@ class PostmasterService extends BaseApplicationComponent
 		return $this->_registerObject('_parcelTypes', $class, '\Craft\Plugins\Postmaster\Components\BaseParcelType');
 	}
 
+	public function registerNotificationTypes(Array $notifications = array())
+	{
+		return $this->_registerObjects('_notificationTypes', $notifications, '\Craft\Plugins\Postmaster\Components\BaseNotificationType');
+	}
+
+	public function registerNotificationType($class)
+	{
+		return $this->_registerObject('_notificationTypes', $class, '\Craft\Plugins\Postmaster\Components\BaseNotificationType');
+	}
+
+	public function registerNotificationSchedules(Array $schedules = array())
+	{
+		return $this->_registerObjects('_notificationSchedules', $schedules, '\Craft\Plugins\Postmaster\Components\BaseNotificationSchedule');
+	}
+
+	public function registerNotificationSchedule($class)
+	{
+		return $this->_registerObject('_notificationSchedules', $class, '\Craft\Plugins\Postmaster\Components\BaseNotificationSchedule');
+	}
+
+	public function registerParcelSchedules(Array $schedules = array())
+	{
+		return $this->_registerObjects('_parcelSchedules', $schedules, '\Craft\Plugins\Postmaster\Components\BaseParcelSchedule');
+	}
+
+	public function registerParcelSchedule($class)
+	{
+		return $this->_registerObject('_parcelSchedules', $class, '\Craft\Plugins\Postmaster\Components\BaseParcelSchedule');
+	}
+
 	public function getRegisteredServices()
 	{
 		return $this->_services;
@@ -155,6 +211,36 @@ class PostmasterService extends BaseApplicationComponent
 	public function getRegisteredParcelType($id)
 	{
 		return isset($this->_parcelTypesIds[$id]) ? $this->_parcelTypesIds[$id] : null;
+	}
+
+	public function getRegisteredNotificationTypes()
+	{
+		return $this->_notificationTypes;
+	}
+
+	public function getRegisteredNotificationType($id)
+	{
+		return isset($this->_notificationTypesIds[$id]) ? $this->_notificationTypesIds[$id] : null;
+	}
+
+	public function getRegisteredNotificationSchedules()
+	{
+		return $this->_notificationSchedules;
+	}
+
+	public function getRegisteredNotificationSchedule($id)
+	{
+		return isset($this->_notificationSchedulesIds[$id]) ? $this->_notificationSchedulesIds[$id] : null;
+	}
+
+	public function getRegisteredParcelSchedules()
+	{
+		return $this->_parcelSchedules;
+	}
+
+	public function getRegisteredParcelSchedule($id)
+	{
+		return isset($this->_parcelSchedulesIds[$id]) ? $this->_parcelSchedulesIds[$id] : null;
 	}
 
 	private function _registerObjects($prop, $objects, $instance)
