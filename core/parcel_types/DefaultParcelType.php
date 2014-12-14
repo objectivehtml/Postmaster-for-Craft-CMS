@@ -33,20 +33,9 @@ class DefaultParcelType extends BaseParcelType {
 		            $entry = $event->params['draft'];
 		        }
 
-                $parcelType->parcel->settings->parse(array(
+                $this->parse(array(
                     'entry' => $entry,
                     'isNewEntry' => $isNewEntry
-                ));
-                
-                $parcelType->settings->parse(array(
-                    'entry' => $entry,
-                    'isNewEntry' => $isNewEntry
-                ));
-
-                $parcelType->parcel->service->settings->parse(array(
-                    'entry' => $entry,
-                    'isNewEntry' => $isNewEntry,
-                    'settings' => $parcelType->settings
                 ));
 
 		        if($parcelType->validateEntry($entry, $event->params['isNewEntry']))
@@ -54,8 +43,6 @@ class DefaultParcelType extends BaseParcelType {
                     $obj = new Postmaster_TransportModel(array(
                         'service' => $parcelType->parcel->service,
                         'settings' => $parcelType->settings,
-                        'sendDateSpecific' => $parcelType->parcel->settings->sendDateSpecific,
-                        'sendDateRelative' => $parcelType->parcel->settings->sendDateRelative,
                         'data' => array(
                             'entry' => $entry,
                             'isNewEntry' => $isNewEntry
