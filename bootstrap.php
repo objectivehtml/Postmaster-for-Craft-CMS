@@ -15,3 +15,17 @@ craft()->postmaster->registerParcelTypes(array(
     'Craft\Plugins\Postmaster\ParcelTypes\UserEmailParcelType',
     // 'Craft\Plugins\Postmaster\ParcelTypes\TestParcelType',
 ));
+
+craft()->postmaster->registerNotificationTypes(array(
+	'Craft\Plugins\Postmaster\NotificationTypes\DefaultNotificationType'
+));
+
+craft()->postmaster->registerParcelSchedules(array(
+	'Craft\Plugins\Postmaster\ParcelSchedules\DefaultParcelSchedule',
+	'Craft\Plugins\Postmaster\ParcelSchedules\SendDateParcelSchedule',
+));
+
+craft()->postmaster->registerNotificationSchedules(array(
+	'Craft\Plugins\Postmaster\NotificationSchedules\DefaultNotificationSchedule',
+	'Craft\Plugins\Postmaster\NotificationSchedules\AnyTimeNotificationSchedule',
+));
