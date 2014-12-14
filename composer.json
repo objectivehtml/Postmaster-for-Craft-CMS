@@ -1,0 +1,14 @@
+{
+	"name": "objectivehtml/postmaster",
+	"description": "The communication toolkit for Craft CMS",
+	"keywords": ["plugin", "craftcms"],
+	"license": "MIT",
+	"type": "project",
+	"require": {
+		"nesbot/Carbon": "*"
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "stable"
+}
