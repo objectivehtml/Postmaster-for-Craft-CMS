@@ -1,6 +1,8 @@
 <?php
 namespace Craft;
 
+use Carbon\Carbon;
+
 class Postmaster_ParcelsService extends BaseApplicationComponent
 {
 	public function query(Postmaster_ParcelCriteriaModel $criteria)
@@ -61,6 +63,22 @@ class Postmaster_ParcelsService extends BaseApplicationComponent
     	return $criteria->first();
     }
 
+    public function lastSent($id)
+    {
+        $record = new Postmaster_ParcelSentRecord;
+
+        $query = craft()->db->createCommand()
+            ->select('*')
+            ->from($record->getTableName())
+            ->order('dateCreated desc');
+
+        $query->where('parcelId = :id', array(':id' => $id));
+
+        $result = $query->queryRow();
+
+        return $result ? Carbon::parse($result['dateCreated'], craft()->getTimezone()) : false;
+    }
+
     public function create(Array $parcel = array())
     {
     	$parcel = new Postmaster_ParcelModel($parcel);
@@ -99,6 +117,15 @@ class Postmaster_ParcelsService extends BaseApplicationComponent
     	}
 
     	return false;
+    }
+
+    public function createSentParcel(Postmaster_ParcelModel $model)
+    {
+        $record = new Postmaster_ParcelSentRecord();
+        $record->parcelId = $model->id;
+        $record->save();
+
+        return $record;
     }
 
     protected function _populateModelsFromArray(Array $array)
