@@ -24,6 +24,11 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
         $this->getParcelType()->init();
     }
 
+    public function lastSent()
+    {
+        return craft()->postmaster_parcels->lastSent($this->id);
+    }
+
     public function send(Postmaster_TransportModel $transport)
     {
         $lastSent = craft()->postmaster_parcels->lastSent($this->id);

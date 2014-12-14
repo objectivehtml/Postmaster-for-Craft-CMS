@@ -18,6 +18,10 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 
 	public function parse(Array $data = array())
 	{
+    	$data = array_merge(array(
+    		'lastSent' => $this->notification->lastSent()
+    	), $data);
+		
         $this->parcel
         	->settings
         	->parse($data);

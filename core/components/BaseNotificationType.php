@@ -28,6 +28,10 @@ abstract class BaseNotificationType extends BasePlugin implements NotificationTy
 
     public function parse(Array $data = array())
     {
+    	$data = array_merge(array(
+    		'lastSent' => $this->notification->lastSent()
+    	), $data);
+
         $this->notification->settings->parse($data);
         
         $this->settings->parse($data);
