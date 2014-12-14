@@ -1,15 +1,30 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
 {% extends "_layouts/cp" %}
 
 {% set title = header ? header : "New Parcel" %}
 
-{% set action = parcel.getModel().id ? "postmaster/parcel/updateParcel" : "postmaster/parcel/saveParcel" %}
+{% set action = model.id ? "postmaster/parcel/updateParcel" : "postmaster/parcel/saveParcel" %}
 
-{% set tabs = parcel.getTabs() %}
+{% set tabs = {
+	'parcel': {label: 'Parcel'|t, url: '#parcel'},
+	'settings': {label: 'Settings'|t, url: '#settings'},
+	'service': {label: 'Service'|t, url: '#service'},
+	'schedule': {label: 'Schedule'|t, url: '#schedule'},
+} %}
 
 {% set crumbs = [
+	{ label: 'Postmaster'|t, url: url('postmaster') },
     { label: "Parcels"|t, url: url('postmaster') },
-    { label: parcel.model.id ? 'Edit Parcel' : 'New Parcel', url: parcel.model.id ? url('postmaster/parcel/'~parcel.model.id) : url('postmaster/parcel/new') }
+    { label: model.id ? 'Edit Parcel' : 'New Parcel', url: model.id ? url('postmaster/parcel/'~model.id) : url('postmaster/parcel/new') }
 ] %}
+
+{% if model.id is not null %}
+
+	{% set crumbs = crumbs|merge([{label: model.title, url: url('postmaster/parcel/'~model.id)}]) %}
+
+{% endif %}
 
 {% includeJsResource "postmaster/js/postmaster.js" %}
 
@@ -18,8 +33,172 @@
     <form method="post" action="" accept-charset="UTF-8">
         <input type="hidden" name="action" value="{{ action }}">
         <input type="hidden" name="redirect" value="postmaster">
+		
+		<div id="parcel">
 
-        {{ parcel.getInputHtml()|raw }}
+			{{ forms.textField({
+				label: "Title"|t,
+			    instructions: "A unique word or phrase that describes this parce."|t,
+				id: 'title',
+				name: 'title',
+				value: model.title,
+				translatable: true,
+				autocomplete: true
+			}) }}
+
+			{% set parcelTypeOptions = [] %}
+
+			{% for parcelType in craft.postmaster.parcelTypes() %}
+				{% set parcelTypeOptions = parcelTypeOptions|merge([{
+					value: parcelType.getClass(),
+					label: parcelType.name,
+					target: '#' ~ parcelType.id ~ '-parcel-settings, #' ~ parcelType.id ~ '-parcel-fields'
+				}]) %}
+			{% endfor %}
+
+			{{ postmaster.selectField({
+				label: "Parcel Type"|t,
+				instructions: "Select the type of parcel you want to use."|t,
+				id: 'parcelType',
+				name: 'settings[parcelType]',
+				options: parcelTypeOptions,
+				value: model.settings.parcelType,
+				class: 'show-onchange'
+			}) }}
+
+			{% for parcelType in craft.postmaster.parcelTypes() %}
+			<div id="{{ parcelType.id }}-parcel-fields">
+				
+				{% set html = parcelType.getInputHtml({settings: model.settings.parcelTypeSettings[parcelType.id]}) %}
+
+				{% if html %}		
+					<hr>
+
+					{{ html|raw }}
+
+				{% endif %}
+
+			</div>
+			{% endfor %}
+
+		</div>
+
+		<div id="settings" class="hidden">
+
+			{{ forms.lightswitchField({
+				first: true,
+				label: "Enabled"|t,
+				id: 'enabled',
+				name: 'enabled',
+				on: model.enabled,
+				onLabel: "On"|t,
+				offLabel: "Off"|t
+			}) }}
+
+			{% for parcelType in craft.postmaster.parcelTypes() %}
+
+				{% set html = parcelType.getSettingsInputHtml({settings: model.settings.parcelTypeSettings[parcelType.id]}) %}
+
+				{% if html %}
+				<div id="{{ parcelType.id }}-parcel-settings">
+					
+					<hr>
+
+					{{ html|raw }}
+
+				</div>
+				{% endif %}
+
+			{% endfor %}
+
+		</div>
+
+		<div id="service" class="hidden">
+
+			{% set services = craft.postmaster.services() %}
+			{% set serviceTypeOptions = [] %}
+
+			{% for service in services %}
+				{% set serviceTypeOptions = serviceTypeOptions|merge([{
+					value: service.getClass(),
+					label: service.name,
+					target: '#'~service.id
+				}]) %}
+			{% endfor %}
+
+			{{ postmaster.selectField({
+				label: "Service"|t,
+				instructions: "Select the type of service that will be used to send the parcel."|t,
+				id: 'service',
+				name: 'settings[service]',
+				options: serviceTypeOptions,
+				value: model.settings.service,
+				targetSuffix: '-service-settings',
+				class: 'show-onchange'
+			}) }}
+
+			{% for service in services %}
+			<div id="{{ service.id }}-service-settings">
+
+				{% set html = service.getInputHtml({settings: model.settings.serviceSettings[service.id]}) %}
+
+				{% if html %}
+				<div id="{{ service.id }}-parcel-settings">
+					
+					<hr>
+
+					<h3>{{ service.name ~ ' Settings'|t }}</h3>
+
+					{{ html|raw }}
+
+				</div>
+				{% endif %}
+
+			</div>
+			{% endfor %}
+
+		</div>
+
+		<div id="schedule" class="hidden">
+
+			{% set parcelSchedules = craft.postmaster.parcelSchedules() %}
+			{% set parcelScheduleOptions = [] %}
+
+			{% for parcelSchedule in parcelSchedules %}
+				{% set parcelScheduleOptions = parcelScheduleOptions|merge([{
+					value: parcelSchedule.getClass(),
+					label: parcelSchedule.name,
+					target: '#'~parcelSchedule.id
+				}]) %}
+			{% endfor %}
+
+			{{ postmaster.selectField({
+				label: "Schedule"|t,
+				instructions: "Select the type of schedule that will be used to determine when to send the parcels."|t,
+				id: 'schedule',
+				name: 'settings[parcelSchedule]',
+				options: parcelScheduleOptions,
+				value: model.settings.parcelSchedule,
+				targetSuffix: '-schedule-settings',
+				class: 'show-onchange'
+			}) }}
+
+			{% for parcelSchedule in parcelSchedules %}
+			<div id="{{ parcelSchedule.id }}-schedule-settings" class="hidden">
+
+				{% set html = parcelSchedule.getInputHtml({settings: model.settings.getParcelScheduleSettingsById(parcelSchedule.id)}) %}
+
+				{% if html %}		
+					<hr>
+
+					{{ html|raw }}
+
+				{% endif %}
+
+			</div>
+			{% endfor %}
+
+		</div>
 
         <hr>
 
