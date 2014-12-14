@@ -1,25 +1,39 @@
 <?php
 namespace Craft;
 
+use Carbon\Carbon;
 use Craft\Plugins\Postmaster\Interfaces\TransportInterface;
 
 class Postmaster_TransportModel extends BaseModel implements TransportInterface
 {
+	public function now()
+	{
+		return Carbon::now(craft()->getTimezone());
+	}
+
 	public function getSendDate()
 	{
-		$specific = new DateTime($this->sendDateSpecific);
-
-		if(!empty($this->sendDateRelative))
+		if(!$this->sendDate || is_string($this->sendDate))
 		{
-			$specific->modify($this->sendDateRelative);
+			$this->sendDate = Carbon::parse($this->sendDate);
 		}
 
-		return $specific;
+		if($this->sendDate instanceof Carbon)
+		{
+			return $this->sendDate;
+		}
+
+		return $this->now();
+	}
+
+	public function setSendDate(Carbon $date)
+	{
+		$this->sendDate = Carbon::parse($date);
 	}
 
 	public function shouldSend()
 	{
-		return $this->getSendDate() <= new DateTime();
+		return $this->getSendDate()->isPast() || $this->getSendDate()->diffInSeconds($this->now()) == 0;
 	}
 
 	protected function defineAttributes()
@@ -28,8 +42,7 @@ class Postmaster_TransportModel extends BaseModel implements TransportInterface
             'service' => AttributeType::Mixed,
             'settings' => AttributeType::Mixed,
             'data' => AttributeType::Mixed,
-            'sendDateSpecific' => array(AttributeType::String, 'default' => null),
-            'sendDateRelative' => AttributeType::String,
+            'sendDate' => array(AttributeType::Mixed, 'default' => false),
             'queueId' => array(AttributeType::Mixed, 'default' => false)
         );
     }
