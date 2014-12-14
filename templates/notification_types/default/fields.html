@@ -1,0 +1,7 @@
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{{ postmaster.emailFields({
+	section: 'notificationTypeSettings',
+	name: 'default',
+	settings: settings
+}) }}

@@ -1,0 +1,236 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.timeField({
+	label: "Time"|t,
+	instructions: "Select the time of the day you want to send the notification. If no time of day is specified, then this field will be ignored."|t,
+	id: 'time',
+	name: 'settings[notificationScheduleSettings][default][time]',
+	value: settings.time ? settings.time.time : ''
+}) }}
+
+{{ forms.selectField({
+	label: "Day of the Week"|t,
+	instructions: "Select which day of the week you want to fire your notification. If this field is used in conjuction with other fields, your notification will still only send on the day you select."|t,
+	id: 'dayOfWeek',
+	name: 'settings[notificationScheduleSettings][default][dayOfWeek]',
+	options: [{
+		label: 'All'|t,
+		value: '*'
+	},{
+		label: 'Sunday'|t,
+		value: '0'
+	},{
+		label: 'Monday'|t,
+		value: '1'
+	},{
+		label: 'Tuesday'|t,
+		value: '2'
+	},{
+		label: 'Wednesday'|t,
+		value: '3'
+	},{
+		label: 'Thursday'|t,
+		value: '4'
+	},{
+		label: 'Friday'|t,
+		value: '5'
+	},{
+		label: 'Saturday'|t,
+		value: '6'
+	}],
+	value: settings.dayOfWeek
+}) }}
+
+{{ forms.selectField({
+	label: "Day of the Month"|t,
+	instructions: "Select a specific day of the month you want to fire your notification."|t,
+	id: 'day',
+	name: 'settings[notificationScheduleSettings][default][day]',
+	options: [{
+		label: 'All'|t,
+		value: '*'
+	},{
+		label: '1',
+		value: '1'
+	},{
+		label: '2',
+		value: '2'
+	},{
+		label: '3',
+		value: '3'
+	},{
+		label: '4',
+		value: '4'
+	},{
+		label: '5',
+		value: '5'
+	},{
+		label: '6',
+		value: '6'
+	},{
+		label: '7',
+		value: '7'
+	},{
+		label: '8',
+		value: '8'
+	},{
+		label: '9',
+		value: '9'
+	},{
+		label: '10',
+		value: '10'
+	},{
+		label: '11',
+		value: '11'
+	},{
+		label: '12',
+		value: '12'
+	},{
+		label: '13',
+		value: '13'
+	},{
+		label: '14',
+		value: '14'
+	},{
+		label: '15',
+		value: '15'
+	},{
+		label: '16',
+		value: '16'
+	},{
+		label: '17',
+		value: '17'
+	},{
+		label: '18',
+		value: '18'
+	},{
+		label: '19',
+		value: '19'
+	},{
+		label: '20',
+		value: '20'
+	},{
+		label: '21',
+		value: '21'
+	},{
+		label: '22',
+		value: '22'
+	},{
+		label: '23',
+		value: '23'
+	},{
+		label: '24',
+		value: '24'
+	},{
+		label: '25',
+		value: '25'
+	},{
+		label: '26',
+		value: '26'
+	},{
+		label: '27',
+		value: '27'
+	},{
+		label: '28',
+		value: '28'
+	},{
+		label: '29',
+		value: '29'
+	},{
+		label: '30',
+		value: '30'
+	},{
+		label: '31',
+		value: '31'
+	}],
+	value: settings.day
+}) }}
+
+{{ forms.selectField({
+	label: "Month in the Year"|t,
+	instructions: "Select specific month in the the year you want to fire your notification."|t,
+	id: 'month',
+	name: 'settings[notificationScheduleSettings][default][month]',
+	options: [{
+		label: 'All',
+		value: '*'
+	},{
+		label: 'January',
+		value: '1'
+	},{
+		label: 'February',
+		value: '2'
+	},{
+		label: 'March',
+		value: '3'
+	},{
+		label: 'April',
+		value: '4'
+	},{
+		label: 'May',
+		value: '5'
+	},{
+		label: 'June',
+		value: '6'
+	},{
+		label: 'July',
+		value: '7'
+	},{
+		label: 'August',
+		value: '8'
+	},{
+		label: 'September',
+		value: '9'
+	},{
+		label: 'October',
+		value: '10'
+	},{
+		label: 'November',
+		value: '11'
+	},{
+		label: 'December',
+		value: '12'
+	}],
+	value: settings.month
+}) }}
+
+{{ forms.selectField({
+	label: "Elapsed Time"|t,
+	instructions: "Once your notification has sent, it will need to be re-sent after a set duration of time. This setting allows you to define the interval to re-send your notification. Once your notification has this, the defined duration of time must exceed before the notification can be attempted to be sent again."|t,
+	id: 'elapsedTime',
+	name: 'settings[notificationScheduleSettings][default][elapsedTime]',
+	value: settings.elapsedTime,
+	options: [{
+		label: 'Any Time',
+		value: '*'
+	},{
+		label: 'Years',
+		value: 'years'
+	},{
+		label: 'Months',
+		value: 'months'
+	},{
+		label: 'Weeks',
+		value: 'weeks'
+	},{
+		label: 'Days',
+		value: 'days'
+	},{
+		label: 'Hours',
+		value: 'hours'
+	},{
+		label: 'Minutes',
+		value: 'minutes'
+	},{
+		label: 'Seconds',
+		value: 'seconds'
+	}]
+}) }}
+
+{{ forms.textField({
+	label: "Elapsed Interval"|t,
+	instructions: "This is the actual interval at which to send your notification. If this field is left blank it will be ignored along with the Elapsed Time field."|t,
+	id: 'elapsedInterval',
+	name: 'settings[notificationScheduleSettings][default][elapsedInterval]',
+	value: settings.elapsedInterval
+}) }}

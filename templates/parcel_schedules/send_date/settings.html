@@ -1,0 +1,21 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+	label: "Send Date (Specific)"|t,
+    instructions: "If you want to send a parcel in the future you may specify a date and time of when the parcel should be sent. If no send date is specified, then this field is ignored and emails are sent immediately (provided you don't set a relative send date). Any date format recognized by PHP's strtotime() function should work here."|t,
+	id: 'sendDateSpecific',
+	name: 'settings[parcelScheduleSettings][senddate][sendDateSpecific]',
+	value: settings.sendDateSpecific,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ forms.textField({
+	label: "Send Date (Relative)"|t,
+    instructions: 'This field allows you to specify something along the lines of "+2 days", "+1 week", "-1 week", "-5 days". If you enter a specific send date (above), then this field is relative to that date. If no specific send date is specified, then the current time is used. Any date format recognized by PHP\'s strtotime() function should work here.'|t,
+	id: 'sendDateRelative',
+	name: 'settings[parcelScheduleSettings][senddate][sendDateRelative]',
+	value: settings.sendDateRelative,
+	translatable: true,
+	autocomplete: true
+}) }}
