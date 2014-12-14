@@ -14,8 +14,14 @@
 		.change();
 
     	$('.delete-parcel').click(function() {
-    		if (confirm('Are you sure you want to delete this thing parcel?')) {
+    		if (confirm('Are you sure you want to delete this parcel?')) {
 			    window.location = 'postmaster/parcel/delete/' + $(this).data('id');
+			}
+    	});
+
+    	$('.delete-notification').click(function() {
+    		if (confirm('Are you sure you want to delete this notification?')) {
+			    window.location = '../postmaster/notification/delete/' + $(this).data('id');
 			}
     	});
 
