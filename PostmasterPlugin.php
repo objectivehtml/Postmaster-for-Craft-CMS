@@ -10,7 +10,7 @@ class PostmasterPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.3.1';
+        return '0.3.1.3';
     }
 
     public function getDeveloper()
@@ -27,11 +27,20 @@ class PostmasterPlugin extends BasePlugin
     {
         return true;
     }
+    
+    public function addTwigExtension()  
+    {
+        Craft::import('plugins.postmaster.twigextensions.PostmasterTwigExtension');
+
+        return new PostmasterTwigExtension();
+    }
 
     public function registerSiteRoutes()
     {
         $routes = array(
-            'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal')
+            'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal'),
+            'postmaster/notifications/marshal' => array('action' => 'postmaster/notification/marshal'),
+            'postmaster/notification/marshal/(?P<notificationId>\d+)' => array('action' => 'postmaster/notification/marshal')
         );
 
         foreach(craft()->postmaster->getRegisteredServices() as $service)
@@ -53,6 +62,9 @@ class PostmasterPlugin extends BasePlugin
             'postmaster/parcel/new' => array('action' => 'postmaster/parcel/createParcel'),
             'postmaster/parcel/(?P<parcelId>\d+)' => array('action' => 'postmaster/parcel/editParcel'),
             'postmaster/parcel/delete/(?P<parcelId>\d+)' => array('action' => 'postmaster/parcel/deleteParcel'),
+            'postmaster/notification/new' => array('action' => 'postmaster/notification/createNotification'),
+            'postmaster/notification/(?P<parcelId>\d+)' => array('action' => 'postmaster/notification/editNotification'),
+            'postmaster/notification/delete/(?P<parcelId>\d+)' => array('action' => 'postmaster/notification/deleteNotification'),
             // 'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal'),
         );
 
@@ -73,6 +85,8 @@ class PostmasterPlugin extends BasePlugin
     {
         require_once 'autoload.php';
 
+        require_once 'vendor/autoload.php';
+
         require_once 'bootstrap.php';
 
         craft()->on('plugins.loadPlugins', function(Event $event)
@@ -84,7 +98,10 @@ class PostmasterPlugin extends BasePlugin
                 $parcel->init();
             }
 
+            foreach(craft()->postmaster_notifications->findEnabled() as $notification)
+            {
+                $notification->init();
+            }
         });
-
     }
 }
