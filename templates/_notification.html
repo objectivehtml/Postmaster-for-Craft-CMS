@@ -1,0 +1,204 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{% extends "_layouts/cp" %}
+
+{% set title = model.id ? "Edit Notification"|t : "New Notification"|t %}
+
+{% set action = model.id ? "postmaster/notification/updateNotification" : "postmaster/notification/saveNotification" %}
+
+{% set tabs = {
+	'notification': {label: 'Notification'|t, url: '#notification'},
+	'settings': {label: 'Settings'|t, url: '#settings'},
+	'service': {label: 'Service'|t, url: '#service'},
+	'schedule': {label: 'Schedule'|t, url: '#schedule'},
+} %}
+
+{% set crumbs = [
+	{ label: 'Postmaster'|t, url: url('postmaster') },
+    { label: "Notifications"|t, url: url('postmaster/notifications') },
+    { label: model.id ? 'Edit Notification' : 'New Notification', url: model.id ? url('postmaster/notification/'~model.id) : url('postmaster/notification/new') }
+] %}
+
+{% if model.id is not null %}
+
+	{% set crumbs = crumbs|merge([{label: model.title, url: url('postmaster/notification/'~model.id)}]) %}
+
+{% endif %}
+
+{% includeJsResource "postmaster/js/postmaster.js" %}
+
+{% set content %}
+
+    <form method="post" action="" accept-charset="UTF-8">
+        <input type="hidden" name="action" value="{{ action }}">
+        <input type="hidden" name="redirect" value="postmaster">
+
+        <div id="notification">
+        	{{ forms.textField({
+				label: "Title"|t,
+			    instructions: "A unique word or phrase that describes this parce."|t,
+				id: 'title',
+				name: 'title',
+				value: model.title,
+				translatable: true,
+				autocomplete: true
+			}) }}
+
+			{% set notificationTypeOptions = [] %}
+
+			{% for notificationType in craft.postmaster.notificationTypes() %}
+				{% set notificationTypeOptions = notificationTypeOptions|merge([{
+					value: notificationType.getClass(),
+					label: notificationType.name,
+					target: '#' ~ notificationType.id ~ '-notification-settings, #' ~ notificationType.id ~ '-notification-fields'
+				}]) %}
+			{% endfor %}
+
+			{{ postmaster.selectField({
+				label: "Notification Type"|t,
+				instructions: "Select the type of notification you want to use."|t,
+				id: 'notificationType',
+				name: 'settings[notificationType]',
+				options: notificationTypeOptions,
+				value: model.settings.notificationType,
+				class: 'show-onchange'
+			}) }}
+
+			{% for notificationType in craft.postmaster.notificationTypes() %}
+			<div id="{{ notificationType.id }}-notification-fields" class="hidden">
+
+				{% set html = notificationType.getInputHtml({settings: model.settings.getNotificationTypeSettingsById(notificationType.id)}) %}
+
+				{% if html %}		
+					<hr>
+
+					{{ html|raw }}
+
+				{% endif %}
+			</div>
+			{% endfor %}
+
+        </div>
+
+        <div id="settings" class="hidden">
+		        	
+			{{ forms.lightswitchField({
+				first: true,
+				label: "Enabled"|t,
+				id: 'enabled',
+				name: 'enabled',
+				on: model.enabled,
+				onLabel: "On"|t,
+				offLabel: "Off"|t
+			}) }}
+
+			{% for notificationType in craft.postmaster.notificationTypes() %}
+			<div id="{{ notificationType.id }}-notification-settings" class="hidden">
+
+				{% set html = notificationType.getSettingsInputHtml({settings: model.settings.getNotificationTypeSettingsById(notificationType.id)}) %}
+
+				{% if html %}		
+					<hr>
+
+					{{ html|raw }}
+
+				{% endif %}
+			</div>
+			{% endfor %}
+
+        </div>
+
+        <div id="service" class="hidden">
+
+			{% set services = craft.postmaster.services() %}
+			{% set serviceTypeOptions = [] %}
+
+			{% for service in services %}
+				{% set serviceTypeOptions = serviceTypeOptions|merge([{
+					value: service.getClass(),
+					label: service.name,
+					target: '#'~service.id
+				}]) %}
+			{% endfor %}
+
+			{{ postmaster.selectField({
+				label: "Service"|t,
+				instructions: "Select the type of service that will be used to send the notification."|t,
+				id: 'service',
+				name: 'settings[service]',
+				options: serviceTypeOptions,
+				value: model.settings.service,
+				targetSuffix: '-service-settings',
+				class: 'show-onchange'
+			}) }}
+
+			{% for service in services %}
+			<div id="{{ service.id }}-service-settings">
+
+				{% set html = service.getInputHtml({settings: model.settings.getServiceSettingsById(service.id)}) %}
+
+				{% if html %}
+					
+					<hr>
+
+					<h3>{{ service.name ~ ' Settings'|t }}</h3>
+
+					{{ html|raw }}
+
+				{% endif %}
+
+			</div>
+			{% endfor %}
+
+		</div>
+
+
+        <div id="schedule" class="hidden">
+
+			{% set notificationSchedules = craft.postmaster.notificationSchedules() %}
+			{% set notificationScheduleOptions = [] %}
+
+			{% for notificationSchedule in notificationSchedules %}
+				{% set notificationScheduleOptions = notificationScheduleOptions|merge([{
+					value: notificationSchedule.getClass(),
+					label: notificationSchedule.name,
+					target: '#'~notificationSchedule.id
+				}]) %}
+			{% endfor %}
+
+			{{ postmaster.selectField({
+				label: "Schedule"|t,
+				instructions: "Select the type of schedule that will be used to determine when to send the notifications."|t,
+				id: 'schedule',
+				name: 'settings[notificationSchedule]',
+				options: notificationScheduleOptions,
+				value: model.settings.notificationSchedule,
+				targetSuffix: '-schedule-settings',
+				class: 'show-onchange'
+			}) }}
+
+			{% for notificationSchedule in notificationSchedules %}
+			<div id="{{ notificationSchedule.id }}-schedule-settings" class="hidden">
+
+				{% set html = notificationSchedule.getInputHtml({settings: model.settings.getNotificationScheduleSettingsById(notificationSchedule.id)}) %}
+
+				{% if html %}		
+					<hr>
+
+					{{ html|raw }}
+
+				{% endif %}
+
+			</div>
+			{% endfor %}
+
+		</div>
+
+        <hr>
+
+        <input class="btn submit" type="submit" value="{{ 'Submit'|t }}">
+
+    </form>
+
+{% endset %}

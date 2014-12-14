@@ -1,0 +1,58 @@
+{% extends "_layouts/cp" %}
+
+{% set title = "Postmaster"|t %}
+
+{% includeJsResource 'postmaster/js/postmaster.js' %}
+
+{% set selectedTab = 'notifications' %}
+
+{% set tabs = {
+    'parcels': { label: "Parcels"|t, url: url('postmaster') },
+    'notifications': { label: "Notifications"|t, url: url('postmaster/notifications') },
+    'messages': { label: "Sent Messages"|t, url: url('postmaster/sent') }
+} %}
+
+{% set content %}
+
+    <a href="{{ url('postmaster/notification/new') }}" class="btn right">{{ "New Notification"|t }}</a>
+
+    <h2>{{ "Notifications"|t }}</h2>
+
+    {% set notifications = craft.postmaster.notifications().find() %}
+
+    {% if notifications|length > 0 %}
+    <table class="data fullwidth">
+    	<thead>
+	    	<tr>
+                <th>Id</th>
+		    	<th>{{ "Title"|t }}</th>
+		    	<th>{{ "Notification Type"|t }}</th>
+		    	<th>{{ "Service"|t }}</th>
+		    	<th></th>
+	    	</tr>
+    	</thead>
+    	<tbody>
+    	{% for notification in notifications %}
+    		<tr>
+                <td width="50">{{ notification.id }}</td>
+    			<td width="225"><a href="{{ url('postmaster/notification/' ~ notification.id) }}">{{ notification.title }}</a></td>
+    			<td width="185">{{ notification.getNotificationType().name }}</td>
+    			<td width="195">{{ notification.getService().name }}</td>
+    			<td><a href="#" class="btn small delete-notification" data-id="{{ notification.id }}">Delete</a></td>
+	    	</tr>
+	    {% endfor %}
+    	</tbody>
+    </table>
+    {% else %}
+    	<p><em>{{ "You have not created any notification yet."|t }} <a href="{{ url('postmaster/notification/new') }}">{{ "Create Notification"|t }}</a></em></p>
+    {% endif %}
+
+    <hr>
+
+    <h2>{{ "Cron Url"|t }}</h2>
+
+    <p><em>The following URL will handle all notifications:</em><br> <a href="">{{ siteUrl('postmaster/notifications/marshal') }}</a></p>
+
+    <p><em>The following URL will handle a single notitication (obviously replace &#123;&#123; id &#125;&#125; with your actual notification id):</em><br> <a href="">{{ siteUrl('postmaster/notification/{{ id }}/marshal') }}</a></p>
+
+{% endset %}
