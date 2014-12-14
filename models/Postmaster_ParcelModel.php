@@ -1,11 +1,11 @@
 <?php
 namespace Craft;
 
-class Postmaster_ParcelModel extends BaseModel
+class Postmaster_ParcelModel extends Postmaster_BasePluginModel
 { 
-    protected $_service;
-
     protected $_parcelType;
+
+    protected $_parcelSchedule;
 
     public function __construct($attributes = null)
     {
@@ -19,77 +19,38 @@ class Postmaster_ParcelModel extends BaseModel
 
     public function init()
     {
-        $parcelType = $this->getParcelType();
-        $service = $this->getService();
+        parent::init();
 
-        $parcelType->init();
-        $service->init();
+        $this->getParcelType()->init();
     }
 
-	public function getTableName()
+    public function send(Postmaster_TransportModel $transport)
     {
-        return 'postmaster_parcels';
-    }
+        $lastSent = craft()->postmaster_parcels->lastSent($this->id);
 
-    public function getSettings()
-    {
-        return $this->settings;
-    }
-
-    public function getSetting($key)
-    {
-        if(isset($this->settings->$key))
+        if($this->getParcelSchedule()->shouldSend($lastSent))
         {
-            return $this->settings->$key;
+            $parcelType = $this->getParcelType();
+
+            $parcelSchedule = $this->getParcelSchedule();
+
+            if( $parcelType->onBeforeSend($transport) !== false && 
+                $parcelSchedule->onBeforeSend($transport) !== false)
+            {
+                $response = parent::send($transport);
+                    
+                $parcelSchedule->onAfterSend($response);
+
+                $parcelType->onAfterSend($response);
+
+                if($response->getSuccess())
+                {
+                    craft()->postmaster_parcels->createSentParcel($this);
+                }
+            }
         }
 
-        return;
-    }
-
-    public function getParcelTypeSettingsById($id)
-    {
-        return $this->settings->getParcelTypeSettingsById($id);
-    }
-
-    public function setParcelTypeSettings($id, Array $settings = array())
-    {     
-        return $this->settings->setParcelTypeSettings($id, $settings);
-    }
-
-    public function getServiceSettingsByid($id)
-    {
-        return $this->settings->getServiceSettingsById($id);
-    }
-
-    public function setServiceSettings($id, Array $settings = array())
-    {        
-        return $this->settings->setServiceSettings($id, $settings);
-    }
-
-    public function getService($class = false)
-    {
-        if(is_null($this->_service))
-        {
-            if(!$class)
-            {
-                $class = $this->settings->service;
-            }
-
-            $class = new $class();
-
-            $settings = $this->getServiceSettingsById($class->id);
-
-            if(is_array($settings))
-            {
-                $settings = $class->createSettingsModel($settings);
-            }
-
-            $class->setSettings($settings);
-
-            $this->_service = $class;
-        }
-
-        return $this->_service;
+        return false;
     }
 
     public function getParcelType($class = false)
@@ -103,7 +64,7 @@ class Postmaster_ParcelModel extends BaseModel
 
             $class = new $class();
 
-            $settings = $this->getParcelTypeSettingsById($class->id);
+            $settings = $this->settings->getParcelTypeSettingsById($class->id);
 
             if(is_array($settings))
             {
@@ -119,23 +80,44 @@ class Postmaster_ParcelModel extends BaseModel
         return $this->_parcelType;
     }
 
-
-    public function send(Postmaster_TransportModel $model)
+    public function getParcelSchedule($class = false)
     {
-        return craft()->postmaster->send($model);
+        if(is_null($this->_parcelSchedule))
+        {
+            if(!$class)
+            {
+                $class = $this->settings->parcelSchedule;
+            }
+
+            $class = new $class();
+
+            $settings = $this->settings->getParcelScheduleSettingsById($class->id);
+
+            if(is_array($settings))
+            {
+                $settings = $class->createSettingsModel($settings);
+            }
+
+            $class->setSettings($settings);
+            $class->setParcelModel($this);
+
+            $this->_parcelSchedule = $class;
+        }
+
+        return $this->_parcelSchedule;
     }
 
     protected function defineAttributes()
     {
         return array(
-            'title'     => array(AttributeType::String, 'column' => ColumnType::Text),
-            'parcelType'     => array(AttributeType::String, 'column' => ColumnType::Text, 'default' => 'default'),
-            'settings'  => array(AttributeType::Mixed, 'column' => ColumnType::LongText, 'default' => array()),
-            'enabled'  => array(AttributeType::Bool, 'column' => ColumnType::Int, 'default' => 1),
-            'id'     => array(AttributeType::String, 'column' => ColumnType::Text),
-            'uid'     => array(AttributeType::String, 'column' => ColumnType::Text),
-            'dateCreated'     => array(AttributeType::String, 'column' => ColumnType::Text),
-            'dateUpdated'     => array(AttributeType::String, 'column' => ColumnType::Text),
+            'title' => array(AttributeType::String, 'column' => ColumnType::Text),
+            'parcelType' => array(AttributeType::String, 'column' => ColumnType::Text, 'default' => 'default'),
+            'settings' => array(AttributeType::Mixed, 'column' => ColumnType::LongText, 'default' => array()),
+            'enabled' => array(AttributeType::Bool, 'column' => ColumnType::Int, 'default' => 1),
+            'id' => array(AttributeType::String, 'column' => ColumnType::Text),
+            'uid' => array(AttributeType::String, 'column' => ColumnType::Text),
+            'dateCreated' => array(AttributeType::String, 'column' => ColumnType::Text),
+            'dateUpdated' => array(AttributeType::String, 'column' => ColumnType::Text),
         );
     }
 }
