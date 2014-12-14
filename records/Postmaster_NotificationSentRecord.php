@@ -1,0 +1,24 @@
+<?php
+namespace Craft;
+
+class Postmaster_NotificationSentRecord extends BaseRecord
+{
+    public function getTableName()
+    {
+        return 'postmasternotificationssent';
+    }
+
+    public function defineRelations()
+    {
+        return array(
+            'notification' => array(static::BELONGS_TO, 'Postmater_NotificationRecord', 'required' => true, 'onDelete' => static::CASCADE),
+        );
+    }
+
+    protected function defineAttributes()
+    {
+        return array(
+            'notificationId' => array(AttributeType::Number, 'column' => ColumnType::Int),
+        );
+    }
+}
