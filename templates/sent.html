@@ -2,11 +2,12 @@
 
 {% set title = "Postmaster"|t %}
 
-{% set selectedTab = 'sent' %}
+{% set selectedTab = 'messages' %}
 
 {% set tabs = {
-    parcels: { label: "Parcels"|t, url: url('postmaster') },
-    sent: { label: "Sent Messages"|t, url: url('postmaster/sent') }
+    'parcels': { label: "Parcels"|t, url: url('postmaster') },
+    'notifications': { label: "Notifications"|t, url: url('postmaster/notifications') },
+    'messages': { label: "Sent Messages"|t, url: url('postmaster/sent') }
 } %}
 
 {% set content %}
@@ -46,4 +47,6 @@
     	<p><em>You have sent any messages yet.</em></p>
     {% endif %}
     
+
+
 {% endset %}
