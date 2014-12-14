@@ -1,7 +1,7 @@
 <?php
 namespace Craft;
 
-class Postmaster_ParcelSettingsModel extends Postmaster_BaseSettingsModel
+class Postmaster_ParcelSettingsModel extends Postmaster_BasePluginSettingsModel
 {
     public function __construct($attributes = null)
     {
@@ -13,29 +13,6 @@ class Postmaster_ParcelSettingsModel extends Postmaster_BaseSettingsModel
         parent::setAttributes($attributes);
 
         $this->_sanitizeSettings();
-    }
-
-    public function getServiceSettingsById($id)
-    {
-        $settings = array();
-
-        if(isset($this->serviceSettings[$id]))
-        {
-            $settings = $this->serviceSettings[$id];
-        }
-
-        return $settings;
-    }
-    
-    public function setServiceSettings($id, $settings = array())
-    {        
-        if(isset($this->serviceSettings[$id]))
-        {
-            $newSettings = $this->serviceSettings;
-            $newSettings[$id] = $settings;
-
-            $this->serviceSettings = $newSettings;
-        }
     }
 
     public function getParcelTypeSettingsById($id)
@@ -61,20 +38,33 @@ class Postmaster_ParcelSettingsModel extends Postmaster_BaseSettingsModel
         }
     }
 
-	protected function defineAttributes()
+    public function getParcelScheduleSettingsById($id)
     {
-        return array(
-            'parcelType' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\ParcelTypes\DefaultParcelType'),
-            'parcelTypeSettings' => array(AttributeType::Mixed, 'default' => array()),
-            'service' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\Services\CraftService'),
-            'serviceSettings' => array(AttributeType::Mixed, 'default' => array()),
-            'sendDateSpecific' => array(AttributeType::String, 'default' => null),
-            'sendDateRelative' => array(AttributeType::String, 'default' => null),
-        );
+        $settings = array();
+
+        if(isset($this->parcelScheduleSettings[$id]))
+        {
+            $settings = $this->parcelScheduleSettings[$id];
+        }
+
+        return $settings;
     }
 
-    private function _sanitizeSettings()
+    public function setParcelScheduleSettings($id, $settings = array())
+    {        
+        if(isset($this->parcelScheduleSettings[$id]))
+        {
+            $newSettings = $this->parcelScheduleSettings;
+            $newSettings[$id] = $settings;
+
+            $this->parcelScheduleSettings = $newSettings;
+        }
+    }
+
+    protected function _sanitizeSettings()
     {
+        parent::_sanitizeSettings();
+
         $parcelTypeSettings = $this->parcelTypeSettings;
 
         foreach(craft()->postmaster->getRegisteredParcelTypes() as $parcelType)
@@ -96,25 +86,37 @@ class Postmaster_ParcelSettingsModel extends Postmaster_BaseSettingsModel
             $this->setParcelTypeSettings($id, $settings);
         }
 
-        $serviceSettings = $this->serviceSettings;
+        $parcelScheduleSettings = $this->parcelScheduleSettings;
 
-        foreach(craft()->postmaster->getRegisteredServices() as $service)
+        foreach(craft()->postmaster->getRegisteredParcelSchedules() as $parcelSchedule)
         {
-            if(!isset($serviceSettings[$service->id]))
+            if(!isset($parcelScheduleSettings[$parcelSchedule->id]))
             {
-                $serviceSettings[$service->id] = array();
+                $parcelScheduleSettings[$parcelSchedule->id] = array();
             }
         }
 
-        $this->serviceSettings = $serviceSettings;
+        $this->parcelScheduleSettings = $parcelScheduleSettings;
 
-        foreach($this->serviceSettings as $id => $serviceSettings)
+        foreach($this->parcelScheduleSettings as $id => $parcelScheduleSettings)
         {
-            $class = craft()->postmaster->getRegisteredService($id);
+            $class = craft()->postmaster->getRegisteredParcelSchedule($id);
 
-            $settings = $class->createSettingsModel($serviceSettings);
+            $settings = $class->createSettingsModel($parcelScheduleSettings);
 
-            $this->setServiceSettings($id, $settings);
+            $this->setParcelScheduleSettings($id, $settings);
         }
+    }
+
+    protected function defineAttributes()
+    {
+        return array(
+            'parcelType' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\ParcelTypes\DefaultParcelType'),
+            'parcelTypeSettings' => array(AttributeType::Mixed, 'default' => array()),
+            'service' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\Services\CraftService'),
+            'serviceSettings' => array(AttributeType::Mixed, 'default' => array()),
+            'parcelSchedule' => array(AttributeType::String, 'default' => 'Craft\Plugins\Postmaster\Services\CraftService'),
+            'parcelScheduleSettings' => array(AttributeType::Mixed, 'default' => array()),
+        );
     }
 }
