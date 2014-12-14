@@ -53,7 +53,7 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 	
 	public function onAfterSend(Postmaster_TransportResponseModel $model)
 	{
-		return $model;
+		return;
 	}
 
 	public function setParcelModel(Postmaster_ParcelModel $parcel)
