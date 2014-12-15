@@ -44,14 +44,14 @@
     	</tbody>
     </table>
     {% else %}
-    	<p><em>{{ "You have not created any notification yet."|t }} <a href="{{ url('postmaster/notification/new') }}">{{ "Create Notification"|t }}</a></em></p>
+    	<p><em>{{ "You have not created any notification yet."|t }} <a href="{{ siteUrl('postmaster/notifications/marshal') }}">{{ "Create Notification"|t }}</a></em></p>
     {% endif %}
 
     <hr>
 
     <h2>{{ "Cron Url"|t }}</h2>
 
-    <p><em>The following URL will handle all notifications:</em><br> <a href="">{{ siteUrl('postmaster/notifications/marshal') }}</a></p>
+    <p><em>The following URL will handle all notifications:</em><br> <a href="{{ siteUrl('postmaster/notifications/marshal') }}">{{ siteUrl('postmaster/notifications/marshal') }}</a></p>
 
     <p><em>The following URL will handle a single notitication (obviously replace &#123;&#123; id &#125;&#125; with your actual notification id):</em><br> <a href="">{{ siteUrl('postmaster/notification/{{ id }}/marshal') }}</a></p>
 
