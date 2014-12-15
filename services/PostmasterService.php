@@ -28,6 +28,19 @@ class PostmasterService extends BaseApplicationComponent
 		$this->raiseEvent('onInit', $event);
 	}
 
+	public function createTemplateUrls($plain, $html)
+	{
+		$record = new Postmaster_MessageTemplateRecord;
+		$record->plain = $plain;
+		$record->html = $html;
+		$record->save();
+
+		return array(
+			'text' => UrlHelper::getSiteUrl('postmaster/template/text/' . $record->id),
+			'html' => UrlHelper::getSiteUrl('postmaster/template/html/' . $record->id)
+		);
+	}
+
 	public function parcels($criteria = false)
     {
         return new Postmaster_ParcelCriteriaModel($criteria ?: array());
