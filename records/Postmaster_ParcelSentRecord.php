@@ -11,7 +11,7 @@ class Postmaster_ParcelSentRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'parcel' => array(static::BELONGS_TO, 'Postmater_ParcelRecord', 'required' => true, 'onDelete' => static::CASCADE),
+            'parcel' => array(static::BELONGS_TO, 'Postmaster_ParcelRecord', 'required' => true, 'onDelete' => static::CASCADE),
         );
     }
 

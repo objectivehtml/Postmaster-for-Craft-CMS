@@ -11,7 +11,7 @@ class Postmaster_NotificationSentRecord extends BaseRecord
     public function defineRelations()
     {
         return array(
-            'notification' => array(static::BELONGS_TO, 'Postmater_NotificationRecord', 'required' => true, 'onDelete' => static::CASCADE),
+            'notification' => array(static::BELONGS_TO, 'Postmaster_NotificationRecord', 'required' => true, 'onDelete' => static::CASCADE),
         );
     }
 
