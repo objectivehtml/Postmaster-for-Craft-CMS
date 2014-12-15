@@ -18,80 +18,6 @@ class CampaignMonitorService extends BaseService {
 		'Craft\EmailModel'
 	);
 
-	public function registerCpRoutes()
-	{
-		return array(
-			'postmaster/campaignmonitor/lists' => array('action' => 'postmaster/campaignMonitor/getLists'),
-		);
-	}
-
-	public function getLists()
-	{
-		$client = new Client();
-
-		$request = $client->get($this->getApiUrl('clients/'.$this->settings->clientId.'/lists'));
-
-		$request->setAuth($this->settings->apiKey, '');
-
-		try
-		{
-			$response = $request->send();
-			$response = json_decode($response->getBody());
-
-			return $response;
-		}
-		catch(\Exception $e)
-		{
-			throw $e;
-		}
-	}
-
-	public function subscribe(Array $data = array())
-	{
-		$model = new Postmaster_CampaignMonitorSubscriberModel($data);
-
-		try
-		{
-			$model->subscribe();
-
-			return $model;
-		}
-		catch(\Exception $e)
-		{
-			throw $e;
-		}
-	}
-
-	public function createCampaign(Array $data = array())
-	{
-		try
-		{
-			$model = new Postmaster_CampaignMonitorCampaignModel($data);
-			$model->create();
-
-			return $model;
-		}
-		catch(\Exception $e)
-		{
-			throw $e;
-		}
-	}
-
-	public function createAndSendCampaign(Array $data = array())
-	{
-		try
-		{
-			$model = $this->createCampaign($data);
-			$model->send();
-
-			return $model;
-		}
-		catch(\Exception $e)
-		{
-			throw $e;
-		}
-	}
-
 	public function send(Postmaster_TransportModel $model)
 	{
 		$response = new Postmaster_TransportResponseModel(array(
@@ -100,7 +26,6 @@ class CampaignMonitorService extends BaseService {
 
 		if($this->settings->action == 'createAndSend')
 		{
-
 			try
 	    	{
 	    		$segmentIds = array();
@@ -177,6 +102,80 @@ class CampaignMonitorService extends BaseService {
 		}
 
 		return $response;
+	}
+
+	public function registerCpRoutes()
+	{
+		return array(
+			'postmaster/campaignmonitor/lists' => array('action' => 'postmaster/campaignMonitor/getLists'),
+		);
+	}
+
+	public function getLists()
+	{
+		$client = new Client();
+
+		$request = $client->get($this->getApiUrl('clients/'.$this->settings->clientId.'/lists'));
+
+		$request->setAuth($this->settings->apiKey, '');
+
+		try
+		{
+			$response = $request->send();
+			$response = json_decode($response->getBody());
+
+			return $response;
+		}
+		catch(\Exception $e)
+		{
+			throw $e;
+		}
+	}
+
+	public function subscribe(Array $data = array())
+	{
+		$model = new Postmaster_CampaignMonitorSubscriberModel($data);
+
+		try
+		{
+			$model->subscribe();
+
+			return $model;
+		}
+		catch(\Exception $e)
+		{
+			throw $e;
+		}
+	}
+
+	public function createCampaign(Array $data = array())
+	{
+		try
+		{
+			$model = new Postmaster_CampaignMonitorCampaignModel($data);
+			$model->create();
+
+			return $model;
+		}
+		catch(\Exception $e)
+		{
+			throw $e;
+		}
+	}
+
+	public function createAndSendCampaign(Array $data = array())
+	{
+		try
+		{
+			$model = $this->createCampaign($data);
+			$model->send();
+
+			return $model;
+		}
+		catch(\Exception $e)
+		{
+			throw $e;
+		}
 	}
 
 	public function getInputHtml(Array $data = array())
