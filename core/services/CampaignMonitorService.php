@@ -151,8 +151,8 @@ class CampaignMonitorService extends BaseService {
 					$this->subscribe(array(
 						'apiKey' => $this->settings->apiKey,
 						'listId' => $listId,
-						'email' => $this->settings->subscriberEmail,
-						'name' => $this->settings->subscriberName,
+						'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
+						'name' => !empty($this->settings->subscriberName) ? $this->settings->subscriberName : $model->settings->fromName,
 						'customFields' => $this->settings->customFields,
 						'resubscribe' => $this->settings->resubscribe
 					));

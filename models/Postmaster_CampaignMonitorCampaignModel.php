@@ -17,8 +17,8 @@ class Postmaster_CampaignMonitorCampaignModel extends Postmaster_CampaignMonitor
             'ReplyTo' => !empty($this->replyTo) ? $this->replyTo : $this->fromEmail,
             'ListIDs' => $this->listIds,
             'SegmentIDs' => $this->segmentIds,
-            // 'TextUrl' => $url['text'],
-            'HtmlUrl' => 'https://objectivehtml.com/test.html' //$url['html']
+            'TextUrl' => $url['text'],
+            'HtmlUrl' => $url['html']
         );
 
         $client = new Client();

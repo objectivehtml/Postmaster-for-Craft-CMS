@@ -82,7 +82,7 @@
 
 	{{ forms.textField({
 		label: "Subscriber Name",
-		instructions: "Enter the name of the subscriber."|t,
+		instructions: "Enter the name of the subscriber. If this is left blank, the From Name field will be used."|t,
 		name: 'settings[serviceSettings][campaignmonitor][subscriberName]',
 		id: 'campaignmonitor_subscriber_name',
 		value: settings.subscriberName
@@ -90,7 +90,7 @@
 
 	{{ forms.textField({
 		label: "Subscriber Email",
-		instructions: "Enter the email address of the subscriber."|t,
+		instructions: "Enter the email address of the subscriber. If this is left blank, the From Email field will be used."|t,
 		name: 'settings[serviceSettings][campaignmonitor][subscriberEmail]',
 		id: 'campaignmonitor_subscriber_email',
 		value: settings.subscriberEmail
