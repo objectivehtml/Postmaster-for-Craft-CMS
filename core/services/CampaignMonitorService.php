@@ -10,7 +10,7 @@ use Guzzle\Http\Client;
 
 class CampaignMonitorService extends BaseService {
 
-	public $name = 'CampaignMonitor';
+	public $name = 'Campaign Monitor';
 
 	public $id = 'campaignmonitor';
 
