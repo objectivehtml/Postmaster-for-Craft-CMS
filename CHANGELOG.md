@@ -2,6 +2,11 @@
 
 ### Changelog
 
+#### 0.4.1
+##### 10/15/2014
+
+- (Bug Fix) Fixed a couple typos that were causing PHP errors
+
 #### 0.4.0
 ##### 10/14/2014
 
