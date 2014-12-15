@@ -6,24 +6,24 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 
 ### Features
 
-1. Parcels API to send information just exactly how you need it
+1. Parcels API to send information using the events with any service
 2. Services API to send information with any service or provider
-3. Notifications API to send reoccuring messages with any content from any service or provider
-11. Schedule API to maximum flexibility to parcels and notifications any time you want
-3. Entry Email Parcels to send email when your entries are saved, drafted, deleted, or published
-4. User Email Parcels to send email when users are saved, activated, deleted, and more
-5. Complete control over HTML and plain text templates
-6. Compatible Mandrill, Mailchimp, Campaign Monitor, and many other email services
-7. Send SMS messages with Twilio in place of emails
-8. Subscribe users to lists with Mailchimp and/or Campaign Monitor
-9. Create and send email campaigns with Mailchimp and/or Campaign Monitor
-10. Send parcels in the future at any time you need
-11. Powerful Queue API with CRON support to make sending queued emails incredibly simple
-12. Go beyond email and send HTTP requests with the Ping Service
-13. Ideal for clients, designers, and developers
-14. Robust developer API's for custom solutions
-15. Quick and easy setup with reliable functionality
-16. No PHP or scripting knowledge required*
+3. Notifications API to send reoccuring messages with any content with any service
+4. Schedule API for maximum flexibility schedule to parcels and notifications to send any time you want
+5. Powerful Queue API with CRON support to make sending queued emails incredibly simple
+6. Entry Email Parcels to send email when your entries are saved, drafted, deleted, or published
+7. User Email Parcels to send email when users are saved, activated, deleted, and more
+8. Complete control over HTML and plain text templates
+9. Compatible Mandrill, Mailchimp, Campaign Monitor, and many other email services
+10. Send SMS messages with Twilio in place of emails
+11. Subscribe users to lists with Mailchimp and/or Campaign Monitor
+12. Create and send email campaigns with Mailchimp and/or Campaign Monitor
+13. Send parcels in the future at any time you need
+14. Go beyond email and send HTTP requests with the Ping Service
+15. Ideal for clients, designers, and developers
+16. Robust developer API's for custom solutions
+17. Quick and easy setup with reliable functionality
+18. No PHP or scripting knowledge required*
 
 *Not required for the default functionality. Advanced use cases may require using the API and advanced knowledge of PHP.*
 
