@@ -10,7 +10,7 @@ class PostmasterPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.3.1.3';
+        return '0.3.1.4';
     }
 
     public function getDeveloper()
@@ -40,7 +40,9 @@ class PostmasterPlugin extends BasePlugin
         $routes = array(
             'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal'),
             'postmaster/notifications/marshal' => array('action' => 'postmaster/notification/marshal'),
-            'postmaster/notification/marshal/(?P<notificationId>\d+)' => array('action' => 'postmaster/notification/marshal')
+            'postmaster/notification/marshal/(?P<notificationId>\d+)' => array('action' => 'postmaster/notification/marshal'),
+            'postmaster/template/html/(?P<templateId>\d+)' => array('action' => 'postmaster/template/getHtml'),
+            'postmaster/template/text/(?P<templateId>\d+)' => array('action' => 'postmaster/template/getText'),
         );
 
         foreach(craft()->postmaster->getRegisteredServices() as $service)
