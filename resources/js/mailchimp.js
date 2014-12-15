@@ -12,8 +12,6 @@
 
 		settings = $.extend({}, defaultSettings, settings);
 
-		console.log(settings);
-
 		return this.each(function() {
 			var $t = $(this);
 			var lastValue;
