@@ -1,0 +1,26 @@
+{% import "_includes/forms" as forms %}
+
+<table class="data fullwidth">
+	<thead>
+		<tr>
+			<th></th>
+			<th>{{ "Name"|t }}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for list in lists %}
+		<tr>
+			<td width="30">
+				{{ forms.checkbox({
+					name: 'settings[serviceSettings][campaignmonitor][listIds][]',
+					value: list.ListID,
+					checked: list.ListID in settings.listIds ? true : false
+				}) }}
+			</td>
+			<td>
+				{{ list.Name }}
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>

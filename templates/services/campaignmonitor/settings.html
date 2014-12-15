@@ -1,0 +1,144 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{% includeJsResource "postmaster/js/campaignmonitor.js" %}
+
+{{ forms.textField({
+	label: 'API Key'|t,
+    instructions: 'Your CampaignMonitor API Key'|t,
+	id: 'campaign_monitor_api_key',
+	name: 'settings[serviceSettings][campaignmonitor][apiKey]',
+	value: settings.apiKey,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ forms.textField({
+	label: 'Client Id'|t,
+    instructions: 'Your CampaignMonitor Client Id'|t,
+	id: 'campaign_monitor_client_id',
+	name: 'settings[serviceSettings][campaignmonitor][clientId]',
+	value: settings.clientId,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+<input type="hidden" name="settings[serviceSettings][campaignmonitor][listIds][]" value="" />
+
+<div id="campaignmonitor-list-results"></div>
+
+{{ postmaster.selectField({
+	label: 'Action'|t,
+	name: 'settings[serviceSettings][campaignmonitor][action]',
+	value: settings.action,
+	class: 'show-onchange',
+	options: [{
+		label: 'Create and Send Campaign'|t,
+		value: 'createAndSend',
+		target: '#campaignmonitor-createAndSend'
+	},{
+		label: 'Subscribe to Lists'|t,
+		value: 'subscribe',
+		target: '#campaignmonitor-subscribe'
+	}]
+}) }}
+
+<div id="campaignmonitor-createAndSend">
+
+	{{ forms.textField({
+		label: "Campaign Name",
+		instructions: "Enter a unique name for your campaign."|t,
+		name: 'settings[serviceSettings][campaignmonitor][name]',
+		id: 'campaignmonitor_name',
+		value: settings.name
+	}) }}
+
+	{{ forms.textField({
+		label: "Confirmation Email",
+		instructions: "Enter the email address of the user to receive the confirmation email that the campaign has been sent."|t,
+		name: 'settings[serviceSettings][campaignmonitor][confirmationEmail]',
+		id: 'campaignmonitor_confirmation_email',
+		value: settings.confirmationEmail
+	}) }}
+
+	{{ forms.editableTableField({
+		label: "Segment Id's",
+		instructions: "Enter any segment id you wish to use for your campaign. If you do not enter any segment id's this field will be ignored."|t,
+		name: 'settings[serviceSettings][campaignmonitor][segmentIds]',
+		id: 'campaignmonitor_segments',
+		cols: {
+			id: {
+				heading: 'Id'|t,
+				type: 'singleline'
+			}
+		},
+		rows: settings.segmentIds
+	}) }}
+	
+
+</div>
+
+<div id="campaignmonitor-subscribe">
+
+	{{ forms.textField({
+		label: "Subscriber Name",
+		instructions: "Enter the name of the subscriber."|t,
+		name: 'settings[serviceSettings][campaignmonitor][subscriberName]',
+		id: 'campaignmonitor_subscriber_name',
+		value: settings.subscriberName
+	}) }}
+
+	{{ forms.textField({
+		label: "Subscriber Email",
+		instructions: "Enter the email address of the subscriber."|t,
+		name: 'settings[serviceSettings][campaignmonitor][subscriberEmail]',
+		id: 'campaignmonitor_subscriber_email',
+		value: settings.subscriberEmail
+	}) }}
+
+	{{ forms.selectField({
+		label: "Resubscribe User",
+		instructions: "If the user has been previously deleted or made inactive, then set this property to true to ensure they are resubscribed to the list."|t,
+		name: 'settings[serviceSettings][campaignmonitor][resubscribe]',
+		id: 'campaignmonitor_resubscribe',
+		value: settings.resubscribe,
+		options: [{
+			label: 'True'|t,
+			value: 1
+		},{
+			label: 'False'|t,
+			value: 0
+		}]
+	}) }}
+
+	{{ forms.editableTableField({
+		label: "Custom Variables",
+		instructions: "Enter the names values of the custom fields you want to assign to the subscriber."|t,
+		name: 'settings[serviceSettings][campaignmonitor][customFields]',
+		id: 'campaignmonitor_profile_variables',
+		cols: {
+			Key: {
+				heading: 'Key'|t,
+				type: 'singleline'
+			}, 
+			Value: {
+				heading: 'Value'|t,
+				type: 'singleline'
+			}
+		},
+		rows: settings.customFields
+	}) }}
+
+</div>
+
+{% set js %}
+	$('#campaign_monitor_api_key').campaignMonitorLists({
+		clientId: $('#campaign_monitor_client_id').val(),
+		listIds: {{ settings.listIds|json_encode|raw }},
+		target: $('#campaignmonitor-list-results'),
+		clientIdField: $('#campaign_monitor_client_id')
+	}); 
+{% endset %}
+
+{% includeJs js %}
+
