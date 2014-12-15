@@ -7,7 +7,7 @@ use Craft\Plugins\Postmaster\Components\BaseParcelType;
 
 class DefaultParcelType extends BaseParcelType {
 	
-	public $name = 'Entry Email (Default)';
+	public $name = 'Entry Email';
 
 	public $id = 'default';
 
