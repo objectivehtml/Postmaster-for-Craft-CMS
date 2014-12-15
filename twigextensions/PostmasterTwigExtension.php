@@ -18,6 +18,8 @@ class PostmasterTwigExtension extends \Twig_Extension
 			'dateTimeObj' => new Twig_Filter_Method($this, 'dateTimeObj')
 		);
 		*/
+
+		return array();
 	}
 
 	/*
