@@ -47,7 +47,7 @@
 
 	{{ forms.textField({
 		label: "Campaign Name",
-		instructions: "Enter a unique name for your campaign."|t,
+		instructions: "Enter a unique name for your campaign. If this field is not unique, your campaign will not be created."|t,
 		name: 'settings[serviceSettings][campaignmonitor][name]',
 		id: 'campaignmonitor_name',
 		value: settings.name
