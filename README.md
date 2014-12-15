@@ -19,7 +19,7 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 11. Subscribe users to lists with Mailchimp and/or Campaign Monitor
 12. Create and send email campaigns with Mailchimp and/or Campaign Monitor
 13. Send parcels in the future at any time you need
-14. Go beyond email and send HTTP requests with the Ping Service
+14. Go beyond email and send GET, POST, PUT, and DELETE requests with the Http Request Service
 15. Ideal for clients, designers, and developers
 16. Robust developer API's for custom solutions
 17. Quick and easy setup with reliable functionality
