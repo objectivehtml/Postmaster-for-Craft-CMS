@@ -8,19 +8,24 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 
 1. Parcels API to send information just exactly how you need it
 2. Services API to send information with any service or provider
+3. Notifications API to send reoccuring messages with any content from any service or provider
+11. Schedule API to maximum flexibility to parcels and notifications any time you want
 3. Entry Email Parcels to send email when your entries are saved, drafted, deleted, or published
 4. User Email Parcels to send email when users are saved, activated, deleted, and more
 5. Complete control over HTML and plain text templates
-6. Compatible Mandrill, Mailchimp, and many other email services
+6. Compatible Mandrill, Mailchimp, Campaign Monitor, and many other email services
 7. Send SMS messages with Twilio in place of emails
-8. Subscribe users to lists with Mailchimp
-9. Create and send email campaigns with Mailchimp
-10. Send anything in the future at any time you need
+8. Subscribe users to lists with Mailchimp and/or Campaign Monitor
+9. Create and send email campaigns with Mailchimp and/or Campaign Monitor
+10. Send parcels in the future at any time you need
 11. Powerful Queue API with CRON support to make sending queued emails incredibly simple
 12. Go beyond email and send HTTP requests with the Ping Service
 13. Ideal for clients, designers, and developers
 14. Robust developer API's for custom solutions
 15. Quick and easy setup with reliable functionality
+16. No PHP or scripting knowledge required*
+
+*Not required for the default functionality. Advanced use cases may require using the API and advanced knowledge of PHP.*
 
 ### Wiki
 

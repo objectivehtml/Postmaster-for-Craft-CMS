@@ -2,6 +2,29 @@
 
 ### Changelog
 
+#### 0.4.0
+##### 10/14/2014
+
+- (Feature) Added Campaign Monitor service
+- (Feature) Added new Notifications API
+- (Feature) Added new Schedule API to Notifications and Parcels
+- (API) Added new API to save template contents and view it via url. Campaign Monitor for example needs templates passed a url, so this Api is there to serve CM and similar requests
+- (API) Added the new Postmaster_NotificationsService
+- (API) added getSendDate() and setSendDate() methods to the TransportInterface
+- (API) Added new onBeforeSend and onAfterSend methods to all the plugin API's for more advanced manipulation
+- (API) Refactored plugin parsing as an inherited method to make life easy and simple
+- (API) Updated PostmasterService with new methods to get registered notification types, notification schedules, and parcel schedules
+- (API) Added new craft()->postmaster_notifications service with paralleled functionality to craft()->postmaster_parcels
+- (API) Added craft.postmaster.notifications variables
+- (API) Added craft.postmaster.notificationSchedules variables
+- (API) Added craft.postmaster.notificationSchedules variables
+- (API) Added craft.postmaster.parcelSchedules variables
+- (API) Ensured getSuccess and setSuccess actually return boolean values for the Postmaster_TransportResponseModel
+- (Bug Fix) Fixed an issue where a Postmaster_TransportModel was sent to the queue but still creating a sent response record in the db even though it hadn't actually sent
+- (Bug Fix) Fixed an issue with the UserEmailParcelType not parcel the parcel settings using the new API changes in the last release
+- (Bug Fix) Fixed typos and issues with tabs and breadcrumbs
+- (Bug Fix) Removed unused legacy core files from early stages of dev. The logic in these files were just basically refactored into other files.
+
 #### 0.3.1
 ##### 10/12/2014
 
