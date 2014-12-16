@@ -45,6 +45,8 @@ class Postmaster_EmailModel extends EmailModel implements ParseInterface {
 
 		$attributes['fromEmail'] = array(AttributeType::String);
 		$attributes['fromName'] = array(AttributeType::String);
+		$attributes['cc'] = array(AttributeType::String);
+		$attributes['bcc'] = array(AttributeType::String);
 		$attributes['toName'] = array(AttributeType::String);
 		$attributes['bodyTemplate'] = array(AttributeType::String);
 		$attributes['htmlBodyTemplate'] = array(AttributeType::String);
