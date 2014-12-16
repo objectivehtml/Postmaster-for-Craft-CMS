@@ -31,31 +31,41 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
 
     public function send(Postmaster_TransportModel $transport)
     {
-        $lastSent = craft()->postmaster_parcels->lastSent($this->id);
+        // Get the parcel schedule instance
+        $parcelSchedule = $this->getParcelSchedule();
 
-        if($this->getParcelSchedule()->shouldSend($lastSent))
+        // Check to see if the notification should send by passing the last 
+        // time the notification was sent as a Carbon\Carbon object
+        if($parcelSchedule->shouldSend($this->lastSent()))
         {
+            // Get the parcel type instance
             $parcelType = $this->getParcelType();
 
-            $parcelSchedule = $this->getParcelSchedule();
-
-            if( $parcelType->onBeforeSend($transport) !== false && 
-                $parcelSchedule->onBeforeSend($transport) !== false)
+            // Call onBeforeSend methods to the parcel schedule and parcel type
+            // If either instance returns false, the message will not be sent
+            if( $parcelSchedule->onBeforeSend($transport) !== false && 
+                $parcelType->onBeforeSend($transport) !== false )
             {
+                // Send the transport object
                 $response = parent::send($transport);
                     
-                // Test the parcel response for correct class and throw an error if it fails
+                // Test the service response for correct class and throw an error if it fails
                 if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
                 {
-                    throw new Exception('The '.$transport->service->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+                    throw new Exception('The '.$parcelSchedule->getService()->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
                 }
 
+                // Call on the onAfterSend method for the parcel schedule
                 $parcelSchedule->onAfterSend($response);
 
+                // Call on the onAfterSend method for the parcel type
                 $parcelType->onAfterSend($response);
 
+                // If the response is a success, create a parcel sent record
                 if($response->getSuccess())
                 {
+                    // Pass $this object to the createSentParcel method to
+                    // create the actual record in the db
                     craft()->postmaster_parcels->createSentParcel($this);
                 }
             }
