@@ -2,6 +2,15 @@
 
 ### Changelog
 
+#### 0.4.2
+##### 10/16/2014
+
+- (Feature) Added new System Email parcel type to override system emails
+- (API) Refactored the order in which the onBeforeSend methods are sent. The api schedule is now triggered before the api type.
+- (API) Added new is() method BasePlugin class and interface to test if a plugin is itself by passing a string. $plugin->is('craft') which returns true or false
+- (Bug Fix) Fixed an issue where bcc and cc values would return an array by default
+- (Bug Fix) Fixed an issue with the Create Notification link redirecting to the wrong template
+
 #### 0.4.1
 ##### 10/15/2014
 
