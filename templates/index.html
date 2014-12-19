@@ -12,7 +12,7 @@
 
 {% set content %}
 
-    <a href="{{ url('postmaster/parcel/new') }}" class="btn right">New Parcel</a>
+    <a href="{{ url('postmaster/parcel/new') }}" class="btn right">{{ "New Parcel"|t }}</a>
 
     <h2>{{ "Parcels"|t }}</h2>
 
@@ -22,9 +22,9 @@
     <table class="data fullwidth">
     	<thead>
 	    	<tr>
-		    	<th>Title</th>
-		    	<th>Parcel Type</th>
-		    	<th>Service</th>
+		    	<th>{{ "Title"|t }}</th>
+		    	<th>{{ "Parcel Type"|t }}</th>
+		    	<th>{{ "Service"|t }}</th>
 		    	<th></th>
 	    	</tr>
     	</thead>
@@ -34,19 +34,19 @@
     			<td width="225"><a href="{{ url('postmaster/parcel/' ~ parcel.id) }}">{{ parcel.title }}</a></td>
     			<td width="185">{{ parcel.getParcelType().name }}</td>
     			<td width="195">{{ parcel.getService().name }}</td>
-    			<td><a href="#" class="btn small delete-parcel" data-id="{{ parcel.id }}">Delete</a></td>
+    			<td><a href="#" class="btn small delete-parcel" data-id="{{ parcel.id }}">{{ "Delete"|t }}</a></td>
 	    	</tr>
 	    {% endfor %}
     	</tbody>
     </table>
     {% else %}
-    	<p><em>You have not created any parcels yet. <a href="{{ url('postmaster/parcel/new') }}">Create Parcel</a></em></p>
+    	<p><em>{{ "You have not created any parcels yet."|t }} <a href="{{ url('postmaster/parcel/new') }}">{{ "Create Parcel"|t }}</a></em></p>
     {% endif %}
 
     <hr>
 
     <h2>{{ "Queue Url"|t }}</h2>
 
-    <p><em>The following URL will handle sending all queued notifications:</em><br> <a href="">{{ siteUrl('postmaster/queue/marshal') }}</a></p>
+    <p><em>{{ "The following URL will handle sending all queued notifications:"|t }}</em><br> <a href="">{{ siteUrl('postmaster/queue/marshal') }}</a></p>
     
 {% endset %}

@@ -24,7 +24,7 @@
     <table class="data fullwidth">
     	<thead>
 	    	<tr>
-                <th>Id</th>
+                <th>{{ "Id"|t }}</th>
 		    	<th>{{ "Title"|t }}</th>
 		    	<th>{{ "Notification Type"|t }}</th>
 		    	<th>{{ "Service"|t }}</th>
@@ -38,7 +38,7 @@
     			<td width="225"><a href="{{ url('postmaster/notification/' ~ notification.id) }}">{{ notification.title }}</a></td>
     			<td width="185">{{ notification.getNotificationType().name }}</td>
     			<td width="195">{{ notification.getService().name }}</td>
-    			<td><a href="#" class="btn small delete-notification" data-id="{{ notification.id }}">Delete</a></td>
+    			<td><a href="#" class="btn small delete-notification" data-id="{{ notification.id }}">{{ "Delete"|t }}</a></td>
 	    	</tr>
 	    {% endfor %}
     	</tbody>
@@ -51,8 +51,8 @@
 
     <h2>{{ "Cron Url"|t }}</h2>
 
-    <p><em>The following URL will handle all notifications:</em><br> <a href="{{ siteUrl('postmaster/notifications/marshal') }}">{{ siteUrl('postmaster/notifications/marshal') }}</a></p>
+    <p><em>{{ "The following URL will handle all notifications:"|t }}</em><br> <a href="{{ siteUrl('postmaster/notifications/marshal') }}">{{ siteUrl('postmaster/notifications/marshal') }}</a></p>
 
-    <p><em>The following URL will handle a single notitication (obviously replace &#123;&#123; id &#125;&#125; with your actual notification id):</em><br> <a href="">{{ siteUrl('postmaster/notification/marshal/{{ id }}') }}</a></p>
+    <p><em>{{ "The following URL will handle a single notitication (obviously replace {{ id }} with your actual notification id):"|t }}</em><br> <a href="">{{ siteUrl('postmaster/notification/marshal/{{ id }}') }}</a></p>
 
 {% endset %}
