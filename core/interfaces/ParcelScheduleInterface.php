@@ -5,7 +5,7 @@ use Craft\Postmaster_ParcelModel;
 
 interface ParcelScheduleInterface extends ScheduleInterface {
 
-	public function setParcelModel(Postmaster_ParcelModel $notification);
+	public function setParcelModel(Postmaster_ParcelModel $parcel);
 
 	public function getParcelModel();
 

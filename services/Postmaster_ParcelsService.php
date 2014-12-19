@@ -128,6 +128,27 @@ class Postmaster_ParcelsService extends BaseApplicationComponent
         return $record;
     }
 
+    public function onShouldSend(Event $event)
+    {
+        $this->raiseEvent('onShouldSend', $event);
+
+        return $event;
+    }
+
+    public function onBeforeSend(Event $event)
+    {
+        $this->raiseEvent('onBeforeSend', $event);
+
+        return $event;
+    }
+
+    public function onAfterSend(Event $event)
+    {
+        $this->raiseEvent('onAfterSend', $event);
+
+        return $event;
+    }
+
     protected function _populateModelsFromArray(Array $array)
     {
     	$models = array();

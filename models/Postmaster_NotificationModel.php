@@ -79,6 +79,24 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
         return $this->_notificationSchedule;
     }
 
+    public function onBeforeSend(Event $event)
+    {
+        $this->raiseEvent('onBeforeSend', $event);
+
+        craft()->postmaster_notifications->onBeforeSend($event);
+
+        return $event;
+    }
+
+    public function onAfterSend(Event $event)
+    {
+        $this->raiseEvent('onAfterSend', $event);
+
+        craft()->postmaster_notifications->onAfterSend($event);
+
+        return $event;
+    }
+
     public function marshal()
     {
         // Get the notification schedule instance
@@ -100,36 +118,64 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
 
             // Call onBeforeSend methods to the notification schedule and notification type
             // If either instance returns false, the message will not be sent
-            if( $notificationSchedule->onBeforeSend($transport) !== false &&
-                $notificationType->onBeforeSend($transport) !== false )
+            if($notificationSchedule->onBeforeSend($transport) === false)
             {
-                // Send the transport object
-                $response = $this->send($transport);
-                    
-                // Test the service response for correct class and throw an error if it fails
-                if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
-                {
-                    throw new Exception('The '.$notificationSchedule->getService()->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
-                }
-
-                // Call the onAfterSend method on the notification schedule
-                $notificationSchedule->onAfterSend($response);
-
-                // Call the onAfterSend method on the notification type
-                $notificationType->onAfterSend($response);
-
-                // Save the response to the db
-                $response->save();
-
-                // If the response is a success, create a notification sent record
-                if($response->getSuccess())
-                {
-                    // Pass $this object to the createSentNotification method to
-                    // create the actual record in the db
-                    craft()->postmaster_notifications->createSentNotification($this);
-                }
+                return false;
             }
+
+            if($notificationType->onBeforeSend($transport) === false)
+            {
+                return false;
+            }
+
+            // Trigger the onBeforeSend event and allow developers one more
+            // change to take over the parcel before it is sent
+            $onBeforeSendEvent = $this->onBeforeSend(new Event($this, array(
+                'transport' => $transport
+            )));
+
+            // See if the action should still be performed and if not, return false
+            if($onBeforeSendEvent->performAction === false)
+            {
+                return false;
+            }
+
+            // Send the transport object
+            $response = $this->send($transport);
+                
+            // Test the service response for correct class and throw an error if it fails
+            if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
+            {
+                throw new Exception('The '.$notificationSchedule->getService()->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+            }
+
+            // Call the onAfterSend method on the notification schedule
+            $notificationSchedule->onAfterSend($response);
+
+            // Call the onAfterSend method on the notification type
+            $notificationType->onAfterSend($response);
+
+            // Trigger the onAfterSend event to allow developers a change
+            // to do something after a parcel has sent.
+            $onAfterSendEvent = $this->onAfterSend(new Event($this, array(
+                'response' => $response
+            )));
+
+            // Save the response to the db
+            $response->save();
+
+            // If the response is a success, create a notification sent record
+            if($response->getSuccess())
+            {
+                // Pass $this object to the createSentNotification method to
+                // create the actual record in the db
+                craft()->postmaster_notifications->createSentNotification($this);
+            }
+
+            return $response;
         }
+
+        return false;
     }
 
     public function lastSent()

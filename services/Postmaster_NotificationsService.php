@@ -139,4 +139,19 @@ class Postmaster_NotificationsService extends BaseApplicationComponent
 
     	return $models;
     }
+    
+    public function onBeforeSend(Event $event)
+    {
+        $this->raiseEvent('onBeforeSend', $event);
+
+        return $event;
+    }
+
+    public function onAfterSend(Event $event)
+    {
+        $this->raiseEvent('onAfterSend', $event);
+
+        return $event;
+    }
+
 }
