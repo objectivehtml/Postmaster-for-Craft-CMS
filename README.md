@@ -8,7 +8,7 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 
 1. Parcels API to send information using the events with any service
 2. Services API to send information with any service or provider
-3. Notifications API to send reoccuring messages with any content with any service
+3. Notifications API to send reoccurring messages with any content with any service
 4. Schedule API for maximum flexibility schedule to parcels and notifications to send any time you want
 5. Powerful Queue API with CRON support to make sending queued emails incredibly simple
 6. Entry Email Parcels to send email when your entries are saved, drafted, deleted, or published
