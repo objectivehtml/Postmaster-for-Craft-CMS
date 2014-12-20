@@ -1,0 +1,134 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{{ forms.textField({
+	label: "HTML Template"|t,
+    instructions: "The HTML template path."|t,
+	id: 'after_user_inactivity_htmlBodyTemplate',
+	name: 'settings[notificationTypeSettings][afterUserInactivity][htmlBodyTemplate]',
+	value: settings.htmlBodyTemplate,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ forms.textField({
+	label: "Plain Text Template"|t,
+    instructions: "The plain text template path."|t,
+	id: 'after_user_inactivity_bodyTemplate',
+	name: 'settings[notificationTypeSettings][afterUserInactivity][bodyTemplate]',
+	value: settings.bodyTemplate,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ postmaster.selectField({
+	label: "Action"|t,
+    instructions: "Select the type of notification you wish to send."|t,
+	id: 'after_user_inactivity_action',
+	name: 'settings[notificationTypeSettings][afterUserInactivity][action]',
+	value: settings.action,
+	translatable: true,
+	autocomplete: true,
+	class: 'show-onchange',
+	options: [{
+		value: 'loginReminder',
+		label: 'Login Reminder',
+		target: '#after_user_inactivity_loginReminderSettings'
+	},{
+		value: 'changePassword',
+		label: 'Change Password Reminder',
+		target: '#after_user_inactivity_changePasswordReminderSettings'
+	}]
+}) }}
+
+<div id="after_user_inactivity_loginReminderSettings">
+
+{{ forms.textField({
+	label: "Elapsed time since last login"|t,
+	instructions: "Enter a relative time stamp like \"-1 week\", or \"-1 month\". This will be calculated from the current time to get the users that have logged in during that time. Any value supported by the strtotime() function should work here."|t,
+	name: 'settings[notificationTypeSettings][afterUserInactivity][loginElapsedTime]',
+	id: 'after_user_inactivity_loginElapsedTime',
+	value: settings.loginElapsedTime
+}) }}
+
+</div>
+
+<div id="after_user_inactivity_changePasswordReminderSettings">
+
+{{ forms.textField({
+	label: "Elapsed time since last password change"|t,
+	instructions: "Enter a relative time stamp like \"-1 week\", or \"-1 month\". This will be calculated from the current time to get the users that haven't changed their passwords during that time. Any value supported by the strtotime() function should work here."|t,
+	name: 'settings[notificationTypeSettings][afterUserInactivity][passwordElapsedTime]',
+	id: 'after_user_inactivity_passwordElapsedTime',
+	value: settings.passwordElapsedTime
+}) }}
+
+
+{{ forms.selectField({
+	label: "Force a password reset on next login?"|t,
+    instructions: "Set whether or not the user should be forced to reset their password after the elapsed time. If this setting is set to true, the user will be forced to reset their password after the elapsed time."|t,
+	id: 'after_user_inactivity_forcePasswordReset',
+	name: 'settings[notificationTypeSettings][afterUserInactivity][forcePasswordReset]',
+	values: settings.forcePasswordReset,
+	translatable: true,
+	autocomplete: true,
+	options: [{
+		value: 1,
+		label: 'True',
+	},{
+		value: 0,
+		label: 'False'
+	}]
+}) }}
+
+
+</div>
+
+{{ forms.checkboxSelectField({
+	label: "User Types"|t,
+    instructions: "Select the type of user accounts you want to include in your notification."|t,
+	id: 'after_user_inactivity_types',
+	name: 'settings[notificationTypeSettings][afterUserInactivity][types]',
+	values: settings.types,
+	translatable: true,
+	autocomplete: true,
+	options: [{
+		value: 'admin',
+		label: 'Admin',
+	},{
+		value: 'client',
+		label: 'Client'
+	},{
+		value: 'locked',
+		label: 'Locked'
+	},{
+		value: 'suspended',
+		label: 'Suspended'
+	},{
+		value: 'pending',
+		label: 'Pending'
+	},{
+		value: 'archived',
+		label: 'Archived'
+	}]
+}) }}
+
+{% set groups = [] %}
+
+{% for group in craft.userGroups.getAllGroups() %}
+	{% set groups = groups|merge([{
+		label: group.name,
+		value: group.id
+	}]) %}
+{% endfor %}
+
+{{ forms.checkboxSelectField({
+	label: "User Groups"|t,
+    instructions: "Select the type of user accounts you want to include in your notification."|t,
+	id: 'after_user_inactivity_groups',
+	name: 'settings[notificationTypeSettings][afterUserInactivity][groups]',
+	values: settings.groups,
+	translatable: true,
+	autocomplete: true,
+	options: groups
+}) }}

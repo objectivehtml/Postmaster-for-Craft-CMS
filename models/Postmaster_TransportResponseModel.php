@@ -90,6 +90,7 @@ class Postmaster_TransportResponseModel extends BaseModel implements ResponseInt
             'errors' => array(AttributeType::Mixed, 'default' => array()),
             'service' => AttributeType::String,
             'model' => AttributeType::Mixed,
+            // 'senderId' => AttributeType::String,
             'dateCreated' => array(AttributeType::Mixed, 'default' => DateTimeHelper::formatTimeForDb())
         );
     }

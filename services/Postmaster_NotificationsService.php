@@ -119,10 +119,11 @@ class Postmaster_NotificationsService extends BaseApplicationComponent
     	return false;
     }
 
-    public function createSentNotification(Postmaster_NotificationModel $model)
+    public function createSentNotification(Postmaster_NotificationModel $notification, Postmaster_TransportResponseModel $model)
     {
         $record = new Postmaster_NotificationSentRecord();
-        $record->notificationId = $model->id;
+        $record->senderId = $model->model->senderId;
+        $record->notificationId = $notification->id;
         $record->save();
 
         return $record;
@@ -139,7 +140,7 @@ class Postmaster_NotificationsService extends BaseApplicationComponent
 
     	return $models;
     }
-    
+
     public function onBeforeSend(Event $event)
     {
         $this->raiseEvent('onBeforeSend', $event);
@@ -150,6 +151,20 @@ class Postmaster_NotificationsService extends BaseApplicationComponent
     public function onAfterSend(Event $event)
     {
         $this->raiseEvent('onAfterSend', $event);
+
+        return $event;
+    }
+
+    public function onSendComplete(Event $event)
+    {
+        $this->raiseEvent('onSendComplete', $event);
+
+        return $event;
+    }
+
+    public function onSendFailed(Event $event)
+    {
+        $this->raiseEvent('onSendFailed', $event);
 
         return $event;
     }

@@ -97,6 +97,24 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
         return $event;
     }
 
+    public function onSendComplete(Event $event)
+    {
+        $this->raiseEvent('onSendComplete', $event);
+
+        craft()->postmaster_notifications->onSendComplete($event);
+
+        return $event;
+    }
+
+    public function onSendFailed(Event $event)
+    {
+        $this->raiseEvent('onSendFailed', $event);
+
+        craft()->postmaster_notifications->onSendFailed($event);
+
+        return $event;
+    }
+
     public function marshal()
     {
         // Get the notification schedule instance
@@ -161,15 +179,36 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
                 'response' => $response
             )));
 
-            // Save the response to the db
-            $response->save();
-
             // If the response is a success, create a notification sent record
             if($response->getSuccess())
             {
-                // Pass $this object to the createSentNotification method to
+                // Pass $response object to the createSentNotification method to
                 // create the actual record in the db
-                craft()->postmaster_notifications->createSentNotification($this);
+                craft()->postmaster_notifications->createSentNotification($this, $response);
+
+                // Call the onSendComplete method on the notification schedule
+                $notificationSchedule->onSendComplete($response);
+
+                // Call the onSendComplete method on the notification type
+                $notificationType->onSendComplete($response);
+
+                // Trigger the onSendComplete method
+                $this->onSendComplete(new Event($this, array(
+                    'response' => $response
+                )));
+            }
+            else
+            {
+                // Call the onSendFailed method on the notification schedule
+                $notificationSchedule->onSendFailed($response);
+
+                // Call the onSendFailed method on the notification type
+                $notificationType->onSendFailed($response);
+
+                // Trigger the onSendFailed method
+                $this->onSendFailed(new Event($this, array(
+                    'response' => $response
+                )));
             }
 
             return $response;

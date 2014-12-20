@@ -1,7 +1,6 @@
 <?php
 namespace Craft\Plugins\Postmaster\NotificationTypes;
 
-use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseNotificationType;
 
 class DefaultNotificationType extends BaseNotificationType {

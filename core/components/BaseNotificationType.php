@@ -26,6 +26,16 @@ abstract class BaseNotificationType extends BasePlugin implements NotificationTy
 		return;
 	}
 
+	public function onSendComplete(Postmaster_TransportResponseModel $model)
+	{
+
+	}
+
+	public function onSendFailed(Postmaster_TransportResponseModel $model)
+	{
+		
+	}
+
     public function parse(Array $data = array())
     {
     	$data = array_merge(array(

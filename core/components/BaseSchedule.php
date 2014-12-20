@@ -22,6 +22,16 @@ abstract class BaseSchedule extends BasePlugin implements ScheduleInterface {
 		return;
 	}
 
+	public function onSendComplete(Postmaster_TransportResponseModel $model)
+	{
+
+	}
+
+	public function onSendFailed(Postmaster_TransportResponseModel $model)
+	{
+		
+	}
+
     public function shouldSend($lastSent = false)
     {
         return true;

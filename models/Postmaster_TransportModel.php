@@ -42,6 +42,7 @@ class Postmaster_TransportModel extends BaseModel implements TransportInterface
             'service' => AttributeType::Mixed,
             'settings' => AttributeType::Mixed,
             'data' => AttributeType::Mixed,
+            'senderId' => AttributeType::String,
             'sendDate' => array(AttributeType::Mixed, 'default' => false),
             'queueId' => array(AttributeType::Mixed, 'default' => false)
         );

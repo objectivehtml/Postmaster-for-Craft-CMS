@@ -16,6 +16,10 @@ interface ParcelTypeInterface {
 	
 	public function onAfterSend(Postmaster_TransportResponseModel $model);
 
+	public function onSendComplete(Postmaster_TransportResponseModel $model);
+
+	public function onSendFailed(Postmaster_TransportResponseModel $model);
+
 	public function getInputHtml(Array $data = array());
 
 	public function getSettingsInputHtml(Array $data = array());

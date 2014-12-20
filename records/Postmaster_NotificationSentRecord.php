@@ -19,6 +19,7 @@ class Postmaster_NotificationSentRecord extends BaseRecord
     {
         return array(
             'notificationId' => array(AttributeType::Number, 'column' => ColumnType::Int),
+            'senderId' => array(AttributeType::Number, 'column' => ColumnType::Int)
         );
     }
 }

@@ -47,6 +47,24 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
         return $event;
     }
 
+    public function onSendComplete(Event $event)
+    {
+        $this->raiseEvent('onSendComplete', $event);
+
+        craft()->postmaster_parcels->onSendComplete($event);
+
+        return $event;
+    }
+
+    public function onSendFailed(Event $event)
+    {
+        $this->raiseEvent('onSendFailed', $event);
+
+        craft()->postmaster_parcels->onSendFailed($event);
+
+        return $event;
+    }
+
     public function send(Postmaster_TransportModel $transport)
     {
         // Get the parcel schedule instance
@@ -109,7 +127,31 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
             {
                 // Pass $this object to the createSentParcel method to
                 // create the actual record in the db
-                craft()->postmaster_parcels->createSentParcel($this);
+                craft()->postmaster_parcels->createSentParcel($this, $response);
+
+                // Call the onSendFailed method on the notification schedule
+                $parcelSchedule->onSendComplete($response);
+
+                // Call the onSendFailed method on the notification type
+                $parcelType->onSendComplete($response);
+
+                // Trigger the onSendFailed method
+                $this->onSendComplete(new Event($this, array(
+                    'response' => $response
+                )));
+            }
+            else
+            {
+                // Call the onSendFailed method on the notification schedule
+                $parcelSchedule->onSendFailed($response);
+
+                // Call the onSendFailed method on the notification type
+                $parcelType->onSendFailed($response);
+
+                // Trigger the onSendFailed method
+                $this->onSendFailed(new Event($this, array(
+                    'response' => $response
+                )));
             }
 
             return $response;

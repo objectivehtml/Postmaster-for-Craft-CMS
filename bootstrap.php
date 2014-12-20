@@ -19,7 +19,8 @@ craft()->postmaster->registerParcelTypes(array(
 ));
 
 craft()->postmaster->registerNotificationTypes(array(
-	'Craft\Plugins\Postmaster\NotificationTypes\DefaultNotificationType'
+    'Craft\Plugins\Postmaster\NotificationTypes\DefaultNotificationType',
+    'Craft\Plugins\Postmaster\NotificationTypes\AfterUserInactivityNotificationType',
 ));
 
 craft()->postmaster->registerParcelSchedules(array(
@@ -29,5 +30,5 @@ craft()->postmaster->registerParcelSchedules(array(
 
 craft()->postmaster->registerNotificationSchedules(array(
 	'Craft\Plugins\Postmaster\NotificationSchedules\DefaultNotificationSchedule',
-	'Craft\Plugins\Postmaster\NotificationSchedules\AnyTimeNotificationSchedule',
+    'Craft\Plugins\Postmaster\NotificationSchedules\AnyTimeNotificationSchedule',
 ));
