@@ -15,6 +15,7 @@ class ExpiredEntriesNotificationType extends BaseNotificationType {
 
 	public function onBeforeSend(Postmaster_TransportModel $model)
 	{
+		// Get the expired entries
 		$results = $this->_getEntries();
 
         // Set $this->totalResults and return false if no results
@@ -24,10 +25,14 @@ class ExpiredEntriesNotificationType extends BaseNotificationType {
             return false;
         }
 
+        // Get the entry element by passing the id
         $entry = $this->craft()->entries->getEntryById($results[0]['id']);
 
+        // Send the senderIf to the $entry->id so we know what sent the
+        // notification
         $model->senderId = $entry->id;
 
+        // Parse the notification with the entry
         $this->notification->parse(array(
         	'entry' => $entry
         ));
