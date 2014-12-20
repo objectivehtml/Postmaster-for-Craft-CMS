@@ -67,7 +67,13 @@ class ExpiredEntriesNotificationType extends BaseNotificationType {
 	private function _getEntries()
 	{
 		$tz = $this->craft()->getTimezone();
-        $sendDate = Carbon::now($tz)->modify($this->settings->elapsedTime);
+		
+        $sendDate = Carbon::now($tz);
+
+        if(!empty($this->settings->elapsedTime))
+        {
+        	$sendDate->modify($this->settings->elapsedTime);
+        }
 
 		$query = $this->craft()->db->createCommand()
 			->select('{{entries}}.*, count(notifications.id) as \'count\', notifications.dateCreated as \'lastSent\'')

@@ -95,15 +95,25 @@ class AfterUserInactivityNotificationType extends BaseNotificationType {
 
         $tz = $this->craft()->getTimezone();
 
+        $sendDate = Carbon::now($tz);
+
         if($this->settings->action == 'changePassword')
         {
             $field = 'lastPasswordChangeDate';
-            $sendDate = Carbon::now($tz)->modify($this->settings->passwordElapsedTime);
+
+            if(!empty($this->settings->passwordElapsedTime))
+            {
+                $sendDate->modify($this->settings->passwordElapsedTime);
+            }
         }
         else
         {
             $field = 'lastLoginDate';
-            $sendDate = Carbon::now($tz)->modify($this->settings->loginElapsedTime);
+
+            if(!empty($this->settings->loginElapsedTime))
+            {
+                $sendDate->modify($this->settings->loginElapsedTime);
+            }
         }
 
         $query = $this->craft()->db->createCommand()
