@@ -9,7 +9,7 @@ use Craft\Plugins\Postmaster\Components\BaseNotificationType;
 
 class ExpiredEntriesNotificationType extends BaseNotificationType {
 	
-	public $name = 'Expired Entries Notification';
+	public $name = 'After Entries Expire';
 
 	public $id = 'expiredEntries';
 
@@ -67,7 +67,7 @@ class ExpiredEntriesNotificationType extends BaseNotificationType {
 	private function _getEntries()
 	{
 		$tz = $this->craft()->getTimezone();
-		
+
         $sendDate = Carbon::now($tz);
 
         if(!empty($this->settings->elapsedTime))
