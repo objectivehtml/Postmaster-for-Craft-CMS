@@ -19,12 +19,14 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 11. Subscribe users to lists with Mailchimp and/or Campaign Monitor
 12. Create and send email campaigns with Mailchimp and/or Campaign Monitor
 13. Send parcels in the future at any time you need
-14. Go beyond email and send GET, POST, PUT, and DELETE requests with the Http Request Service
-15. Easily override system emails with your own content and service
-16. Ideal for clients, designers, and developers
-17. Robust developer API's for custom solutions
-18. Quick and easy setup with reliable functionality
-19. No PHP or scripting knowledge required*
+14. Send login reminders for user who have been inactive for a specific amount of time
+15. Send change password reminders and force users to change their passwords after a specific amount of time
+16. Go beyond email and send GET, POST, PUT, and DELETE requests with the Http Request Service
+17. Easily override system emails with your own content and service
+18. Ideal for clients, designers, and developers
+19. Robust developer API's for custom solutions
+20. Quick and easy setup with reliable functionality
+21. No PHP or scripting knowledge required*
 
 *Not required for the default functionality. Advanced use cases may require using the API and advanced knowledge of PHP.*
 
