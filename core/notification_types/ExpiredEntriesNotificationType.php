@@ -38,11 +38,11 @@ class ExpiredEntriesNotificationType extends BaseNotificationType {
 	
 	public function onSendComplete(Postmaster_TransportResponseModel $model)
 	{
-	    // Since we want to send notifications to all users we need
+	    // Since we want to send notifications to all entries we need
 	    // to test to see if $this->totalResults is greater than 1.
 	    // If saw, trigger the parent notification's marshal() method.
 	    // This will ensure the notification fires again until it either
-	    // times out, or there are no more users.
+	    // times out, or there are no more entries.
 	    if($this->totalResults > 1)
 	    {
 	        $this->notification->marshal();
