@@ -1,0 +1,21 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+	label: "HTML Template"|t,
+    instructions: "The HTML template path."|t,
+	id: section ~ '_htmlBodyTemplate',
+	name: 'settings[' ~ section ~ '][' ~ name ~ '][htmlBodyTemplate]',
+	value: settings.htmlBodyTemplate,
+	translatable: true,
+	autocomplete: true
+}) }}
+
+{{ forms.textField({
+	label: "Plain Text Template"|t,
+    instructions: "The plain text template path."|t,
+	id: section ~ '_bodyTemplate',
+	name: 'settings[' ~ section ~ '][' ~ name ~ '][bodyTemplate]',
+	value: settings.bodyTemplate,
+	translatable: true,
+	autocomplete: true
+}) }}

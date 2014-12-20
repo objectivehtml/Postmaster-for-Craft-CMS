@@ -1,0 +1,24 @@
+{% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{{ postmaster.templateFields({
+	section: 'notificationTypeSettings',
+	name: 'expiredEntries',
+	settings: settings
+}) }}
+
+{{ forms.textField({
+	label: "Elapsed time since entry expired"|t,
+	instructions: "Enter a relative timestamp like \"-1 week\", or \"-1 month\". This will be calculated from the current time to get the entries that have expired before this elapsed time. Any value supported by the strtotime() function should work here."|t,
+	name: 'settings[notificationTypeSettings][expiredEntries][elapsedTime]',
+	id: 'expiredEntries_elapsedTime',
+	value: settings.elapsedTime
+}) }}
+
+{{ forms.textField({
+	label: "Send Total"|t,
+	instructions: "Enter the amount of time a notification should be sent for each expired entry. If no value is entered, a message will sent for each expired entry everytime the notification is triggered."|t,
+	name: 'settings[notificationTypeSettings][expiredEntries][sendTotal]',
+	id: 'expiredEntries_sendTotal',
+	value: settings.sendTotal
+}) }}

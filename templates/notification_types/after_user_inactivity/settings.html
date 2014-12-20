@@ -1,24 +1,10 @@
 {% import "_includes/forms" as forms %}
 {% import "postmaster/_includes/forms" as postmaster %}
 
-{{ forms.textField({
-	label: "HTML Template"|t,
-    instructions: "The HTML template path."|t,
-	id: 'after_user_inactivity_htmlBodyTemplate',
-	name: 'settings[notificationTypeSettings][afterUserInactivity][htmlBodyTemplate]',
-	value: settings.htmlBodyTemplate,
-	translatable: true,
-	autocomplete: true
-}) }}
-
-{{ forms.textField({
-	label: "Plain Text Template"|t,
-    instructions: "The plain text template path."|t,
-	id: 'after_user_inactivity_bodyTemplate',
-	name: 'settings[notificationTypeSettings][afterUserInactivity][bodyTemplate]',
-	value: settings.bodyTemplate,
-	translatable: true,
-	autocomplete: true
+{{ postmaster.templateFields({
+	section: 'notificationTypeSettings',
+	name: 'afterUserInactivity',
+	settings: settings
 }) }}
 
 {{ postmaster.selectField({
@@ -45,7 +31,7 @@
 
 {{ forms.textField({
 	label: "Elapsed time since last login"|t,
-	instructions: "Enter a relative time stamp like \"-1 week\", or \"-1 month\". This will be calculated from the current time to get the users that have logged in during that time. Any value supported by the strtotime() function should work here."|t,
+	instructions: "Enter a relative timestamp like \"-1 week\", or \"-1 month\". This will be calculated from the current time to get the users that have logged in during that time. Any value supported by the strtotime() function should work here."|t,
 	name: 'settings[notificationTypeSettings][afterUserInactivity][loginElapsedTime]',
 	id: 'after_user_inactivity_loginElapsedTime',
 	value: settings.loginElapsedTime
@@ -57,7 +43,7 @@
 
 {{ forms.textField({
 	label: "Elapsed time since last password change"|t,
-	instructions: "Enter a relative time stamp like \"-1 week\", or \"-1 month\". This will be calculated from the current time to get the users that haven't changed their passwords during that time. Any value supported by the strtotime() function should work here."|t,
+	instructions: "Enter a relative timestamp like \"-1 week\", or \"-1 month\". This will be calculated from the current time to get the users that haven't changed their passwords during that time. Any value supported by the strtotime() function should work here."|t,
 	name: 'settings[notificationTypeSettings][afterUserInactivity][passwordElapsedTime]',
 	id: 'after_user_inactivity_passwordElapsedTime',
 	value: settings.passwordElapsedTime

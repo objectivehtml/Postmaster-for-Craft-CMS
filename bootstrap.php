@@ -21,6 +21,7 @@ craft()->postmaster->registerParcelTypes(array(
 craft()->postmaster->registerNotificationTypes(array(
     'Craft\Plugins\Postmaster\NotificationTypes\DefaultNotificationType',
     'Craft\Plugins\Postmaster\NotificationTypes\AfterUserInactivityNotificationType',
+    'Craft\Plugins\Postmaster\NotificationTypes\ExpiredEntriesNotificationType'
 ));
 
 craft()->postmaster->registerParcelSchedules(array(

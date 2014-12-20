@@ -18,6 +18,8 @@ abstract class BaseNotificationType extends BasePlugin implements NotificationTy
 
 	public function onBeforeSend(Postmaster_TransportModel $model)
 	{
+		$this->notification->parse(array());
+
 		return true;
 	}
 
@@ -33,7 +35,7 @@ abstract class BaseNotificationType extends BasePlugin implements NotificationTy
 
 	public function onSendFailed(Postmaster_TransportResponseModel $model)
 	{
-		
+
 	}
 
     public function parse(Array $data = array())
@@ -51,12 +53,12 @@ abstract class BaseNotificationType extends BasePlugin implements NotificationTy
 
 	public function getInputHtml(Array $data = array())
 	{
-		return '';
+		return;
 	}
 
 	public function getSettingsInputHtml(Array $data = array())
 	{
-		return '';
+		return;
 	}
 
 	public function setNotificationModel(Postmaster_NotificationModel $notification)

@@ -53,6 +53,10 @@ class AfterUserInactivityNotificationType extends BaseNotificationType {
             }
         }
 
+        $this->notification->parse(array(
+            'user' => $user
+        ));
+
         // Return true, as the notification should send
         return true;
     }

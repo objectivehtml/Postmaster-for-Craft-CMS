@@ -42,12 +42,12 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 
 	public function getInputHtml(Array $data = array())
 	{
-		return '';
+		return;
 	}
 
 	public function getSettingsInputHtml(Array $data = array())
 	{
-		return '';
+		return;
 	}
 
 	public function onBeforeSend(Postmaster_TransportModel $model)

@@ -30,6 +30,12 @@
 
 {% endmacro %}
 
+{% macro templateFields(config) %}
+	
+	{% include "postmaster/_includes/forms/templateFields" with config only %}
+
+{% endmacro %}
+
 {% macro editableTable(config) %}
 	
 	{% include "postmaster/_includes/forms/emailFields" with config only %}

@@ -1,23 +1,10 @@
 {% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
 
-{{ forms.textField({
-	label: "HTML Template"|t,
-    instructions: "The HTML template path."|t,
-	id: 'htmlBodyTemplate',
-	name: 'settings[notificationTypeSettings][default][htmlBodyTemplate]',
-	value: settings.htmlBodyTemplate,
-	translatable: true,
-	autocomplete: true
-}) }}
-
-{{ forms.textField({
-	label: "Plain Text Template"|t,
-    instructions: "The plain text template path."|t,
-	id: 'bodyTemplate',
-	name: 'settings[notificationTypeSettings][default][bodyTemplate]',
-	value: settings.bodyTemplate,
-	translatable: true,
-	autocomplete: true
+{{ postmaster.templateFields({
+	section: 'notificationTypeSettings',
+	name: 'default',
+	settings: settings
 }) }}
 
 {{ forms.textareaField({
