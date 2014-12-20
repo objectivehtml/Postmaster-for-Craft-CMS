@@ -1,0 +1,36 @@
+{% includeCssResource "postmaster/css/nv.d3.css" %}
+{% includeCssResource "postmaster/css/postmaster.css" %}
+{% includeJsResource "postmaster/js/d3.v3.js" %}
+{% includeJsResource "postmaster/js/nv.d3.js" %}
+{% includeJsResource "postmaster/js/stats.js" %}
+
+<div class="postmaster">
+	
+	<div class="postmaster-stats clearfix">
+		<div class="postmaster-stats--stat">
+			<span class="postmaster-stats--number">{{ totalSent }}</span>
+			<span class="postmaster-stats--label">Total Sent</span>
+		</div>
+		<div class="postmaster-stats--stat">
+			<span class="postmaster-stats--number">{{ thisWeek }}</span>
+			<span class="postmaster-stats--label">This Week</span>
+		</div>
+	</div>
+
+	<hr>
+
+	<div class="success-failure-chart">
+		<h4 class="center text-center">Success/Failure Rate</h4>
+		<svg style="height:200px"></svg>
+	</div>
+
+	<!--
+	<hr>
+
+	<div class="monthly-breakdown-chart">
+		<h4 class="center text-center">Monthly Breakdown</h4>
+		<svg style="height:200px"></svg>
+	</div>
+	-->
+
+</div>

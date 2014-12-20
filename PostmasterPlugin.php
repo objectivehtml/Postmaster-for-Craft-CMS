@@ -67,6 +67,8 @@ class PostmasterPlugin extends BasePlugin
             'postmaster/notification/new' => array('action' => 'postmaster/notification/createNotification'),
             'postmaster/notification/(?P<parcelId>\d+)' => array('action' => 'postmaster/notification/editNotification'),
             'postmaster/notification/delete/(?P<parcelId>\d+)' => array('action' => 'postmaster/notification/deleteNotification'),
+            'postmaster/data/success-fail-rate' => array('action' => 'postmaster/data/successFailRate'),
+            'postmaster/data/monthly-breakdown' => array('action' => 'postmaster/data/monthlyBreakdown'),
             // 'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal'),
         );
 

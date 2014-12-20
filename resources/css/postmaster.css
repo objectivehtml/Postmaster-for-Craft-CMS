@@ -1,0 +1,42 @@
+.postmaster * {
+	box-sizing: border-box;
+}
+
+.postmaster-stats {
+
+}
+.postmaster-stats--stat {
+	float: left;
+	width: 50%;
+	border-right: 1px solid rgb(220, 220, 220);
+	text-align: center;
+}
+.postmaster-stats--stat:last-child {
+	border-right: none;
+}
+.postmaster-stats--number {
+	font-size: 32px;
+	font-weight: 100;
+	padding: 8px 0 13px;
+	display: block;
+}
+.postmaster-stats--label {
+	font-size: 12px;
+	text-transform: uppercase;
+	display: block;
+}
+
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
