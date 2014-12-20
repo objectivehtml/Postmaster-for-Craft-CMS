@@ -2,8 +2,21 @@
 
 ### Changelog
 
+#### 0.5.0
+##### 12/20/2014
+
+- (Feature) Added new Sent Messages dashboard widget to view sent messages statistics right from the Craft dashboard
+- (Feature) Added new notification for user inactivity like login reminders and reminders to change passwords
+- (Feature) Added Expired Entries notification type that will notify users after entries are expired.
+- (API) Refactored template fields into a new Twig Macro for convenience
+- (API) Added new events to parcels and notifications, onSendComplete and onSendFail
+- (API) Refactored how parcels and notifications were sent (basically the order of operations)
+- (API) Added onBeforeSend and onAfterSend events for parcels and notifications. Yet another tool for developers to take control over their notifications
+- (Bug Fix) Fixed a link on the notification index page that was going to the wrong url
+- (Bug Fix) Fixed an issue with templates not translating text strings properly.
+
 #### 0.4.2
-##### 10/16/2014
+##### 12/16/2014
 
 - (Feature) Added new System Email parcel type to override system emails
 - (API) Refactored the order in which the onBeforeSend methods are sent. The api schedule is now triggered before the api type.
@@ -12,12 +25,12 @@
 - (Bug Fix) Fixed an issue with the Create Notification link redirecting to the wrong template
 
 #### 0.4.1
-##### 10/15/2014
+##### 12/15/2014
 
 - (Bug Fix) Fixed a couple typos that were causing PHP errors
 
 #### 0.4.0
-##### 10/14/2014
+##### 12/14/2014
 
 - (Feature) Added Campaign Monitor service
 - (Feature) Added new Notifications API
@@ -40,7 +53,7 @@
 - (Bug Fix) Removed unused legacy core files from early stages of dev. The logic in these files were just basically refactored into other files.
 
 #### 0.3.1
-##### 10/12/2014
+##### 12/12/2014
 
 - (Feature) Added ability to send parcels in the future by adding items to the queue
 - (API) Added the new Queue Service to handle sending items to the queue
@@ -51,7 +64,7 @@
 - (API) Added sendToQueue() method to PostmasterService class
 
 #### 0.3.0
-##### 10/11/2014
+##### 12/11/2014
 
 - (Feature) Added settings to Test Email Service that allow users to send successful and failed responses
 - (Feature) Added new craft()->postmaster->transportResponses()
@@ -67,25 +80,25 @@
 - (Bug Fix) Added new migration to fix issues with classes without the __class__ property
 
 #### 0.2.0
-##### 10/11/2014
+##### 12/11/2014
 
 - (Feature) Added the new HttpRequest Service which allows users to send GET, POST, PUT, and DELETE requests to a specific URL, along with the headers and payload data
 - (Bug Fix) Removed Ping Service from repo and replaced with new HttpRequest Service
 - (Bug Fix) Removed Ping Service from existing parcels to prevent PHP errors
 
 #### 0.1.2
-##### 10/11/2014
+##### 12/11/2014
 
 - (Feature) Added Twilio SMS service
 
 #### 0.1.1 
-##### 10/10/2014
+##### 12/10/2014
 
 - (Bug Fix) Fixed more stability issues
 - (Bug Fix) Fixed a bunch of errors that were being triggered when devMode was set to false
 - (Bug Fix) Fixed issue with bugs appearing in the template
 
 #### 0.1.0 
-##### 10/10/2014
+##### 12/10/2014
 
 - Initial Beta Release
