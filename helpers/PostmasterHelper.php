@@ -15,6 +15,6 @@ class PostmasterHelper
 
 	public static function validateExtraConditionals($extraConditionals)
 	{
-		return strtolower($extraConditionals) !== 'false';
+		return trim(strtolower($extraConditionals)) !== 'false';
 	}
 }
