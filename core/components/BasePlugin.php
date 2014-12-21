@@ -8,7 +8,7 @@ abstract class BasePlugin extends Settings implements PluginInterface, SettingsI
 
 	public $__class__;
 
-	protected $settings;
+	public $settings;
 
 	public function __construct($attributes = null)
 	{

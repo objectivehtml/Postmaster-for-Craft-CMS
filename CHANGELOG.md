@@ -5,6 +5,11 @@
 #### 0.5.0
 ##### 12/20/2014
 
+- (Feature) Added new craft.postmaster.send template variable to programmatically send emails with any service
+- (Feature) Added ability to define a dynamic list id for the Mailchimp service
+- (Feature) Added ability to define a dynamic list id for the Campaign Monitor Service
+- (Feature) Added new unsubscribe capabilities to Mailchimp Service
+- (Feature) Added new unsubscribe capabilities to Campaign Monitor Service
 - (Feature) Added new Sent Messages dashboard widget to view sent messages statistics right from the Craft dashboard
 - (Feature) Added new notification for user inactivity like login reminders and reminders to change passwords
 - (Feature) Added Expired Entries notification type that will notify users after entries are expired.

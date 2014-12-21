@@ -1,14 +1,16 @@
 <?php
 namespace Craft;
 
+use Carbon\Carbon;
+
 class PostmasterVariable
 {
 	public function send($settings, $parse = array())
 	{
 		$defaultSettings = array(
-			'settings' => array(),
 			'service' => 'testing',
 			'serviceSettings' => array(),
+			'settings' => array(),
 			'settingsModel' => 'Craft\Postmaster_EmailModel',
 			'data' => array(),
 			'senderId' => null,
@@ -17,6 +19,11 @@ class PostmasterVariable
 		);
 
 		$settings = array_merge($defaultSettings, $settings);
+
+		if($settings['sendDate'])
+		{
+			$settings = Carbon::parse($settings['sendDate'], craft()->getTimezone());
+		}
 
 		$settingsModel = new $settings['settingsModel']($settings['settings']);
 		$settingsModel->parse($parse);
@@ -31,6 +38,8 @@ class PostmasterVariable
 			$service = $settings['service'];
 			$service = new $service($settings['serviceSettings']);
 		}
+
+		$service->settings->parse($parse);
 
 		$model = new Postmaster_TransportModel(array(
 			'settings' => $settingsModel,

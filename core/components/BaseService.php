@@ -12,8 +12,6 @@ abstract class BaseService extends BasePlugin implements ServiceInterface {
 
 	public $id;
 
-	public $settings;
-
 	protected $requireModels = array();
 
 	public function getInputHtml(Array $data = array())
