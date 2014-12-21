@@ -145,19 +145,12 @@ class DefaultParcelType extends BaseParcelType {
 
     public function hasExtraConditionals()
     {
-        $extra = trim($this->getSetting('extraConditionals'));
-
-        if($extra && !empty($extra))
-        {
-            return true;
-        }
-
-        return false;
+        return PostmasterHelper::hasExtraConditionals($this->getSetting('extraConditionals'));
     }
 
     public function areExtraConditionalsValid()
     {
-       return strtolower($this->settings->extraConditionals) !== 'false' ? true : false;
+       return PostmasterHelper::validateExtraConditionals($this->getSetting('extraConditionals'));
     }
 
     public function areStatusesValid(EntryModel $entry)
@@ -185,22 +178,6 @@ class DefaultParcelType extends BaseParcelType {
 
         return false;
     }
-
-    /*
-    public function parseExtraConditionals(EntryModel $entry)
-    {
-        if($this->hasExtraConditionals())
-        {
-            $return = craft()->templates->renderString($this->settings->extraConditionals, array(
-                'entry' => $entry
-            ));
-
-            return trim($return);
-        }
-
-        return;
-    }
-    */
 
     public function getEvents()
     {
