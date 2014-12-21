@@ -39,7 +39,11 @@
 	},{
 		label: 'Subscribe to Lists'|t,
 		value: 'subscribe',
-		target: '#campaignmonitor-subscribe'
+		target: '#campaignmonitor-subscriber, #campaignmonitor-subscribe'
+	},{
+		label: 'Unsubscribe from Lists'|t,
+		value: 'unsubscribe',
+		target: '#campaignmonitor-subscriber'
 	}]
 }) }}
 
@@ -78,6 +82,20 @@
 
 </div>
 
+<div id="campaignmonitor-subscriber">
+
+	{{ forms.textField({
+		label: "Subscriber Email",
+		instructions: "Enter the email address of the subscriber. If this is left blank, the From Email field will be used."|t,
+		name: 'settings[serviceSettings][campaignmonitor][subscriberEmail]',
+		id: 'campaignmonitor_subscriber_email',
+		value: settings.subscriberEmail
+	}) }}
+
+	<div></div>
+
+</div>
+
 <div id="campaignmonitor-subscribe">
 
 	{{ forms.textField({
@@ -86,14 +104,6 @@
 		name: 'settings[serviceSettings][campaignmonitor][subscriberName]',
 		id: 'campaignmonitor_subscriber_name',
 		value: settings.subscriberName
-	}) }}
-
-	{{ forms.textField({
-		label: "Subscriber Email",
-		instructions: "Enter the email address of the subscriber. If this is left blank, the From Email field will be used."|t,
-		name: 'settings[serviceSettings][campaignmonitor][subscriberEmail]',
-		id: 'campaignmonitor_subscriber_email',
-		value: settings.subscriberEmail
 	}) }}
 
 	{{ forms.selectField({

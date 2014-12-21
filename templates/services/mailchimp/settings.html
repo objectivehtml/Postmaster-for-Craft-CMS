@@ -29,7 +29,11 @@
 	},{
 		label: 'Subscribe to Lists'|t,
 		value: 'subscribe',
-		target: '#mailchimp-subscribe'
+		target: '#mailchimp-subscriber, #mailchimp-subscribe'
+	},{
+		label: 'Uncubscribe from Lists'|t,
+		value: 'unsubscribe',
+		target: '#mailchimp-subscriber, #mailchimp-unsubscribe'
 	}]
 }) }}
 
@@ -99,7 +103,7 @@
 
 </div>
 
-<div id="mailchimp-subscribe">
+<div id="mailchimp-subscriber">
 
 	{{ forms.textField({
 		label: 'Subscriber Email'|t,
@@ -110,6 +114,58 @@
 		translatable: true,
 		autocomplete: true
 	}) }}
+
+	<div></div>
+
+</div>
+
+<div id="mailchimp-unsubscribe">
+
+	{{ forms.selectField({
+		label: 'Delete Member'|t,
+		instructions: 'Do you want delete the member instead of unsubscribing them from the list?'|t,
+		name: 'settings[serviceSettings][mailchimp][deleteMember]',
+		value: settings.deleteMember,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Send Goodbye'|t,
+		instructions: 'Do you want send a goodbye email to users that unsubscribe?'|t,
+		name: 'settings[serviceSettings][mailchimp][sendGoodbye]',
+		value: settings.sendGoodbye,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+	{{ forms.selectField({
+		label: 'Send Notify'|t,
+		instructions: 'Do you want send a notification email to email in the list settings to notify them a user unsubsribed?'|t,
+		name: 'settings[serviceSettings][mailchimp][sendNotify]',
+		value: settings.sendNotify,
+		options: [{
+			label: 'True'|t,
+			value: '1'
+		},{
+			label: 'False'|t,
+			value: '0'
+		}]
+	}) }}
+
+</div>
+
+<div id="mailchimp-subscribe">
 
 	{{ forms.textField({
 		label: 'Subscriber New Email'|t,

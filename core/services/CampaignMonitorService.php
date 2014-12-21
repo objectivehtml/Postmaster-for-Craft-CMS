@@ -90,8 +90,38 @@ class CampaignMonitorService extends BaseService {
 					{
 						$errorResponse = json_decode($e->getResponse()->getBody());
 
-						$response->setCode($errorResponse->code);
-						$response->addError($errorResponse->error);
+						$response->setCode($errorResponse->Code);
+						$response->addError($errorResponse->Message);
+					}
+					catch(\Exception $e)
+					{
+						$response->addError($e->getMessage());
+					}
+				}
+			}
+		}
+		else if($this->settings->action == 'unsubscribe')
+		{
+	        foreach(array_filter($this->settings->listIds) as $listId)
+	        {
+				try
+				{
+					$this->unsubscribe(array(
+						'apiKey' => $this->settings->apiKey,
+						'listId' => $listId,
+						'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
+					));
+				}
+				catch(\Exception $e)
+				{
+					$response->setSuccess(false);
+
+					try
+					{
+						$errorResponse = json_decode($e->getResponse()->getBody());
+
+						$response->setCode($errorResponse->Code);
+						$response->addError($errorResponse->Message);
 					}
 					catch(\Exception $e)
 					{
@@ -139,6 +169,22 @@ class CampaignMonitorService extends BaseService {
 		try
 		{
 			$model->subscribe();
+
+			return $model;
+		}
+		catch(\Exception $e)
+		{
+			throw $e;
+		}
+	}
+
+	public function unsubscribe(Array $data = array())
+	{
+		$model = new Postmaster_CampaignMonitorSubscriberModel($data);
+
+		try
+		{
+			$model->unsubscribe();
 
 			return $model;
 		}

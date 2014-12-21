@@ -116,7 +116,32 @@ class Postmaster_MailchimpSubscriberModel extends Postmaster_MailchimpApiModel
 
     public function unsubscribe()
     {
+        $client = new Client();
 
+        $data = array(
+            'apikey' => $this->apiKey,
+            'id' => $this->listId,
+            'email' => array(
+                'email' => $this->email,
+            ),
+            'delete_member' => (bool) $this->deleteMember,
+            'send_goodbye' => (bool) $this->sendGoodbye,
+            'send_notify' => (bool) $this->sendNotify,
+        );
+
+        $request = $client->post($this->getApiUrl('lists/unsubscribe'), array(), $data);
+
+        try
+        {
+            $response = $request->send();
+            $response = json_decode($response->getBody());
+
+            return $response;
+        }
+        catch(\Exception $e)
+        {
+            throw $e;
+        }
     }
 
     public function getAddress()
@@ -180,6 +205,9 @@ class Postmaster_MailchimpSubscriberModel extends Postmaster_MailchimpApiModel
             'language' => array(AttributeType::String),
             'notes' => array(AttributeType::Mixed, 'default' => array()),
             'doubleOptin' => array(AttributeType::Bool, 'default' => true),
+            'deleteMember' => array(AttributeType::Bool, 'default' => false),
+            'sendGoodbye' => array(AttributeType::Bool, 'default' => true),
+            'sendNotify' => array(AttributeType::Bool, 'default' => true),
             'updateExisting' => array(AttributeType::Bool, 'default' => true),
             'replaceInterests' => array(AttributeType::Bool, 'default' => false),
             'sendWelcome' => array(AttributeType::Bool, 'default' => false),

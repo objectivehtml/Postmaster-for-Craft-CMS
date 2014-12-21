@@ -35,7 +35,26 @@ class Postmaster_CampaignMonitorSubscriberModel extends Postmaster_CampaignMonit
 
     public function unsubscribe()
     {
+        $client = new Client();
 
+        $data = array(
+            'EmailAddress' => $this->email
+        );
+
+        $request = $client->post($this->getApiUrl('subscribers/'.$this->listId.'/unsubscribe'), array(), json_encode($data));
+        $request->setAuth($this->apiKey, '');
+
+        try
+        {
+            $response = $request->send();
+            $response = json_decode($response->getBody());
+
+            return $response;
+        }
+        catch(\Exception $e)
+        {
+            throw $e;
+        }
     }
 
 	protected function defineAttributes()

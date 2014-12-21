@@ -62,6 +62,22 @@ class MailchimpService extends BaseService {
 		}
 	}
 
+	public function unsubscribe(Array $data = array())
+	{
+		$model = new Postmaster_MailchimpSubscriberModel($data);
+
+		try
+		{
+			$model->unsubscribe();
+
+			return $model;
+		}
+		catch(\Exception $e)
+		{
+			throw $e;
+		}
+	}
+
 	public function createCampaign(Array $data = array())
 	{
 		$model = new Postmaster_MailchimpCampaignModel($data);
@@ -149,7 +165,7 @@ class MailchimpService extends BaseService {
 							'type' => $this->settings->subscriberType,
 							'apiKey' => $this->settings->apiKey,
 							'listId' => $listId,
-							'email' => $this->settings->subscriberEmail,
+							'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
 							'newEmail' => $this->settings->subscriberNewEmail,
 							'groupings' => array(),
 							'doubleOptin' => $this->settings->doubleOptin,
@@ -157,6 +173,33 @@ class MailchimpService extends BaseService {
 							'replaceInterests' => $this->settings->replaceInterests,
 							'sendWelcome' => $this->settings->sendWelcome,
 							'profileVars' => $this->settings->profileVars,
+						));
+					}
+					catch(\Exception $e)
+					{
+						$response->setSuccess(false);
+
+						try
+						{
+							$errorResponse = json_decode($e->getResponse()->getBody());
+
+							$response->setCode($errorResponse->code);
+							$response->addError($errorResponse->error);
+						}
+						catch(\Exception $e)
+						{
+							$response->addError($e->getMessage());
+						}
+					}
+				}
+				else if($this->settings->action == 'unsubscribe')
+				{
+					try
+					{
+						$this->unsubscribe(array(
+							'apiKey' => $this->settings->apiKey,
+							'listId' => $listId,
+							'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
 						));
 					}
 					catch(\Exception $e)
