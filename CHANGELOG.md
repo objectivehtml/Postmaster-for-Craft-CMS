@@ -13,6 +13,7 @@
 - (Feature) Added new Sent Messages dashboard widget to view sent messages statistics right from the Craft dashboard
 - (Feature) Added new notification for user inactivity like login reminders and reminders to change passwords
 - (Feature) Added Expired Entries notification type that will notify users after entries are expired.
+- (API) Refactored BasePlugin class to make the settings property public.
 - (API) Refactored template fields into a new Twig Macro for convenience
 - (API) Added new events to parcels and notifications, onSendComplete and onSendFail
 - (API) Refactored how parcels and notifications were sent (basically the order of operations)
