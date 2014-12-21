@@ -5,7 +5,7 @@ class PostmasterHelper
 {
 	public static function hasExtraConditionals($extraConditionals)
 	{
-        if($extraConditionals && !empty($extraConditionals))
+        if($extraConditionals && !empty(trim($extraConditionals)))
         {
             return true;
         }
