@@ -11,6 +11,7 @@ class Postmaster_MailchimpServiceSettingsModel extends Postmaster_ServiceSetting
             'subscriberType' => array(AttributeType::String, 'default' => 'html'),
             'title' => array(AttributeType::String),
             'listIds' => array(AttributeType::Mixed, 'default' => array()),
+            'listId' => array(AttributeType::String),
             'action' => array(AttributeType::String),
             'doubleOptin' => array(AttributeType::Bool, 'default' => true),
             'updateExisting' => array(AttributeType::Bool, 'default' => true),

@@ -24,6 +24,13 @@ class CampaignMonitorService extends BaseService {
 			'model' => $model
 		));
 
+		$listIds = array_values(array_filter($this->settings->listIds));
+
+		if(!empty($this->settings->listId))
+		{
+			$listIds[] = $this->settings->listId;
+		}
+
 		if($this->settings->action == 'createAndSend')
 		{
 			try
@@ -39,7 +46,7 @@ class CampaignMonitorService extends BaseService {
 					'name' => $this->settings->name,
 		    		'apiKey' => $this->settings->apiKey,
 		    		'clientId' => $this->settings->clientId,
-					'listIds' => array_values(array_filter($this->settings->listIds)),
+					'listIds' => $listIds,
 					'segmentIds' => $segmentIds,
 					'subject' => $model->settings->subject,
 					'fromEmail' => $model->settings->fromEmail,
@@ -68,8 +75,8 @@ class CampaignMonitorService extends BaseService {
 			}
 		}
 		else if($this->settings->action == 'subscribe')
-		{
-	        foreach(array_filter($this->settings->listIds) as $listId)
+		{			
+	        foreach($listIds as $listId)
 	        {
 				try
 				{
@@ -102,7 +109,7 @@ class CampaignMonitorService extends BaseService {
 		}
 		else if($this->settings->action == 'unsubscribe')
 		{
-	        foreach(array_filter($this->settings->listIds) as $listId)
+	        foreach($listIds as $listId)
 	        {
 				try
 				{

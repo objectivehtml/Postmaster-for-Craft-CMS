@@ -115,108 +115,112 @@ class MailchimpService extends BaseService {
 			'model' => $model
 		));
 
-        foreach($this->settings->listIds as $listId)
+		$listIds = array_values(array_filter($this->settings->listIds));
+		
+		if(!empty($this->settings->listId))
+		{
+			$listIds[] = $this->settings->listId;
+		}
+
+        foreach($listIds as $listId)
         {
-			if(!empty($listId))
+			if($this->settings->action == 'createAndSend')
 			{
-				if($this->settings->action == 'createAndSend')
-				{
-			    	try
-			    	{
-						$this->createAndSendCampaign(array(
-				    		'apiKey' => $this->settings->apiKey,
-							'type' => $this->settings->campaignType,
-							'listId' => $this->settings->listIds,
-							'subject' => $model->settings->subject,
-							'fromEmail' => $model->settings->fromEmail,
-							'fromName' => $model->settings->fromName,
-							'toName' => $model->settings->toName,
-							'title' => $this->settings->title,
-							'html' => $model->settings->htmlBody,
-							'text' => $model->settings->body,
-							'trackOpens' => (bool) $this->settings->trackOpens,
-							'trackHtmlClicks' => (bool) $this->settings->trackHtmlClicks,
-							'trackTextClicks' => (bool) $this->settings->trackTextClicks,
-							'googleAnalytics' => $this->settings->googleAnalytics,
-						));
-					}
-					catch(\Exception $e)
-					{
-						$response->setSuccess(false);
-
-						try
-						{
-							$errorResponse = json_decode($e->getResponse()->getBody());
-
-							$response->setCode($errorResponse->code);
-							$response->addError($errorResponse->error);
-						}
-						catch(\Exception $e)
-						{
-							$response->addError($e->getMessage());
-						}
-					}
+		    	try
+		    	{
+					$this->createAndSendCampaign(array(
+			    		'apiKey' => $this->settings->apiKey,
+						'type' => $this->settings->campaignType,
+						'listId' => $this->settings->listIds,
+						'subject' => $model->settings->subject,
+						'fromEmail' => $model->settings->fromEmail,
+						'fromName' => $model->settings->fromName,
+						'toName' => $model->settings->toName,
+						'title' => $this->settings->title,
+						'html' => $model->settings->htmlBody,
+						'text' => $model->settings->body,
+						'trackOpens' => (bool) $this->settings->trackOpens,
+						'trackHtmlClicks' => (bool) $this->settings->trackHtmlClicks,
+						'trackTextClicks' => (bool) $this->settings->trackTextClicks,
+						'googleAnalytics' => $this->settings->googleAnalytics,
+					));
 				}
-				else if($this->settings->action == 'subscribe')
+				catch(\Exception $e)
 				{
+					$response->setSuccess(false);
+
 					try
 					{
-						$this->subscribe(array(
-							'type' => $this->settings->subscriberType,
-							'apiKey' => $this->settings->apiKey,
-							'listId' => $listId,
-							'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
-							'newEmail' => $this->settings->subscriberNewEmail,
-							'groupings' => array(),
-							'doubleOptin' => $this->settings->doubleOptin,
-							'updateExisting' => $this->settings->updateExisting,
-							'replaceInterests' => $this->settings->replaceInterests,
-							'sendWelcome' => $this->settings->sendWelcome,
-							'profileVars' => $this->settings->profileVars,
-						));
+						$errorResponse = json_decode($e->getResponse()->getBody());
+
+						$response->setCode($errorResponse->code);
+						$response->addError($errorResponse->error);
 					}
 					catch(\Exception $e)
 					{
-						$response->setSuccess(false);
-
-						try
-						{
-							$errorResponse = json_decode($e->getResponse()->getBody());
-
-							$response->setCode($errorResponse->code);
-							$response->addError($errorResponse->error);
-						}
-						catch(\Exception $e)
-						{
-							$response->addError($e->getMessage());
-						}
+						$response->addError($e->getMessage());
 					}
 				}
-				else if($this->settings->action == 'unsubscribe')
+			}
+			else if($this->settings->action == 'subscribe')
+			{
+				try
 				{
+					$this->subscribe(array(
+						'type' => $this->settings->subscriberType,
+						'apiKey' => $this->settings->apiKey,
+						'listId' => $listId,
+						'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
+						'newEmail' => $this->settings->subscriberNewEmail,
+						'groupings' => array(),
+						'doubleOptin' => $this->settings->doubleOptin,
+						'updateExisting' => $this->settings->updateExisting,
+						'replaceInterests' => $this->settings->replaceInterests,
+						'sendWelcome' => $this->settings->sendWelcome,
+						'profileVars' => $this->settings->profileVars,
+					));
+				}
+				catch(\Exception $e)
+				{
+					$response->setSuccess(false);
+
 					try
 					{
-						$this->unsubscribe(array(
-							'apiKey' => $this->settings->apiKey,
-							'listId' => $listId,
-							'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
-						));
+						$errorResponse = json_decode($e->getResponse()->getBody());
+
+						$response->setCode($errorResponse->code);
+						$response->addError($errorResponse->error);
 					}
 					catch(\Exception $e)
 					{
-						$response->setSuccess(false);
+						$response->addError($e->getMessage());
+					}
+				}
+			}
+			else if($this->settings->action == 'unsubscribe')
+			{
+				try
+				{
+					$this->unsubscribe(array(
+						'apiKey' => $this->settings->apiKey,
+						'listId' => $listId,
+						'email' => !empty($this->settings->subscriberEmail) ? $this->settings->subscriberEmail : $model->settings->fromEmail,
+					));
+				}
+				catch(\Exception $e)
+				{
+					$response->setSuccess(false);
 
-						try
-						{
-							$errorResponse = json_decode($e->getResponse()->getBody());
+					try
+					{
+						$errorResponse = json_decode($e->getResponse()->getBody());
 
-							$response->setCode($errorResponse->code);
-							$response->addError($errorResponse->error);
-						}
-						catch(\Exception $e)
-						{
-							$response->addError($e->getMessage());
-						}
+						$response->setCode($errorResponse->code);
+						$response->addError($errorResponse->error);
+					}
+					catch(\Exception $e)
+					{
+						$response->addError($e->getMessage());
 					}
 				}
 			}

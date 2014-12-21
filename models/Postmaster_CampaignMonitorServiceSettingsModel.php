@@ -9,6 +9,7 @@ class Postmaster_CampaignMonitorServiceSettingsModel extends Postmaster_ServiceS
             'apiKey' => array(AttributeType::String),
             'clientId' => array(AttributeType::String),
             'listIds' => array(AttributeType::Mixed, 'default' => array()),
+            'listId' => array(AttributeType::String),
             'action' => array(AttributeType::String),
             'name' => array(AttributeType::String),
             'segmentIds' => array(AttributeType::Mixed ,'default' => array()),

@@ -17,6 +17,14 @@
 
 <div id="list-results"></div>
 
+{{ forms.textField({
+	label: 'List Id'|t,
+	description: 'If you need to specify a dynamic list id enter the dynamic value here. List will id will be appended to any list id you select above.',
+	name: 'settings[serviceSettings][mailchimp][listId]',
+	id: 'mailchimp_listId',
+	value: settings.listId
+}) }}
+
 {{ postmaster.selectField({
 	label: 'Action'|t,
 	name: 'settings[serviceSettings][mailchimp][action]',
