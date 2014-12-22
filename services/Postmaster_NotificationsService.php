@@ -122,8 +122,9 @@ class Postmaster_NotificationsService extends BaseApplicationComponent
     public function createSentNotification(Postmaster_NotificationModel $notification, Postmaster_TransportResponseModel $model)
     {
         $record = new Postmaster_NotificationSentRecord();
-        $record->senderId = $model->model->senderId;
+        $record->senderId = $model->model->senderId ? (int) $model->model->senderId : null;
         $record->notificationId = $notification->id;
+
         $record->save();
 
         return $record;

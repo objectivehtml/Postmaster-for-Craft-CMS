@@ -2,15 +2,12 @@
 namespace Craft\Plugins\Postmaster\NotificationSchedules;
 
 use Carbon\Carbon;
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseNotificationSchedule;
 
 class DefaultNotificationSchedule extends BaseNotificationSchedule {
 	
-	public $name = 'Basic Reoccuring';
-
-	public $id = 'default';
-
 	protected $now;
 
 	public function __construct($attributes = null)
@@ -19,6 +16,16 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
 
 		$this->now = Carbon::now(new \DateTimeZone(\Craft\craft()->getTimezone()));
 	}
+
+    public function getName()
+    {
+        return Craft::t('Basic Reoccurring');
+    }
+
+    public function getId()
+    {
+        return 'default';
+    }
 
 	public function shouldSend($lastSent = false)
 	{

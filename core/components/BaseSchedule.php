@@ -8,10 +8,6 @@ use Craft\Plugins\Postmaster\Interfaces\ScheduleInterface;
 
 abstract class BaseSchedule extends BasePlugin implements ScheduleInterface {
 
-	public $name;
-
-	public $id;
-
 	public function onBeforeSend(Postmaster_TransportModel $model)
 	{
 		return true;

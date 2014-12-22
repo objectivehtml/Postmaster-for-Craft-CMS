@@ -8,10 +8,6 @@ use Craft\Plugins\Postmaster\Interfaces\ServiceInterface;
 
 abstract class BaseService extends BasePlugin implements ServiceInterface {
 
-	public $name;
-
-	public $id;
-
 	protected $requireModels = array();
 
 	public function getInputHtml(Array $data = array())

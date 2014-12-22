@@ -1,6 +1,7 @@
 <?php
 namespace Craft\Plugins\Postmaster\Services;
 
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Postmaster_TransportResponseModel;
 use Craft\Postmaster_CampaignMonitorCampaignModel;
@@ -10,13 +11,19 @@ use Guzzle\Http\Client;
 
 class CampaignMonitorService extends BaseService {
 
-	public $name = 'Campaign Monitor';
-
-	public $id = 'campaignmonitor';
-
 	protected $requireModels = array(
 		'Craft\EmailModel'
 	);
+
+    public function getName()
+    {
+        return Craft::t('Campaign Monitor');
+    }
+
+    public function getId()
+    {
+        return 'campaignmonitor';
+    }
 
 	public function send(Postmaster_TransportModel $model)
 	{

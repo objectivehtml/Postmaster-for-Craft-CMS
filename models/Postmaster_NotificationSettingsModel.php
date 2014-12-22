@@ -69,9 +69,9 @@ class Postmaster_NotificationSettingsModel extends Postmaster_BasePluginSettings
 
         foreach(craft()->postmaster->getRegisteredNotificationTypes() as $notificationType)
         {
-            if(!isset($notificationTypeSettings[$notificationType->id]))
+            if(!isset($notificationTypeSettings[$notificationType->getId()]))
             {
-                $notificationTypeSettings[$notificationType->id] = array();
+                $notificationTypeSettings[$notificationType->getId()] = array();
             }
         }
 
@@ -79,20 +79,21 @@ class Postmaster_NotificationSettingsModel extends Postmaster_BasePluginSettings
 
         foreach($this->notificationTypeSettings as $id => $notificationTypeSettings)
         {
-            $class = craft()->postmaster->getRegisteredNotificationType($id);
+            if($class = craft()->postmaster->getRegisteredNotificationType($id))
+            {
+                $settings = $class->createSettingsModel($notificationTypeSettings);
 
-            $settings = $class->createSettingsModel($notificationTypeSettings);
-
-            $this->setNotificationTypeSettings($id, $settings);
+                $this->setNotificationTypeSettings($id, $settings);
+            }
         }
 
         $notificationScheduleSettings = $this->notificationScheduleSettings;
 
         foreach(craft()->postmaster->getRegisteredNotificationSchedules() as $notificationSchedule)
         {
-            if(!isset($notificationScheduleSettings[$notificationSchedule->id]))
+            if(!isset($notificationScheduleSettings[$notificationSchedule->getId()]))
             {
-                $notificationScheduleSettings[$notificationSchedule->id] = array();
+                $notificationScheduleSettings[$notificationSchedule->getId()] = array();
             }
         }
 
@@ -100,11 +101,12 @@ class Postmaster_NotificationSettingsModel extends Postmaster_BasePluginSettings
 
         foreach($this->notificationScheduleSettings as $id => $notificationScheduleSettings)
         {
-            $class = craft()->postmaster->getRegisteredNotificationSchedule($id);
+            if($class = craft()->postmaster->getRegisteredNotificationSchedule($id))
+            {
+                $settings = $class->createSettingsModel($notificationScheduleSettings);
 
-            $settings = $class->createSettingsModel($notificationScheduleSettings);
-
-            $this->setNotificationScheduleSettings($id, $settings);
+                $this->setNotificationScheduleSettings($id, $settings);
+            }
         }
     }
 

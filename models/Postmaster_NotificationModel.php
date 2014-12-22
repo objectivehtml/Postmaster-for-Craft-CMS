@@ -36,7 +36,7 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
 
             $class = new $class();
 
-            $settings = $this->settings->getNotificationTypeSettingsById($class->id);
+            $settings = $this->settings->getNotificationTypeSettingsById($class->getId());
 
             if(is_array($settings))
             {
@@ -63,7 +63,7 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
 
             $class = new $class();
 
-            $settings = $this->settings->getNotificationScheduleSettingsById($class->id);
+            $settings = $this->settings->getNotificationScheduleSettingsById($class->getId());
 
             if(is_array($settings))
             {
@@ -164,7 +164,7 @@ class Postmaster_NotificationModel extends Postmaster_BasePluginModel
             // Test the service response for correct class and throw an error if it fails
             if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
             {
-                throw new Exception('The '.$notificationSchedule->getService()->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+                throw new Exception('The '.$notificationSchedule->getService()->getName().' service did not return a \Craft\Postmaster_TransportResponseModel');
             }
 
             // Call the onAfterSend method on the notification schedule

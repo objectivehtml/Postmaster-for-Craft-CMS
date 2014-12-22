@@ -1,6 +1,7 @@
 <?php
 namespace Craft\Plugins\Postmaster\ParcelTypes;
 
+use Craft\Craft;
 use Craft\Event;
 use Craft\Postmaster_TransportModel;
 use Craft\PostmasterHelper;
@@ -8,9 +9,15 @@ use Craft\Plugins\Postmaster\Components\BaseParcelType;
 
 class EmailFormParcelType extends BaseParcelType {
 	
-	public $name = 'Frontend Email Form';
+    public function getName()
+    {
+        return Craft::t('Frontend Email Form');
+    }
 
-	public $id = 'emailForm';
+    public function getId()
+    {
+        return 'emailForm';
+    }
 
 	public function init()
 	{

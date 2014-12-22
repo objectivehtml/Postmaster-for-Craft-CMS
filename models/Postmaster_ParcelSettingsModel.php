@@ -69,9 +69,9 @@ class Postmaster_ParcelSettingsModel extends Postmaster_BasePluginSettingsModel
 
         foreach(craft()->postmaster->getRegisteredParcelTypes() as $parcelType)
         {
-            if(!isset($parcelTypeSettings[$parcelType->id]))
+            if(!isset($parcelTypeSettings[$parcelType->getId()]))
             {
-                $parcelTypeSettings[$parcelType->id] = array();
+                $parcelTypeSettings[$parcelType->getId()] = array();
             }
         }
 
@@ -79,20 +79,21 @@ class Postmaster_ParcelSettingsModel extends Postmaster_BasePluginSettingsModel
 
         foreach($this->parcelTypeSettings as $id => $parcelTypeSettings)
         {
-            $class = craft()->postmaster->getRegisteredParcelType($id);
+            if($class = craft()->postmaster->getRegisteredParcelType($id))
+            {
+                $settings = $class->createSettingsModel($parcelTypeSettings);
 
-            $settings = $class->createSettingsModel($parcelTypeSettings);
-
-            $this->setParcelTypeSettings($id, $settings);
+                $this->setParcelTypeSettings($id, $settings);
+            }
         }
 
         $parcelScheduleSettings = $this->parcelScheduleSettings;
 
         foreach(craft()->postmaster->getRegisteredParcelSchedules() as $parcelSchedule)
         {
-            if(!isset($parcelScheduleSettings[$parcelSchedule->id]))
+            if(!isset($parcelScheduleSettings[$parcelSchedule->getId()]))
             {
-                $parcelScheduleSettings[$parcelSchedule->id] = array();
+                $parcelScheduleSettings[$parcelSchedule->getId()] = array();
             }
         }
 
@@ -100,11 +101,12 @@ class Postmaster_ParcelSettingsModel extends Postmaster_BasePluginSettingsModel
 
         foreach($this->parcelScheduleSettings as $id => $parcelScheduleSettings)
         {
-            $class = craft()->postmaster->getRegisteredParcelSchedule($id);
+            if($class = craft()->postmaster->getRegisteredParcelSchedule($id))
+            {
+                $settings = $class->createSettingsModel($parcelScheduleSettings);
 
-            $settings = $class->createSettingsModel($parcelScheduleSettings);
-
-            $this->setParcelScheduleSettings($id, $settings);
+                $this->setParcelScheduleSettings($id, $settings);
+            }
         }
     }
 

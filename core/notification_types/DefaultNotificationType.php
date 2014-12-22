@@ -1,15 +1,22 @@
 <?php
 namespace Craft\Plugins\Postmaster\NotificationTypes;
 
+use Craft\Craft;
 use Craft\PostmasterHelper;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseNotificationType;
 
 class DefaultNotificationType extends BaseNotificationType {
 	
-	public $name = 'Email Notification';
+    public function getName()
+    {
+        return Craft::t('Email Notification');
+    }
 
-	public $id = 'default';
+    public function getId()
+    {
+        return 'default';
+    }
 
 	public function onBeforeSend(Postmaster_TransportModel $model)
 	{

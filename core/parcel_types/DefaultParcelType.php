@@ -1,6 +1,7 @@
 <?php
 namespace Craft\Plugins\Postmaster\ParcelTypes;
 
+use Craft\Craft;
 use Craft\EntryModel;
 use Craft\PostmasterHelper;
 use Craft\Postmaster_TransportModel;
@@ -8,9 +9,15 @@ use Craft\Plugins\Postmaster\Components\BaseParcelType;
 
 class DefaultParcelType extends BaseParcelType {
 	
-	public $name = 'Entry Email';
+    public function getName()
+    {
+        return Craft::t('Entry Email');
+    }
 
-	public $id = 'default';
+    public function getId()
+    {
+        return 'default';
+    }
 
 	public function init()
 	{

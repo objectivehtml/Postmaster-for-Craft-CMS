@@ -133,7 +133,7 @@ class PostmasterService extends BaseApplicationComponent
 	           	// Test the service response for correct class and throw an error if it fails
 	           	if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
 	           	{
-	           		throw new Exception('The '.$model->service->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+	           		throw new Exception('The '.$model->service->getName().' service did not return a \Craft\Postmaster_TransportResponseModel');
 	           	}
 
 	           	// Trigger the onAfterSend method
@@ -275,14 +275,14 @@ class PostmasterService extends BaseApplicationComponent
 
 		$objects = $this->$prop;
 
-		if(!isset($objects[$obj->name]))
+		if(!isset($objects[$obj->getName()]))
 		{
-			if(!array_key_exists($obj->id, $this->{$prop.'Ids'}))
+			if(!array_key_exists($obj->getId(), $this->{$prop.'Ids'}))
 			{
-				$objects[$obj->name] = $obj;
+				$objects[$obj->getName()] = $obj;
 
 				$this->$prop = $objects;
-				$this->{$prop.'Ids'}[$obj->id] = $obj;
+				$this->{$prop.'Ids'}[$obj->getId()] = $obj;
 
 				return $obj;
 			}
@@ -291,7 +291,7 @@ class PostmasterService extends BaseApplicationComponent
 		}
 		else
 		{
-			throw new Exception(Craft::t('An object has already been registered with the name "'.$obj->name.'" belonging to class "'.$class.'"."'));
+			throw new Exception(Craft::t('An object has already been registered with the name "'.$obj->getName().'" belonging to class "'.$class.'"."'));
 		}
 	}
 }

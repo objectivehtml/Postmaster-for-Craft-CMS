@@ -1,6 +1,7 @@
 <?php
 namespace Craft\Plugins\Postmaster\Services;
 
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
 use Craft\Plugins\Postmaster\Responses\TransportResponse;
@@ -8,15 +9,21 @@ use Guzzle\Http\Client;
 
 class MandrillService extends BaseService {
 
-	public $name = 'Mandrill';
-
-	public $id = 'mandrill';
-
 	public $url = 'https://mandrillapp.com/api/1.0/messages/send.json';
 
 	protected $requireModels = array(
 		'Craft\EmailModel'
 	);
+
+    public function getName()
+    {
+        return Craft::t('Mandrill');
+    }
+
+    public function getId()
+    {
+        return 'mandrill';
+    }
 
 	public function send(Postmaster_TransportModel $model)
 	{

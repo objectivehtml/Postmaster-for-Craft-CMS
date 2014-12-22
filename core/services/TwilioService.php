@@ -1,15 +1,22 @@
 <?php
 namespace Craft\Plugins\Postmaster\Services;
 
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
 use \Guzzle\Http\Client;
 
 class TwilioService extends BaseService {
 
-	public $name = 'Twilio';
+    public function getName()
+    {
+        return Craft::t('Twilio');
+    }
 
-	public $id = 'twilio';
+    public function getId()
+    {
+        return 'twilio';
+    }
 
 	public function send(Postmaster_TransportModel $model)
 	{

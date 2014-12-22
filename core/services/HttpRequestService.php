@@ -1,15 +1,22 @@
 <?php
 namespace Craft\Plugins\Postmaster\Services;
 
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
-use \Guzzle\Http\Client;
+use Guzzle\Http\Client;
 
 class HttpRequestService extends BaseService {
 
-	public $name = 'Http Request';
+    public function getName()
+    {
+        return Craft::t('Http Request');
+    }
 
-	public $id = 'http';
+    public function getId()
+    {
+        return 'http';
+    }
 
 	public function send(Postmaster_TransportModel $model)
 	{

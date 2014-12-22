@@ -1,14 +1,21 @@
 <?php
 namespace Craft\Plugins\Postmaster\ParcelTypes;
 
+use Craft\Craft;
 use Craft\UserModel;
 use Craft\Postmaster_TransportModel;
 
 class UserEmailParcelType extends DefaultParcelType {
 	
-	public $name = 'User Email';
+    public function getName()
+    {
+        return Craft::t('User Email');
+    }
 
-	public $id = 'userEmail';
+    public function getId()
+    {
+        return 'userEmail';
+    }
 
 	public function init()
 	{

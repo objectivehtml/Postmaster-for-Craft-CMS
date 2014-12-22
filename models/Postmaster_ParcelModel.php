@@ -107,7 +107,7 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
             // Test the service response for correct class and throw an error if it fails
             if(!$response instanceof \Craft\Postmaster_TransportResponseModel)
             {
-                throw new Exception('The '.$parcelSchedule->getService()->name.' service did not return a \Craft\Postmaster_TransportResponseModel');
+                throw new Exception('The '.$parcelSchedule->getService()->getName().' service did not return a \Craft\Postmaster_TransportResponseModel');
             }
 
             // Call on the onAfterSend method for the parcel schedule
@@ -171,7 +171,7 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
 
             $class = new $class();
 
-            $settings = $this->settings->getParcelTypeSettingsById($class->id);
+            $settings = $this->settings->getParcelTypeSettingsById($class->getId());
 
             if(is_array($settings))
             {
@@ -198,7 +198,7 @@ class Postmaster_ParcelModel extends Postmaster_BasePluginModel
 
             $class = new $class();
 
-            $settings = $this->settings->getParcelScheduleSettingsById($class->id);
+            $settings = $this->settings->getParcelScheduleSettingsById($class->getId());
 
             if(is_array($settings))
             {

@@ -2,6 +2,7 @@
 namespace Craft\Plugins\Postmaster\NotificationTypes;
 
 use Carbon\Carbon;
+use Craft\Craft;
 use Craft\UserRecord;
 use Craft\UserModel;
 use Craft\Postmaster_TransportModel;
@@ -10,15 +11,21 @@ use Craft\Plugins\Postmaster\Components\BaseNotificationType;
 
 class AfterUserInactivityNotificationType extends BaseNotificationType {
     
-    public $name = 'After User Inactivity';
-
-    public $id = 'afterUserInactivity';
-
     protected $now;
 
     public function __construct($attributes = null)
     {
         parent::__construct($attributes);
+    }
+
+    public function getName()
+    {
+        return Craft::t('After User Inactivity');
+    }
+
+    public function getId()
+    {
+        return 'afterUserInactivity';
     }
 
     public function onBeforeSend(Postmaster_TransportModel $model, $debug = false)

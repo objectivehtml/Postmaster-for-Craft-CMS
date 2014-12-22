@@ -41,7 +41,7 @@ class Postmaster_BasePluginModel extends Postmaster_BaseSettingsModel
 
             $class = new $class();
 
-            $settings = $this->settings->getServiceSettingsById($class->id);
+            $settings = $this->settings->getServiceSettingsById($class->getId());
 
             if(is_array($settings))
             {

@@ -8,10 +8,6 @@ use Craft\Plugins\Postmaster\Interfaces\NotificationTypeInterface;
 
 abstract class BaseNotificationType extends BasePlugin implements NotificationTypeInterface {
 
-	public $name;
-
-	public $id;
-
 	protected $service;
 
 	protected $notification;

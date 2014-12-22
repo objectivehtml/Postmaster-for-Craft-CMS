@@ -32,9 +32,9 @@ class Postmaster_BasePluginSettingsModel extends Postmaster_BaseSettingsModel
 
         foreach(craft()->postmaster->getRegisteredServices() as $service)
         {
-            if(!isset($serviceSettings[$service->id]))
+            if(!isset($serviceSettings[$service->getId()]))
             {
-                $serviceSettings[$service->id] = array();
+                $serviceSettings[$service->getId()] = array();
             }
         }
 
@@ -42,11 +42,12 @@ class Postmaster_BasePluginSettingsModel extends Postmaster_BaseSettingsModel
 
         foreach($this->serviceSettings as $id => $serviceSettings)
         {
-            $class = craft()->postmaster->getRegisteredService($id);
+            if($class = craft()->postmaster->getRegisteredService($id))
+            {
+                $settings = $class->createSettingsModel($serviceSettings);
 
-            $settings = $class->createSettingsModel($serviceSettings);
-
-            $this->setServiceSettings($id, $settings);
+                $this->setServiceSettings($id, $settings);
+            }
         }
     }
 }

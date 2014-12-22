@@ -1,6 +1,7 @@
 <?php
 namespace Craft\Plugins\Postmaster\Services;
 
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Postmaster_TransportResponseModel;
 use Craft\Postmaster_MailchimpCampaignModel;
@@ -10,13 +11,19 @@ use Guzzle\Http\Client;
 
 class MailchimpService extends BaseService {
 
-	public $name = 'Mailchimp';
-
-	public $id = 'mailchimp';
-
 	protected $requireModels = array(
 		'Craft\EmailModel'
 	);
+
+    public function getName()
+    {
+        return Craft::t('Mailchimp');
+    }
+
+    public function getId()
+    {
+        return 'mailchimp';
+    }
 
 	public function registerCpRoutes()
 	{

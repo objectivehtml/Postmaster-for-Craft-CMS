@@ -2,15 +2,12 @@
 namespace Craft\Plugins\Postmaster\ParcelSchedules;
 
 use Carbon\Carbon;
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseParcelSchedule;
 
 class SendDateParcelSchedule extends BaseParcelSchedule {
 	
-	public $name = 'By Send Date';
-
-	public $id = 'senddate';
-
 	protected $now;
 
 	public function __construct($attributes = null)
@@ -19,6 +16,16 @@ class SendDateParcelSchedule extends BaseParcelSchedule {
 
 		$this->now = Carbon::now(new \DateTimeZone(\Craft\craft()->getTimezone()));
 	}
+
+    public function getName()
+    {
+        return Craft::t('By Send Date');
+    }
+
+    public function getId()
+    {
+        return 'senddate';
+    }
 
     public function getSendDate()
     {

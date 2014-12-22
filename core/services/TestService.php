@@ -1,14 +1,21 @@
 <?php
 namespace Craft\Plugins\Postmaster\Services;
 
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
 
 class TestService extends BaseService {
 
-	public $name = 'Test Email';
+    public function getName()
+    {
+        return Craft::t('Test Email');
+    }
 
-	public $id = 'testing';
+    public function getId()
+    {
+        return 'testing';
+    }
 
 	public function send(Postmaster_TransportModel $model)
 	{

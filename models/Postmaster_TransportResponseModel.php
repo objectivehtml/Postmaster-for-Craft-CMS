@@ -77,7 +77,7 @@ class Postmaster_TransportResponseModel extends BaseModel implements ResponseInt
         $record->errors = $this->getErrors();
         $record->code = $this->getCode();
         $record->model = $this->model;
-        $record->service = $this->model->service->name;
+        $record->service = $this->model->service->getName();
 
         $record->save();
 	}

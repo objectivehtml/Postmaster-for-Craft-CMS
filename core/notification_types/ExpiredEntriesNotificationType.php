@@ -2,6 +2,7 @@
 namespace Craft\Plugins\Postmaster\NotificationTypes;
 
 use Carbon\Carbon;
+use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Postmaster_TransportResponseModel;
 use Craft\Postmaster_ExpiredEntriesNotificationTypeSettingsModel;
@@ -9,9 +10,15 @@ use Craft\Plugins\Postmaster\Components\BaseNotificationType;
 
 class ExpiredEntriesNotificationType extends BaseNotificationType {
 	
-	public $name = 'After Entries Expire';
+    public function getName()
+    {
+        return Craft::t('After Entries Expire');
+    }
 
-	public $id = 'expiredEntries';
+    public function getId()
+    {
+        return 'expiredEntries';
+    }
 
 	public function onBeforeSend(Postmaster_TransportModel $model)
 	{

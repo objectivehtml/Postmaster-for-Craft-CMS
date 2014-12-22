@@ -41,7 +41,7 @@ abstract class BasePlugin extends Settings implements PluginInterface, SettingsI
 
 	public function is($id)
 	{
-		if($this->id == $id || $this->name == $id)
+		if($this->getId() == $id || $this->getName() == $id)
 		{
 			return true;
 		}

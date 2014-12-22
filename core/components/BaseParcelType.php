@@ -8,10 +8,6 @@ use Craft\Plugins\Postmaster\Interfaces\ParcelTypeInterface;
 
 abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface {
 
-	public $name;
-
-	public $id;
-
 	protected $service;
 
 	protected $parcel;
