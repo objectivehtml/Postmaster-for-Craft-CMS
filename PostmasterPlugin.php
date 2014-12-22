@@ -38,6 +38,7 @@ class PostmasterPlugin extends BasePlugin
     public function registerSiteRoutes()
     {
         $routes = array(
+            'postmaster/send' => array('action' => 'postmaster/forms/send'),
             'postmaster/queue/marshal' => array('action' => 'postmaster/queue/marshal'),
             'postmaster/notifications/marshal' => array('action' => 'postmaster/notification/marshal'),
             'postmaster/notification/marshal/(?P<notificationId>\d+)' => array('action' => 'postmaster/notification/marshal'),
