@@ -20,9 +20,10 @@ class Postmaster_EmailModel extends EmailModel implements ParseInterface {
 			}
 		}
 		
+		
 		$oldPath = craft()->path->getTemplatesPath();
 		
-		craft()->path->setTemplatesPath(CRAFT_BASE_PATH.'templates');
+		craft()->path->setTemplatesPath(CRAFT_TEMPLATES_PATH);
 
 		if(!empty($this->bodyTemplate))
 		{

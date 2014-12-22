@@ -2,6 +2,7 @@
 namespace Craft\Plugins\Postmaster\ParcelTypes;
 
 use Craft\EntryModel;
+use Craft\PostmasterHelper;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseParcelType;
 
