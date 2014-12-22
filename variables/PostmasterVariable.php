@@ -92,4 +92,10 @@ class PostmasterVariable
 	{
 		return craft()->postmaster->getRegisteredServices();
 	}
+
+	public function email($attributes = null)
+	{
+		return new Postmaster_EmailModel($attributes);
+	}
+
 }
