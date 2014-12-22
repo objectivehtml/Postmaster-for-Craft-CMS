@@ -31,6 +31,10 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 
 *Not required for the default functionality. Advanced use cases may require using the API and advanced knowledge of PHP.*
 
+### Craft Compatibility
+
+Postmaster required Craft CMS version 2.3 or higher.
+
 ### Wiki
 
 For more information and documentation, [refer to the Wiki](https://github.com/objectivehtml/Postmaster-for-Craft-CMS/wiki).
