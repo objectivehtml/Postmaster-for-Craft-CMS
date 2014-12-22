@@ -33,7 +33,7 @@ Postmaster for Craft CMS is a plugin that makes communicating with users and oth
 
 ### Craft Compatibility
 
-Postmaster required Craft CMS version 2.3 or higher.
+Postmaster requires Craft CMS version 2.3 or higher.
 
 ### Wiki
 
