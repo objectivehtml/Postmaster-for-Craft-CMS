@@ -138,7 +138,7 @@ class MailchimpService extends BaseService {
 					$this->createAndSendCampaign(array(
 			    		'apiKey' => $this->settings->apiKey,
 						'type' => $this->settings->campaignType,
-						'listId' => $this->settings->listIds,
+						'listId' => $listId,
 						'subject' => $model->settings->subject,
 						'fromEmail' => $model->settings->fromEmail,
 						'fromName' => $model->settings->fromName,
