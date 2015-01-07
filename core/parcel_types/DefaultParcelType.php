@@ -41,7 +41,7 @@ class DefaultParcelType extends BaseParcelType {
 		            $entry = $event->params['draft'];
 		        }
 
-                $this->parse(array(
+                $parcelType->parse(array(
                     'entry' => $entry,
                     'isNewEntry' => $isNewEntry
                 ));
