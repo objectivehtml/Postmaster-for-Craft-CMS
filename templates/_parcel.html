@@ -33,7 +33,8 @@
     <form method="post" action="" accept-charset="UTF-8">
         <input type="hidden" name="action" value="{{ action }}">
         <input type="hidden" name="redirect" value="postmaster">
-		
+		{{ getCsrfInput() }}
+
 		<div id="parcel">
 
 			{{ forms.textField({
