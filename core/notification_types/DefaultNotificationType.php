@@ -20,7 +20,7 @@ class DefaultNotificationType extends BaseNotificationType {
 
 	public function onBeforeSend(Postmaster_TransportModel $model)
 	{
-		$this->notification->parse(array());
+		$this->parse(array());
 
 		if($this->hasExtraConditionals() && !$this->areExtraConditionalsValid())
 		{

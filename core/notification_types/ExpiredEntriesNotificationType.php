@@ -40,7 +40,7 @@ class ExpiredEntriesNotificationType extends BaseNotificationType {
         $model->senderId = $entry->id;
 
         // Parse the notification with the entry
-        $this->notification->parse(array(
+        $this->parse(array(
         	'entry' => $entry
         ));
 
