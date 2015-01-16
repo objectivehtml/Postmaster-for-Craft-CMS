@@ -49,7 +49,7 @@ class DefaultParcelType extends BaseParcelType {
 		        if($parcelType->validateEntry($entry, $event->params['isNewEntry']))
 		        {
                     $obj = new Postmaster_TransportModel(array(
-                        'service' => $parcelType->parcel->service,
+                        'service' => $parcelType->getParcelModel()->service,
                         'settings' => $parcelType->settings,
                         'data' => array(
                             'entry' => $entry,

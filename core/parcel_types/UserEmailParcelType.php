@@ -31,7 +31,7 @@ class UserEmailParcelType extends DefaultParcelType {
 
             	$isNewUser = isset($event->params['isNewUser']) ? $event->params['isNewUser'] : false;
 
-                $parcelType->parcel->settings->parse(array_merge($event->params, array(
+                $parcelType->getParcelModel()->settings->parse(array_merge($event->params, array(
                     'user' => $user,
                     'isNewUser' => $isNewUser
                 )));
@@ -41,7 +41,7 @@ class UserEmailParcelType extends DefaultParcelType {
                     'isNewUser' => $isNewUser
                 )));
 
-                $parcelType->parcel->service->settings->parse(array_merge($event->params, array(
+                $parcelType->getParcelModel()->service->settings->parse(array_merge($event->params, array(
                     'user' => $user,
                     'settings' => $parcelType->settings,
                     'isNewUser' => $isNewUser
@@ -50,7 +50,7 @@ class UserEmailParcelType extends DefaultParcelType {
 		        if($parcelType->validateUser($user, $isNewUser))
 		        {
                     $obj = new Postmaster_TransportModel(array(
-                        'service' => $parcelType->parcel->service,
+                        'service' => $parcelType->getParcelModel()->service,
                         'settings' => $parcelType->settings,
                         'data' => array_merge($event->params, array(
                             'user' => $user,
@@ -58,7 +58,7 @@ class UserEmailParcelType extends DefaultParcelType {
                         ))
                     ));
 
-		           	$parcelType->parcel->send($obj);
+		           	$parcelType->getParcelModel()->send($obj);
 		        }
             });
         }

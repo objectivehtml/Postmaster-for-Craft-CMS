@@ -25,19 +25,19 @@ class EmailFormParcelType extends BaseParcelType {
 
 		$this->craft()->on('postmaster_forms.emailFormSend', function(Event $event) use ($parcelType)
 		{
-			$parcelType->parcel->parse(array_merge($event->params, array(
+			$parcelType->getParcelModel()->parse(array_merge($event->params, array(
 				'post' => $this->craft()->request->getPost()
 			)));
 
 			if($parcelType->validate())
 	        {
 	            $obj = new Postmaster_TransportModel(array(
-	                'service' => $parcelType->parcel->service,
+	                'service' => $parcelType->getParcelModel()->service,
 	                'settings' => $parcelType->settings,
 	                'data' => $event->params
 	            ));
 				
-	           	$parcelType->parcel->send($obj);
+	           	$parcelType->getParcelModel()->send($obj);
 	        }
 		});
 	}
