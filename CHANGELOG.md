@@ -2,6 +2,17 @@
 
 ### Changelog
 
+#### 0.5.1
+##### 01/16/2014
+
+- (Bug Fix) Added CSRF token support if enabled. Previously was throwing an error and not allowing forms to submit
+- (Bug Fix) Fixed an issue that would cause PHP errors with 5.3.x
+- (Bug Fix) Fixed an issue that caused the instructions to not appear for the List Id field
+- (Bug Fix) Fixed an issue with notification types not getting parsed correctly
+- (Bug Fix) Fixed an issue with Mailchimp throwing an error when trying to create and send a new campaign
+- (Bug Fix) Fixed issue that would cause PHP 5.3 to throw an error when parsing default parcel types
+- (Bug Fix) Fixed issues with the extra conditional validation helper
+
 #### 0.5.0
 ##### 12/20/2014
 
