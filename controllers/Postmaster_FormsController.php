@@ -3,6 +3,8 @@ namespace Craft;
 
 class Postmaster_FormsController extends BaseController
 {
+	protected $allowAnonymous = true;
+
 	public function actionSend()
 	{
 		$model = new Postmaster_EmailFormModel(craft()->request->getPost());
