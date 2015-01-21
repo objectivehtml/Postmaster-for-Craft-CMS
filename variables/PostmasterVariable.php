@@ -22,7 +22,7 @@ class PostmasterVariable
 
 		if($settings['sendDate'])
 		{
-			$settings = Carbon::parse($settings['sendDate'], craft()->getTimezone());
+			$settings['sendDate'] = Carbon::parse($settings['sendDate'], craft()->getTimezone());
 		}
 
 		$settingsModel = new $settings['settingsModel']($settings['settings']);
