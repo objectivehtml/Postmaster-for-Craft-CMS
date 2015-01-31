@@ -65,3 +65,21 @@
 	},
 	rows: settings.postVars
 }) }}
+
+{{ forms.editableTableField({
+	label: "File Uploads",
+	instructions: "Enter the names and file paths to include in the request payload. POST is required for file uploads."|t,
+	name: 'settings[serviceSettings][http][files]',
+	id: 'http_files',
+	cols: {
+		name: {
+			heading: 'Name'|t,
+			type: 'singleline'
+		}, 
+		value: {
+			heading: 'Path'|t,
+			type: 'singleline'
+		}
+	},
+	rows: settings.files
+}) }}

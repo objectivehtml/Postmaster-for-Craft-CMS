@@ -5,6 +5,7 @@ use Craft\Craft;
 use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseService;
 use Guzzle\Http\Client;
+use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class HttpRequestService extends BaseService {
 
@@ -42,25 +43,50 @@ class HttpRequestService extends BaseService {
 						break;
 
 					case 'post':
-						$request = $client->post($this->settings->url, $headers, $this->settings->postVars);
+						$request = $client->post($this->settings->url, $this->settings->getHeaders(), $this->settings->getRequestVars());
 						break;
 
 					case 'put':
-						$request = $client->put($this->settings->url, $headers, $this->settings->postVars);
+						$request = $client->put($this->settings->url, $this->settings->getHeaders(), $this->settings->getRequestVars());
 						break;
 
 					case 'delete':
-						$request = $client->get($this->settings->url, $headers, $this->settings->postVars);
+						$request = $client->delete($this->settings->url, $this->settings->getHeaders());
 						break;
 				}
 
-				$request->send();
+				$response = $request->send();
+
+				$model->addData('responseString', (string) $response->getBody());
+				$model->addData('responseJson', json_decode($model->getData('responseString')));
 
 				return $this->success($model);
 			}
+			catch(ClientErrorResponseException $e)
+			{
+				$response = (string) $e->getResponse()->getBody();
+				$json = json_decode($response);
+
+				if(is_object($json) && isset($json->errors))
+				{
+					if(!is_array($json->errors))
+					{
+						$json->errors = (array) $json->errors;
+					}
+
+					return $this->failed($model, 400, $json->errors);
+				}
+				else
+				{
+					return $this->failed($model, 400, array($response));
+				}
+
+			}
 			catch(\Exception $e)
 			{
-				return $this->failed($model, 400, $e->getMessage());
+				$error = $e->getMessage();
+
+				return $this->failed($model, 400, !is_array($error) ? array($error) : $error);
 			}
 		}
 
