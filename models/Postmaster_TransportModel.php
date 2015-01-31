@@ -11,6 +11,34 @@ class Postmaster_TransportModel extends BaseModel implements TransportInterface
 		return Carbon::now(craft()->getTimezone());
 	}
 
+	public function getData($key = false)
+	{
+		if(!$key)
+		{
+			return $this->data;
+		}
+
+		if(isset($this->data[$key]))
+		{
+			return $this->data[$key];
+		}
+
+		return null;
+	}
+
+	public function setData($value)
+	{
+		$this->data = $value;
+	}
+
+	public function addData($key, $value)
+	{
+		$data = $this->data;
+		$data[$key] = $value;
+
+		$this->data = $data;
+	}
+
 	public function getSendDate()
 	{
 		if(!$this->sendDate || is_string($this->sendDate))

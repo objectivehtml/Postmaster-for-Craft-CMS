@@ -20,20 +20,21 @@ abstract class BaseParcelType extends BasePlugin implements ParcelTypeInterface 
 
         $this->parcel
         	->settings
-        	->parse($data);
-        
+        	->parse($data, false);
+
         $this->settings
-        	->parse($data);
+        	->parse(array_merge($data, array('parcel' => $this->parcel)));
 
         $this->parcel
         	->getParcelSchedule()
         	->settings
-        	->parse(array_merge($data, array('settings' => $this->settings)));
+        	->parse(array_merge($data, array('parcel' => $this->parcel)));
 
         $this->parcel
         	->service
         	->settings
-        	->parse(array_merge($data, array('settings' => $this->settings)));
+        	->parse(array_merge($data, array('parcel' => $this->parcel)));
+
 	}
 
 	public function getInputHtml(Array $data = array())

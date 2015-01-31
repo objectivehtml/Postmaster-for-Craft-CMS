@@ -19,8 +19,7 @@ class Postmaster_EmailModel extends EmailModel implements ParseInterface {
 	            $this->$attr = craft()->templates->renderString($value, $data);
 			}
 		}
-		
-		
+				
 		$oldPath = craft()->path->getTemplatesPath();
 		
 		craft()->path->setTemplatesPath(CRAFT_TEMPLATES_PATH);

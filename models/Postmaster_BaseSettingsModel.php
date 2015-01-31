@@ -5,9 +5,9 @@ use Craft\Plugins\Postmaster\Interfaces\ParseInterface;
 
 class Postmaster_BaseSettingsModel extends BaseModel implements ParseInterface
 {
-    public function parse(Array $data = array())
+    public function parse(Array $data = array(), $recursive = true)
     {
-        $this->setAttributes($this->parseArray($this->getAttributes(), $data));
+        $this->setAttributes($this->parseArray($this->getAttributes(), $data, $recursive));
 
         return $this;
     }
@@ -17,13 +17,13 @@ class Postmaster_BaseSettingsModel extends BaseModel implements ParseInterface
         return craft()->templates->renderString($value, $data);
     }
 
-    public function parseArray($subject, Array $data = array())
+    public function parseArray($subject, Array $data = array(), $recursive = true)
     {
         if(is_string($subject) && !empty($subject))
         {
             $subject = $this->render($subject, $data);
         }
-        else if(is_array($subject) || is_object($subject))
+        else if($recursive && (is_array($subject) || is_object($subject)))
         {
             foreach($subject as $index => $value)
             {   

@@ -40,11 +40,21 @@ abstract class BaseNotificationType extends BasePlugin implements NotificationTy
     		'lastSent' => $this->notification->lastSent()
     	), $data);
 
-        $this->notification->settings->parse($data);
+        $this->notification
+        	->settings
+        	->parse($data);
         
-        $this->settings->parse($data);
+        $this->settings
+        	->parse(array_merge($data, array('notification' => $this->notification)));
 
-        $this->notification->service->settings->parse(array_merge($data, array('settings' => $this->settings)));
+        $this->notification
+        	->getNotificationSchedule()
+        	->settings
+        	->parse(array_merge($data, array('notification' => $this->notification)));
+
+        $this->notification
+        	->service
+        	->settings->parse(array_merge($data, array('notification' => $this->notification)));
     }
 
 	public function getInputHtml(Array $data = array())
