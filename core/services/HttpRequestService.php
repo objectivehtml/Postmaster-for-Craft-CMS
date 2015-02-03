@@ -67,6 +67,8 @@ class HttpRequestService extends BaseService {
 				$response = (string) $e->getResponse()->getBody();
 				$json = json_decode($response);
 
+				$model->addData('responseString', $response);
+
 				if(is_object($json) && isset($json->errors))
 				{
 					if(!is_array($json->errors))
@@ -74,10 +76,14 @@ class HttpRequestService extends BaseService {
 						$json->errors = (array) $json->errors;
 					}
 
+					$model->addData('responseJson', $json);
+
 					return $this->failed($model, 400, $json->errors);
 				}
 				else
 				{
+					$model->addData('responseJson', array($response));
+
 					return $this->failed($model, 400, array($response));
 				}
 
@@ -85,8 +91,12 @@ class HttpRequestService extends BaseService {
 			catch(\Exception $e)
 			{
 				$error = $e->getMessage();
+				$json = !is_array($error) ? array('title' => $error) : $error;
 
-				return $this->failed($model, 400, !is_array($error) ? array($error) : $error);
+				$model->addData('responseString', $error);
+				$model->addData('responseJson', $json);
+
+				return $this->failed($model, 400, $json);
 			}
 		}
 

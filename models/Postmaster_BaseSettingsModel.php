@@ -23,11 +23,21 @@ class Postmaster_BaseSettingsModel extends BaseModel implements ParseInterface
         {
             $subject = $this->render($subject, $data);
         }
-        else if($recursive && (is_array($subject) || is_object($subject)))
+        else if($recursive && is_array($subject) || is_object($subject))
         {
             foreach($subject as $index => $value)
             {   
                 $subject[$index] = $this->parseArray($value, $data);
+            }
+        }
+        else if(!$recursive && is_array($subject) || is_object($subject))
+        {
+            foreach($subject as $index => $value)
+            {   
+                if(is_string($value) && !empty($value))
+                {
+                    $subject[$index] = $this->render($value, $data);
+                }
             }
         }
 

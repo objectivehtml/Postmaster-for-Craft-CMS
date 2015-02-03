@@ -26,8 +26,8 @@ class Postmaster_HttpRequestServiceSettingsModel extends Postmaster_ServiceSetti
 		}
 
 		$this->files = $parsedFiles;
-		
-		parent::parse($data);
+
+        $this->setAttributes($this->parseArray($this->getAttributes(), $data, false));
 		
         return $this;
 	}
