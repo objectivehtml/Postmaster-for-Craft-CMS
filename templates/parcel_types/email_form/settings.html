@@ -1,4 +1,11 @@
 {% import "_includes/forms" as forms %}
+{% import "postmaster/_includes/forms" as postmaster %}
+
+{{ postmaster.templateFields({
+	section: 'parcelTypeSettings',
+	name: 'emailForm',
+	settings: settings
+}) }}
 
 {{ forms.textareaField({
 	label: "Extra Conditionals"|t,

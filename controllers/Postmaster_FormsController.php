@@ -20,11 +20,9 @@ class Postmaster_FormsController extends BaseController
 		}
 		else
 		{
-			$event = new Event($this, array(
+			craft()->postmaster_forms->onEmailFormSend(new Event($this, array(
 				'email' => $model
-			));
-
-			craft()->postmaster_forms->onEmailFormSend($event);
+			)));
 
 			$this->redirect(craft()->request->getPost('redirect'));
 		}
