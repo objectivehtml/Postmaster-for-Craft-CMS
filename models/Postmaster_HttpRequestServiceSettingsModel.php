@@ -5,6 +5,17 @@ class Postmaster_HttpRequestServiceSettingsModel extends Postmaster_ServiceSetti
 {
 	public function parse(Array $data = array())
 	{
+		$parsedHeaders = array();
+
+		foreach($this->headers as $row => $vars)
+		{
+			$vars['value'] = trim(craft()->templates->renderString($vars['value'], $data));
+
+			$parsedHeaders[] = $vars;
+		}
+
+		$this->headers = $parsedHeaders;
+
 		$parsedVars = array();
 
 		foreach($this->postVars as $row => $vars)
