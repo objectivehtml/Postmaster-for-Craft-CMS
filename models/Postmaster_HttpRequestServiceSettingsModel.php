@@ -43,6 +43,13 @@ class Postmaster_HttpRequestServiceSettingsModel extends Postmaster_ServiceSetti
         return $this;
 	}
 
+	public function addPostVar($name, $value)
+	{
+		$vars = $this->postVars;
+		$vars[] = array('name' => $name, 'value' => $value);
+		$this->postVars = $vars;
+	}
+
 	public function getHeaders()
 	{
 		$headers = array();
@@ -61,7 +68,7 @@ class Postmaster_HttpRequestServiceSettingsModel extends Postmaster_ServiceSetti
 
 		foreach($this->postVars as $var)
 		{
-			$vars[$var['name']] = trim($var['value']);
+			$vars[$var['name']] = is_string($var['value']) ? trim($var['value']) : $var['value'];
 		}
 
 		foreach($this->files as $var)
@@ -70,8 +77,19 @@ class Postmaster_HttpRequestServiceSettingsModel extends Postmaster_ServiceSetti
 
 			if(!empty($value))
 			{
-				// $vars[$var['name']] = fopen($value, 'r');
-				$vars[$var['name']] = '@' . $value;
+				$values = explode("\n", $value);
+
+				if(count($values) > 1)
+				{
+					foreach($values as $index => $val)
+					{
+						$vars[preg_replace('/\[\]$/', '', $var['name']).'['.$index.']'] = '@' . $val;
+					}
+				}
+				else if(count($values) == 1)
+				{
+					$vars[$var['name']] = '@' . $values[0];
+				}
 			}
 		}
 
