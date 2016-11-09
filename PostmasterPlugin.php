@@ -10,7 +10,7 @@ class PostmasterPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.5.1';
+        return '0.5.2';
     }
 
     public function getDeveloper()
@@ -27,8 +27,8 @@ class PostmasterPlugin extends BasePlugin
     {
         return true;
     }
-    
-    public function addTwigExtension()  
+
+    public function addTwigExtension()
     {
         Craft::import('plugins.postmaster.twigextensions.PostmasterTwigExtension');
 
@@ -58,7 +58,7 @@ class PostmasterPlugin extends BasePlugin
 
         return $routes;
     }
-    
+
     public function registerCpRoutes()
     {
         $routes = array(
@@ -85,7 +85,7 @@ class PostmasterPlugin extends BasePlugin
 
         return $routes;
     }
-    
+
     public function init()
     {
         require_once 'autoload.php';
