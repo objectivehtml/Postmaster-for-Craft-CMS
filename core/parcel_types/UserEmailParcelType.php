@@ -6,7 +6,7 @@ use Craft\UserModel;
 use Craft\Postmaster_TransportModel;
 
 class UserEmailParcelType extends DefaultParcelType {
-	
+
     public function getName()
     {
         return Craft::t('User Email');
@@ -29,22 +29,35 @@ class UserEmailParcelType extends DefaultParcelType {
             {
             	$user = $event->params['user'];
 
+                // If the user doesn't have a password yet, use a Password Reset URL
+                if (!$user->password)
+                {
+                    $activationUrl = $parcelType->craft()->users->getPasswordResetUrl($user);
+                }
+                else
+                {
+                    $activationUrl = $parcelType->craft()->users->getEmailVerifyUrl($user);
+                }
+
             	$isNewUser = isset($event->params['isNewUser']) ? $event->params['isNewUser'] : false;
 
                 $parcelType->getParcelModel()->settings->parse(array_merge($event->params, array(
                     'user' => $user,
-                    'isNewUser' => $isNewUser
+                    'isNewUser' => $isNewUser,
+                    'activationUrl' => $activationUrl,
                 )));
 
                 $parcelType->settings->parse(array_merge($event->params, array(
                     'user' => $user,
-                    'isNewUser' => $isNewUser
+                    'isNewUser' => $isNewUser,
+                    'activationUrl' => $activationUrl,
                 )));
 
                 $parcelType->getParcelModel()->service->settings->parse(array_merge($event->params, array(
                     'user' => $user,
                     'settings' => $parcelType->settings,
-                    'isNewUser' => $isNewUser
+                    'isNewUser' => $isNewUser,
+                    'activationUrl' => $activationUrl,
                 )));
 
 		        if($parcelType->validateUser($user, $isNewUser))
@@ -54,7 +67,8 @@ class UserEmailParcelType extends DefaultParcelType {
                         'settings' => $parcelType->settings,
                         'data' => array_merge($event->params, array(
                             'user' => $user,
-                    		'isNewUser' => $isNewUser
+                    		'isNewUser' => $isNewUser,
+                            'activationUrl' => $activationUrl,
                         ))
                     ));
 
@@ -63,7 +77,7 @@ class UserEmailParcelType extends DefaultParcelType {
             });
         }
 	}
-	
+
 	public function areTriggersValid($isNewUser)
     {
     	if($this->hasTriggers())
