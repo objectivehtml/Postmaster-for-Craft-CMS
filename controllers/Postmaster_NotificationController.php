@@ -3,8 +3,11 @@ namespace Craft;
 
 class Postmaster_NotificationController extends BaseController
 {
+	protected $allowAnonymous = true;
+
 	public function actionCreateNotification()
 	{
+		$this->requireLogin();
 		$model = new Postmaster_NotificationModel();
 
         $this->renderTemplate('postmaster/_notification', array(
@@ -15,8 +18,9 @@ class Postmaster_NotificationController extends BaseController
 
 	public function actionEditNotification()
 	{
+		$this->requireLogin();
 		$id = craft()->request->getSegment(3);
-		
+
 		$model = craft()->postmaster_notifications->findById($id);
 
         $this->renderTemplate('postmaster/_notification', array(
@@ -27,8 +31,9 @@ class Postmaster_NotificationController extends BaseController
 
 	public function actionDeleteNotification()
 	{
+		$this->requireLogin();
 		$id = craft()->request->getSegment(4);
-		
+
 		craft()->postmaster_notifications->delete($id);
 
 		$this->redirect('postmaster/notifications');
@@ -36,6 +41,7 @@ class Postmaster_NotificationController extends BaseController
 
 	public function actionSaveNotification()
 	{
+		$this->requireLogin();
 		$this->requirePostRequest();
 
 		$record = craft()->postmaster_notifications->create(array(
@@ -44,13 +50,14 @@ class Postmaster_NotificationController extends BaseController
 			'settings' => craft()->request->getPost('settings')
 		));
 
-		$this->redirect('postmaster/notifications');		
+		$this->redirect('postmaster/notifications');
 	}
 
 	public function actionUpdateNotification()
 	{
+		$this->requireLogin();
 		$this->requirePostRequest();
-	
+
 		$id = craft()->request->getSegment(3);
 
 		$record = craft()->postmaster_notifications->update($id, array(
@@ -59,7 +66,7 @@ class Postmaster_NotificationController extends BaseController
 			'settings' => craft()->request->getPost('settings')
 		));
 
-		$this->redirect('postmaster/notifications');		
+		$this->redirect('postmaster/notifications');
 	}
 
 	public function actionMarshal()
