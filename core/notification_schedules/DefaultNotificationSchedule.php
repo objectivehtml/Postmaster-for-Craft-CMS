@@ -100,7 +100,7 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
 	{
 		if(!empty($this->settings->time['time']))
         {
-            $date = Carbon::parse($this->settings->time['time'], craft()->getTimezone());
+	    $date = Carbon::parse($this->settings->time['time'], Craft::getTimeZone());
 
             if($this->now->diffInMinutes($date, false) !== 0)
             {
