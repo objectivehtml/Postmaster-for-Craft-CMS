@@ -7,7 +7,7 @@ use Craft\Postmaster_TransportModel;
 use Craft\Plugins\Postmaster\Components\BaseNotificationSchedule;
 
 class DefaultNotificationSchedule extends BaseNotificationSchedule {
-	
+
 	protected $now;
 
 	public function __construct($attributes = null)
@@ -38,7 +38,7 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
         {
         	return false;
         }
-        
+
         if(!$this->validateDay())
         {
         	return false;
@@ -84,7 +84,7 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
 	}
 
 	public function validateMonth()
-	{		
+	{
         if($this->settings->month !== '*')
         {
             if((int) $this->settings->month !== $this->now->month)
@@ -100,9 +100,9 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
 	{
 		if(!empty($this->settings->time['time']))
         {
-            $date = Carbon::parse($this->settings->time['time'], craft()->getTimezone());
+            $date = Carbon::parse($this->settings->time['time'], \Craft\craft()->getTimezone());
 
-            if($this->now->diffInMinutes($date, false) !== 0)
+            if(($this->now->diffInSeconds($date, false) >= 30) || ($this->now->diffInMinutes($date, false) !== 0))
             {
                 return false;
             }
@@ -122,23 +122,23 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
                     case 'seconds':
                         $lastSent->addSeconds($this->settings->elapsedInterval);
                         break;
-                    
+
                     case 'minutes':
                         $lastSent->addMinutes($this->settings->elapsedInterval);
                         break;
-                    
+
                     case 'days':
                         $lastSent->addDays($this->settings->elapsedInterval);
                         break;
-                    
+
                     case 'weeks':
                         $lastSent->addWeeks($this->settings->elapsedInterval);
                         break;
-                    
+
                     case 'months':
                         $lastSent->addMonths($this->settings->elapsedInterval);
                         break;
-                    
+
                     case 'years':
                         $lastSent->addYears($this->settings->elapsedInterval);
                         break;
@@ -148,7 +148,7 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
                 {
                     return false;
                 }
-            }   
+            }
         }
 
         return true;
@@ -156,7 +156,7 @@ class DefaultNotificationSchedule extends BaseNotificationSchedule {
 
 	public function getInputHtml(Array $data = array())
 	{
-		return $this->craft()->templates->render('postmaster/notification_schedules/default/settings', $data);	
+		return $this->craft()->templates->render('postmaster/notification_schedules/default/settings', $data);
 	}
 
 	public function getSettingsModelClassName()

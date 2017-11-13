@@ -25,8 +25,15 @@ class CraftService extends BaseService {
 	public function send(Postmaster_TransportModel $model)
 	{
 		$emailModel = new EmailModel($model->settings->getAttributes());
-		$emailModel->cc = explode(',', $model->settings->cc);
-		$emailModel->bcc = explode(',', $model->settings->bcc);
+		$cc = explode(',', $model->settings->cc);
+        $emailModel->cc = array_map(function($ele){
+            return array('email'=> $ele);
+        }, $cc);
+
+		$bcc = explode(',', $model->settings->bcc);
+        $emailModel->bcc = array_map(function($ele){
+            return array('email'=> $ele);
+        }, $bcc);
 
 		$success = $this->craft()->email->sendEmail($emailModel);
 
